@@ -14,7 +14,7 @@ def create_app():
 
 app = create_app()
 
-from applications.controllers import *
+from applications.UtilsController import *
 
 if __name__ == '__main__':
     app.run()
