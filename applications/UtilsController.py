@@ -12,32 +12,30 @@ def landing_page():
         return render_template("LandingPage.html")
     else:
         try:
-            if(request.form["input"]=="manager"):
-                return redirect("/login/manager")
+            if(request.form["input"]=="employee"):
+                return redirect("/login-employee")
             elif(request.form["input"]=="admin"):
-                return redirect("/login/admin")
+                return redirect("/login-admin")
             elif(request.form["input"]=="driver"):
-                return redirect("/login/driver")
+                return redirect("/login-driver")
             else:
-                return redirect("/login/customer")
+                return redirect("/login-customer")
         except:
             print("in except")
             return redirect("/")
 
-@app.route("/login/manager", methods=["GET", "POST"])
-def login_pagem():
+@app.route("/login-employee", methods=["GET", "POST"])
+def login_page_employee():
     return render_template("LoginPage.html")
 
-@app.route("/login/admin", methods=["GET", "POST"])
-def login_pagea():
+@app.route("/login-admin", methods=["GET", "POST"])
+def login_page_admin():
     return render_template("LoginPage.html")
 
-@app.route("/login/driver", methods=["GET", "POST"])
+@app.route("/login-driver", methods=["GET", "POST"])
 def login_paged():
     return render_template("LoginPage.html")
 
-@app.route("/login/customer", methods=["GET", "POST"])
+@app.route("/login-customer", methods=["GET", "POST"])
 def login_pagec():
-    #get
     return render_template("LoginPage.html")
-#post: search cust db, return acc, redirect to url in cust contrlr
