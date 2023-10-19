@@ -18,15 +18,17 @@
               <input type="password" placeholder="Enter Password" name="psw" required>
           
               <button type="submit">Login</button>
-              <button type="button">Register</button>
-              <label>
+              {% if reg == 1 %}
+              <a href="{{ url_for('register_customer') }}"><button type="button">Register</button>
+              {% endif %}
+              <!-- <label>
                 <input type="checkbox" checked="checked" name="remember"> Remember me
-              </label>
+              </label> -->
             </div>
           
             <div class="container" style="background-color:#f1f1f1">
               <a href="/"><button type="button" class="cancelbtn">Cancel</button></a>
-              <span class="psw"><a href="#">Forgot password?</a></span>
+              <!-- <span class="psw"><a href="#">Forgot password?</a></span> -->
             </div>
           </form> 
     </body>

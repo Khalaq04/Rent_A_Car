@@ -25,17 +25,25 @@ def landing_page():
             return redirect("/")
 
 @app.route("/login-employee", methods=["GET", "POST"])
-def login_page_employee():
-    return render_template("LoginPage.html")
+def login_employee():
+    reg = 0
+    return render_template("LoginPage.html", reg=reg)
 
 @app.route("/login-admin", methods=["GET", "POST"])
-def login_page_admin():
-    return render_template("LoginPage.html")
+def login_admin():
+    reg = 0
+    return render_template("LoginPage.html", reg=reg)
 
 @app.route("/login-driver", methods=["GET", "POST"])
-def login_paged():
-    return render_template("LoginPage.html")
+def login_driver():
+    reg = 0
+    return render_template("LoginPage.html", reg=reg)
 
 @app.route("/login-customer", methods=["GET", "POST"])
-def login_pagec():
-    return render_template("LoginPage.html")
+def login_customer():
+    reg = 1
+    return render_template("LoginPage.html", reg=reg)
+
+@app.route("/register-customer", methods=["GET", "POST"])
+def register_customer():
+    return render_template("RegisterPage.html")
