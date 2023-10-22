@@ -62,11 +62,6 @@ button:hover
 
 .login
 {
-    border-radius: 10%;
-    padding-left: 20%;
-    padding-right: 20%;
-    padding-top: 5%;
-    padding-bottom: 5%;
     text-align: center;
     font-size: medium;
     background-color: #04AA6D;
@@ -82,6 +77,11 @@ button:hover
     text-align: center;
     font-size: medium;
     
+}
+
+.login:hover
+{
+    opacity: 0.8;
 }
 
 .customer_label

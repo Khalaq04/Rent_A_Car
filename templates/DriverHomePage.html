@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <title>Driver Home Page</title>
-        <h1>Welcome {{ driverInfo.name }}</h1>
+        <h1>Welcome {{ driverInfo.name }}</h1>    
     </head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/DriverHomePage.css') }}">
     <body>
-        <a href="driver/{{ driverInfo.did }}/profile">view profile</a>
-        <a href="/driver/past-trips">view past trips</a>
-        <a href="/driver/upcoming-trips">view upcoming trips</a>
+        <div class="row">
+            <a class="link" href="driver/{{ driverInfo.did }}/profile">
+                <button class="profile">Profile</button> 
+            </a>
+            <a class="link" href="/driver/past-trips">
+                <button class="past_trips">Past trips</button> 
+            </a>
+            <a class="link" href="/driver/upcoming-trips">
+                <button class="up_trips">Upcoming trips</button> 
+            </a>
+        </div>
     </body>
 </html>
