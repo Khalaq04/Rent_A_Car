@@ -25,6 +25,7 @@ def get_car_details():
         dict = {"id":i[0], "name":i[2]}
         cars.append(dict)
 
+    conn.close()
     return cars
 
 def get_last_bid():
@@ -35,6 +36,8 @@ def get_last_bid():
     cursor.execute(query)
     data=cursor.fetchall()
     print(data[0])
+
+    conn.close()
     return str(data[0][0]+1)
 
 def add_booking(vid, to_place, from_place):
@@ -45,6 +48,8 @@ def add_booking(vid, to_place, from_place):
     query="insert into bookings values ("+bid+ ", 1, "+vid+", '"+to_place+"', '"+from_place+"')"
     cursor.execute(query)
     conn.commit()
+
+    conn.close()
     print(query)
 
 @app.route("/customer/1/home", methods=["GET", "POST"])
@@ -57,7 +62,7 @@ def Customerhome_page():
 def newbooking():
     if(request.method=='GET'):
         cars = get_car_details()
-        return render_template('NewBooking.html', cars=cars)
+        return render_template('CustomerNewBooking.html', cars=cars)
     else:
         info={"id":1, "name":"abc"}
         cars = get_car_details()
