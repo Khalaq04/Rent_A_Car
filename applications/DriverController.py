@@ -17,7 +17,7 @@ def get_car_details():
     conn.close()
 
 @app.route("/driver/1/home", methods=["GET", "POST"])
-def home_page():
+def driver_home_page():
     if(request.method=='GET'):
         #temp:
         driverInfo = {"did":1, "name":"abc"}
