@@ -11,6 +11,7 @@ app = create_app()
 
 from applications.UtilsController import *
 from applications.DriverController import *
+from applications.CustomerController import *
 
 if __name__ == '__main__':
     app.run()
