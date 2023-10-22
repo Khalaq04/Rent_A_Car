@@ -5,9 +5,9 @@ import psycopg2
 def connect_to_db():
     conn = psycopg2.connect(
         host="localhost",
-        database="bhavya",
-        user="bhavya",
-        password="pintoo.9"
+        database="crd",
+        user="crd",
+        password="crd"
     )
     cursor = conn.cursor()
     return cursor, conn
@@ -53,7 +53,7 @@ def Customerhome_page():
         info={"id":1, "name":"abc"}
         return render_template('CustomerHomePage.html', info = info)
 
-@app.route("/bookingPortal", methods=["GET", "POST"])
+@app.route("/booking-portal", methods=["GET", "POST"])
 def newbooking():
     if(request.method=='GET'):
         cars = get_car_details()
