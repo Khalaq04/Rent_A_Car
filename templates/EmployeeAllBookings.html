@@ -10,6 +10,7 @@
         <table border="10%">
             <tr>
                 <th>Booking ID</th>
+                <th>Customer ID</th>
                 <th>From</th>
                 <th>To</th>
                 <th>Car Type</th>
@@ -19,6 +20,7 @@
             {% for booking in bookings %}
             <tr>
                 <td>{{ booking.bid }}</td>
+                <td>{{ booking.cid }}</td>
                 <td>{{ booking.from }}</td>
                 <td>{{ booking.to }}</td>
                 <td>{{ booking.type }}</td>

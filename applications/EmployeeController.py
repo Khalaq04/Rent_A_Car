@@ -12,8 +12,8 @@ def connect_to_db():
     cursor = conn.cursor()
     return cursor, conn
 
-@app.route("/employee/1/home", methods=["GET", "POST"])
-def employee_home_page():
+@app.route("/employee/<int:e_id>/home", methods=["GET", "POST"])
+def employee_home_page(e_id):
     if request.method == "GET":
         return render_template('EmployeeHomePage.html')
     
@@ -24,6 +24,7 @@ def employee_all_bookings():
         query = "select * from bookings natural join cars"
         cursor.execute(query)
         data = cursor.fetchall()
+        print(data)
 
         bookings=[]
         for i in data:
