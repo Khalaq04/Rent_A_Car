@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Manager Home Page</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/AdminHomePage.css') }}">
+
+    </head>
+
+    <body >
+        <div class="mid">
+            <div class="header">
+                Welcome {{AdminPro.name}}
+            </div>
+        </div>
+
+        <div class="row1">
+            <div class="drop">
+                <button class="bookings">Bookings</button>
+                    <div class="drpcont">
+                        <a href="/manager/bookings/Pastbook"> Past Bookings</a>
+                        <a href="/manager/bookings/newBook">New Bookings</a>
+                    </div>
+            </div>
+            <div class="drop2">
+                <button class="emp"> Employees</button>
+                    <div class="drpcont2">
+                        <a href="/manager/Employee/view"> View Data</a>
+                        <a href="/manager/Employee/edit">Edit Data</a>
+                    </div>
+            </div>
+                <a href="/manager/customer">
+                <button class="cust">Customers</button>
+                </a>
+        </div>
+
+        <div class="row2">
+            <div class="drop3">
+                <button class="driver">Drivers</button>
+                    <div class="drpcont3">
+                        <a href="/manager/view"> View Data</a>
+                        <a href="/manager/edit">Edit Data</a>
+                    </div>
+            </div>
+            <div class="drop4">
+                <button class="car"> Cars</button>
+                    <div class="drpcont4">
+                        <a href="/admin/view-cars"> View Data</a>   <!-- /manager/car/view-->
+                        <a href="/manager/car/edit">Edit Data</a>
+                    </div>
+            </div>
+                <a href="/manager/payment">
+                <button class="pay">Payment</button>
+                </a>
+        </div>
+
+
+    
+
+    </body>
+</html>

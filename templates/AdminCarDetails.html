@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CAR DETAILS</title>
+        <h1>Car Details </h1>
+    </head>
+    <body>
+        <table>
+            <th>Car id</th>
+            <th>Type</th>
+            <th>Model</th>
+            <th>Number Plate</th>
+            {% for car in cars %}
+            <tr>
+                <td>{{car["id"]}}</td>
+                <td>{{car["type"]}}</td>
+                <td>{{car["model"]}}</td>
+                <td>{{car["numberplate"]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

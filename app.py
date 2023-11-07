@@ -13,6 +13,7 @@ from applications.UtilsController import *
 from applications.DriverController import *
 from applications.CustomerController import *
 from applications.EmployeeController import *
+from applications.AdminController import *
 
 if __name__ == '__main__':
     app.run(debug=True)
