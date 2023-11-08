@@ -5,9 +5,9 @@ import psycopg2
 def get_car_details():
     conn = psycopg2.connect(
         host="localhost",
-        database="bhavya",
-        user="bhavya",
-        password="pintoo.9"
+        database="crd",
+        user="crd",
+        password="crd"
     )
     cursor = conn.cursor()
     query="select * from cars"

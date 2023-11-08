@@ -4,3 +4,9 @@ bid,cid,vid,to_place,from_place
 3,1,1,lucknow,kanpur
 4,1,1,udupi,manipal
 5,1,3,mumbai,manipal
+<<<<<<< HEAD
+=======
+6,1,2,france,mumbai
+7,1,4,paris,thane
+8,1,1,Africa,Gujarat
+>>>>>>> 80cfdc61e4e9a9569383e7aacbcdc9a6ca758ec3

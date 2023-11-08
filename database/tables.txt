@@ -1,0 +1,95 @@
+create table Employee(
+e_id int not null,
+e_name varchar(20) not null,
+e_address varchar(20) not null,
+e_dob date not null,
+e_salary int not null,
+e_email varchar(20) not null unique,
+e_password varchar(10) not null,
+primary key (e_id)
+);
+
+create table Driver(
+d_id int not null,
+d_name varchar(20) not null,
+d_address varchar(20) not null,
+d_address varchar(20) not null, 
+d_salary varchar(20) not null,
+d_dob date not null,
+d_email varchar(20) not null unique,
+d_password varchar(20) not null,
+d_license varchar(20) not null,
+primary key (d_id)
+);
+
+create table Customer(
+c_id int not null,
+c_fname varchar(20) not null,
+c_lname varchar(20) not null,
+c_address varchar(20) not null,
+c_dob date not null,
+c_email varchar(20) not null unique,
+c_password varchar(20) not null,
+primary key (c_id)
+);
+
+create table Car(
+v_id int not null,
+v_type varchar(20) not null,
+v_model varchar(20) not null,
+v_numberPlate varchar(20) not null unique,
+primary key (v_id)
+);
+
+create table Maintainance(
+v_id int not null,
+m_date date not null,
+m_description varchar(100) not null,
+m_amount int not null,
+primary key (v_id, m_date),
+foreign key (v_id) references Car (v_id)
+);
+
+create table Booking(
+b_id int not null,
+c_id int not null,
+d_id int,
+e_id int not null,
+v_id int not null,
+from date not null,
+to date not null,
+b_amount int not null,
+primary key (b_id),
+foreign key (c_id) references Customer (c_id),
+foreign key (d_id) references Driver (d_id),
+foreign key (e_id) references Employee (e_id),
+foreign key (v_id) references Car (v_id)
+);
+
+create table Penalties(
+b_id int not null,
+description varchar(100) not null,
+amount int not null,
+foreign key (b_id) references Booking (b_id)
+);
+
+create table Customer_Phone(
+c_id int not null,
+phone int not null,
+primary key (c_id, phone),
+foreign key (c_id) references Customer (c_id)
+);
+
+create table Employee_Phone(
+e_id int not null,
+phone int not null,
+primary key (e_id, phone),
+foreign key (e_id) references Employee (e_id)
+);
+
+create table Driver_Phone(
+d_id int not null,
+phone int not null,
+primary key (d_id, phone),
+foreign key (d_id) references Customer (d_id)
+);

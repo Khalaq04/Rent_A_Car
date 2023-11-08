@@ -15,7 +15,7 @@
   }
   
   /* Full-width inputs */
-  input[type=text], input[type=password] {
+  input[type=text], input[type=password], input[type=email] {
     width: 100%;
     padding: 0.65% 1%;
     margin: 0.45% 0;
