@@ -1,0 +1,7 @@
+All the Functions, Procedures and Triggers created for the project
+
+1. Functions
+    i. get employee authentication:
+
+    create or replace function get_employee_authentication(c_id number, )
+    returns 
