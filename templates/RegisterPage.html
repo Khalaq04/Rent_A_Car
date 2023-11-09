@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/RegisterPage.css') }}">
     <body>
 
-        <form action="">
+        <form name="register" method="post" onsubmit="">
           <div class="container">
             <h1>Register</h1>
             <p>Please fill in this form to create an account.</p>
@@ -31,13 +31,13 @@
             <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
             <hr>
         
-            <button type="submit" class="registerbtn">Register</button>
+            <input type="submit" class="registerbtn" value="register">
           </div>
-          
+          </form>
           <div class="container signin">
             <p>Already have an account? <a href="{{ url_for('login_customer') }}">Sign in</a>.</p>
           </div>
-        </form>
+        
         
     </body>
 </html>

@@ -1,0 +1,25 @@
+All the Functions, Procedures and Triggers created for the project
+
+1. Functions
+    i. get employee authentication:
+
+    create or replace function get_employee_authentication(email varchar, password varchar)
+    returns integer
+    as 
+    $$
+    declare 
+        pass varchar;
+    
+    begin
+        select e_password into pass
+        from employee
+        where e_email = email;
+
+        if pass = password then
+            return 1;
+        else
+            return 0;
+
+        endif;
+    end;
+    $$;

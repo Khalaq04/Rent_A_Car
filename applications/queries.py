@@ -35,6 +35,8 @@ def get_customer_authentication(c_email):
     cursor, conn = connect_to_db()
     query = "select c_password from Customer where c_email = " + str(c_email)
 
+    cursor.execute(query)
+
     password = cursor.fetchone()
     conn.close()
 
@@ -43,21 +45,20 @@ def get_customer_authentication(c_email):
     else:
         return password
     
-def get_employee_authentication(e_email):
+def get_employee_authentication(e_email, e_password):
     cursor, conn = connect_to_db()
-    query = "select e_password from Employee where e_email = " + str(e_email)
+    query = "select get_employee_authentication('" + e_email + "', '" + e_password + "')"
+    cursor.execute(query)
 
-    password = cursor.fetchone()
+    exists = cursor.fetchall()
     conn.close()
 
-    if(len(password)==0):
-        return False
-    else:
-        return password
+    return exists
     
 def get_driver_authentication(d_email):
     cursor, conn = connect_to_db()
     query = "select d_password from Driver where d_email = " + str(d_email)
+    cursor.execute(query)
 
     password = cursor.fetchone()
     conn.close()
@@ -95,14 +96,16 @@ def get_last_bid():
     conn.close()
     return str(data[0][0]+1)
 
-def add_booking(vid, to_place, from_place):
+def add_booking(vid, to_date, from_date):
     cursor, conn = connect_to_db()
 
     bid = get_last_bid()
 
-    query="insert into bookings values ("+bid+ ", 1, "+vid+", '"+to_place+"', '"+from_place+"')"
+    query="insert into bookings values ("+bid+ ", 1, "+vid+", '"+to_date+"', '"+from_date+"')"
     cursor.execute(query)
     conn.commit()
 
     conn.close()
     print(query)
+
+#def register_customer()

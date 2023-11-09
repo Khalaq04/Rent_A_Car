@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask import current_app as app
+from applications.queries import *
 import psycopg2
 
 @app.route("/", methods=["GET", "POST"])
@@ -39,4 +40,8 @@ def login_customer():
 
 @app.route("/register-customer", methods=["GET", "POST"])
 def register_customer():
-    return render_template("RegisterPage.html")
+    if(request.method == 'GET'):
+        return render_template("RegisterPage.html")
+    else:
+        #print(request.form["phone-number"])
+        return redirect("/register-customer")
