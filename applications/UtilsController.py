@@ -1,12 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask import current_app as app
-from applications.queries import *
-import psycopg2
+from applications.queries.UtilsQueries import *
 
 @app.route("/", methods=["GET", "POST"])
 def landing_page():
     if (request.method=="GET"):
-        return render_template("LandingPage.html")
+        return render_template("UtilsTemplates/LandingPage.html")
     else:
         try:
             if(request.form["input"]=="employee"):
@@ -28,20 +27,30 @@ def login_employee():
 
 @app.route("/login-admin", methods=["GET", "POST"])
 def login_admin():
-    return render_template("LoginPage.html", reg=0)
+    return render_template("UtilsTemplates/LoginPage.html", reg=0)
 
 @app.route("/login-driver", methods=["GET", "POST"])
 def login_driver():
-    return render_template("LoginPage.html", reg=0)
+    return render_template("UtilsTemplates/LoginPage.html", reg=0)
 
 @app.route("/login-customer", methods=["GET", "POST"])
 def login_customer():
-    return render_template("LoginPage.html", reg=1)
+    if(request.method == 'GET'):
+        return render_template("UtilsTemplates/LoginPage.html", reg=1)
+    else:
+        result = get_customer_authentication(request.form["email"], request.form["psw"])
+        if(result[0][0]==0):
+            return redirect("/login-customer")
+        elif(result[0][0]==-1):
+            return redirect("/register-customer")
+        else:
+            c_id = get_customer_id(request.form["email"])
+            c_id = c_id[0][0]
+            return redirect(url_for("Customer_home_page", c_id=c_id))
 
 @app.route("/register-customer", methods=["GET", "POST"])
 def register_customer():
     if(request.method == 'GET'):
-        return render_template("RegisterPage.html")
+        return render_template("UtilsTemplates/RegisterPage.html")
     else:
-        #print(request.form["phone-number"])
         return redirect("/register-customer")
