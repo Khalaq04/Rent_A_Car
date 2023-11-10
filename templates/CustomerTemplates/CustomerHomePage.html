@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Customer Home Page</title>
+        <h1>Welcome</h1>
+    </head>
+    <body>
+        <a href="/booking-portal">book a new trip</a>
+        <a href="/customer/<int:c_id>/trips">view past trips</a>
+        <div>
+            <h3>View Profile</h3>
+            name: {{data.fname}} {{data.lname}} <br>
+            address: {{data.address}}<br>
+            dob: {{data.dob}}<br>
+            email: {{data.email}}<br>
+            phone:<br> {% for i in data.phone %}
+            {{i}}<br>
+            {% endfor %}
+            change password:
+        </div>
+    </body>
+</html>

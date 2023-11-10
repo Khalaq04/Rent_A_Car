@@ -76,21 +76,21 @@ constraint fk_p_bid foreign key (b_id) references Booking (b_id) on delete casca
 
 create table Customer_Phone(
 c_id int not null,
-phone int not null,
+phone bigint not null,
 primary key (c_id, phone),
 constraint fk_c_cid foreign key (c_id) references Customer (c_id) on delete cascade
 );
 
 create table Employee_Phone(
 e_id int not null,
-phone int not null,
+phone bigint not null,
 primary key (e_id, phone),
 constraint fk_e_eid foreign key (e_id) references Employee (e_id) on delete cascade
 );
 
 create table Driver_Phone(
 d_id int not null,
-phone int not null,
+phone bigint not null,
 primary key (d_id, phone),
 constraint fk_d_did foreign key (d_id) references Driver (d_id) on delete cascade
 );

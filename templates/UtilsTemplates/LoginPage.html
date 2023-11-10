@@ -17,7 +17,7 @@
               <label for="psw"><b>Password</b></label>
               <input type="password" placeholder="Enter Password" name="psw" required>
           
-              <button type="submit">Login</button>
+              <input type="submit" value="Login">
               {% if reg == 1 %}
               <a href="{{ url_for('register_customer') }}"><button type="button">Register</button>
               {% endif %}

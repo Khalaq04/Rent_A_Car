@@ -4,7 +4,8 @@ All the Functions, Procedures and Triggers created for the project
     i. get employee authentication:
 
     create or replace function get_employee_authentication(email varchar, password varchar)
-    returns integer
+    returns int
+    language plpgsql
     as 
     $$
     declare 
@@ -15,11 +16,71 @@ All the Functions, Procedures and Triggers created for the project
         from employee
         where e_email = email;
 
-        if pass = password then
+        if not found then
+            return -1;
+        
+        elseif pass = password then
             return 1;
+        
         else
             return 0;
 
-        endif;
+        end if;
+    end;
+    $$;
+
+    ii. get customer authentication:
+
+    create or replace function get_customer_authentication(email varchar, password varchar)
+    returns int
+    language plpgsql
+    as 
+    $$
+    declare 
+        pass varchar;
+    
+    begin
+        select c_password into pass
+        from customer
+        where c_email = email;
+
+        if not found then
+            return -1;
+        
+        elseif pass = password then
+            return 1;
+        
+        else
+            return 0;
+
+        end if;
+    end;
+    $$;
+
+    iii. get driver authentication:
+
+    create or replace function get_driver_authentication(email varchar, password varchar)
+    returns int
+    language plpgsql
+    as 
+    $$
+    declare 
+        pass varchar;
+    
+    begin
+        select d_password into pass
+        from driver
+        where d_email = email;
+
+        if not found then
+            return -1;
+        
+        elseif pass = password then
+            return 1;
+        
+        else
+            return 0;
+
+        end if;
     end;
     $$;
