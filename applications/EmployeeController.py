@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask import current_app as app
-import psycopg2
-from applications.queries import *
+from applications.queries.EmployeeQueries import *
 
 @app.route("/employee/<int:e_id>/home", methods=["GET", "POST"])
 def employee_home_page(e_id):
@@ -11,7 +10,11 @@ def employee_home_page(e_id):
 @app.route("/employee/<int:e_id>/profile", methods=["GET", "POST"])
 def employee_profile(e_id):
     if request.method == "GET":
-        return render_template('EmployeeTemplates/EmployeeViewProfile.html', e_id=e_id)
+        details, phone = get_employee_details(e_id)
+        phones = []
+        for i in phone:
+            phones.append(i[0])
+        return render_template('EmployeeTemplates/EmployeeViewProfile.html', e_id=e_id, details=details, phones=phones)
     
 @app.route("/employee/<int:e_id>/past-bookings", methods=["GET", "POST"])
 def employee_all_bookings(e_id):

@@ -8,15 +8,20 @@
     </head>
     <body>
         <div class="card">
-            <h1>John Doe</h1>
+            <h1>{{ details.name }}</h1>
             <p><b>Address:</b></p>
-            <p>Mulund</p><br>
-            <p><b></b>Date of Birth:</b></p>
-            <p>2003-09-01</p><br>
+            <p>{{ details.addr }}</p><br>
+            <p><b>Date of Birth:</b></p>
+            <p>{{ details.dob }}</p><br>
             <p><b>Salary:</b></p>
-            <p>10000</p><br>
+            <p>{{ details.sal }}</p><br>
             <p><b>Email:</b></p>
-            <p>roshan1@employee.crm</p><br>
+            <p>{{ details.email }}</p><br>
+            <p><b>Phone Number(s):</b></p>
+            {% for phone in phones %}
+            <p>{{ phone }}</p>
+            {% endfor %}
+            <br>
           </div>
     </body>
 </html>

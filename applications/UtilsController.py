@@ -22,8 +22,18 @@ def landing_page():
 
 @app.route("/login-employee", methods=["GET", "POST"])
 def login_employee():
-    # return render_template("LoginPage.html", reg=0)
-    return redirect(url_for("employee_home_page", e_id=1))
+    if request.method == "GET":
+        return render_template("UtilsTemplates/LoginPage.html", reg=0)
+    
+    else:
+        email = request.form["email"]
+        psw = request.form["psw"]
+
+        if get_employee_authentication(email, psw)[0][0] == 1:
+            e_id = get_employee_id(email)
+            return redirect(url_for("employee_home_page", e_id=e_id))
+        else:
+            return render_template("UtilsTemplates/LoginPage.html", reg=0)
 
 @app.route("/login-admin", methods=["GET", "POST"])
 def login_admin():

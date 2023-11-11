@@ -25,7 +25,7 @@
   }
   
   /* Set a style for all buttons */
-  button {
+  button, input[type=submit] {
     background-color: #04AA6D;
     color: white;
     padding: 0.6% 1%;
@@ -37,7 +37,7 @@
   }
   
   /* Add a hover effect for buttons */
-  button:hover {
+  button:hover, input[type=submit]:hover {
     opacity: 0.8;
   }
   

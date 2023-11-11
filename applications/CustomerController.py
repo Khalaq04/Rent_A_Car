@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask import current_app as app
 from applications.queries.CustomerQueries import *
-import psycopg2
 
 @app.route("/customer/<int:c_id>/home", methods=["GET", "POST"])
 def Customer_home_page(c_id):

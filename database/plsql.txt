@@ -84,3 +84,8 @@ All the Functions, Procedures and Triggers created for the project
         end if;
     end;
     $$;
+
+
+create or replace view e_past_bookings as
+select from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email
+from booking natural join car v natural join customer natural join driver;
