@@ -5,6 +5,18 @@ View list of tables: \d
 
 quit from view mode: \q
 
+before copying the below, delete all contents of the database else it creates a problem
+    delete from employee;
+    delete from customer;
+    delete from driver;
+    delete from car;
+    delete from booking;
+    delete from employee_phone;
+    delete from customer_phone;
+    delete from driver_phone;
+    delete from maintainance;
+    delete from penalties;
+
 copy from csv files to table: (copy it to psql terminal everytime before starting working)
     \copy employee from './Rent_A_Car/database/Employee.csv' delimiter ',' CSV HEADER;
     \copy customer from './Rent_A_Car/database/Customer.csv' delimiter ',' CSV HEADER;
