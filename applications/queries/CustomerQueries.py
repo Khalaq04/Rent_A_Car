@@ -16,6 +16,7 @@ def get_customer_details(c_id):
     query = "select * from customer natural join customer_phone where c_id = " + str(c_id)
     cursor.execute(query)
     data = cursor.fetchall()
+    conn.close()
 
     return data
     
@@ -62,7 +63,7 @@ def add_booking(vid, to_date, from_date):
 def get_past_bookings(c_id):
     cursor, conn = connect_to_db()
 
-    query = "select to_date, from_date, amount, d_name from booking natural join driver where c_id = " + str(c_id)
+    query = "select from_date, to_date, b_amount, amount, d_name, d_email, e_email from booking natural join penalties natural join driver natural join employee where c_id=" + str(c_id)
     cursor.execute(query)
     data = cursor.fetchall()
 

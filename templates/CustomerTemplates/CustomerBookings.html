@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Customer past bookings</title>
+        <h1>Past Bookings</h1>
+    </head>
+    <body>
+        {% for i in data %}
+        {{i.fname}} {{i.lname}}, {{i.address}}, {{i.dob}}, {{i.email}}, {{i.phone}} <br>
+        {% endfor %}
+    </body>
+</html>
