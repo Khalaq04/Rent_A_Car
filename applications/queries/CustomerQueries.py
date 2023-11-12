@@ -9,11 +9,13 @@ def connect_to_db():
     )
     cursor = conn.cursor()
     return cursor, conn
-    
+
 def get_customer_details(c_id):
     cursor, conn = connect_to_db()
 
-    query = "select * from customer natural join customer_phone where c_id = " + str(c_id)
+    query = "select * "
+    query += "from customer natural join customer_phone "
+    query += "where c_id = " + str(c_id)
     cursor.execute(query)
     data = cursor.fetchall()
     conn.close()
@@ -53,7 +55,8 @@ def add_booking(vid, to_date, from_date):
 
     bid = get_last_bid()
 
-    query="insert into bookings values ("+bid+ ", 1, "+vid+", '"+to_date+"', '"+from_date+"')"
+    query="insert into bookings values "
+    query += "("+bid+ ", 1, "+vid+", '"+to_date+"', '"+from_date+"')"
     cursor.execute(query)
     conn.commit()
 
@@ -63,7 +66,11 @@ def add_booking(vid, to_date, from_date):
 def get_past_bookings(c_id):
     cursor, conn = connect_to_db()
 
-    query = "select from_date, to_date, b_amount, amount, d_name, d_email, e_email from booking natural join penalties natural join driver natural join employee where c_id=" + str(c_id)
+    query = "select from_date, to_date, b_amount, amount, d_name, d_email, e_email "
+    query += "from booking b natural join driver natural join employee "
+    query += "left outer join penalties p on b.b_id=p.b_id "
+    query += "where c_id=" + str(c_id) 
+    query += " order by from_date"
     cursor.execute(query)
     data = cursor.fetchall()
 

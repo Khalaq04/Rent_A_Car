@@ -21,12 +21,12 @@ def newbooking():
     
 @app.route("/customer/<int:c_id>/trips", methods=["GET", "POST"])
 def Customer_past_bookings(c_id):
-    datas = get_past_bookings(c_id)
+    data = get_past_bookings(c_id)
     info = []
-    for i in datas:
+    for i in data:
         dict = {"from":i[0], "to":i[1], "amount":i[2], "dname":i[4], "demail":i[5], "contact":i[6], "penalties":i[3]}
         info.append(dict)
-    return redirect('/CustomerTemplates/CustomerBookings', data=info)
+    return render_template('/CustomerTemplates/CustomerBookings.html', data=info)
 
 @app.route("/customer/<int:c_id>/profile", methods=["GET","POST"])
 def Customer_profile(c_id):

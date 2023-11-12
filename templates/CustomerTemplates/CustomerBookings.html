@@ -5,8 +5,27 @@
         <h1>Past Bookings</h1>
     </head>
     <body>
+        <table>
+            <tr>
+                <th>from</th>
+                <th>to</th>
+                <th>amount</th>
+                <th>driver name</th>
+                <th>driver email</th>
+                <th>contact handler</th>
+                <th>penalties</th>
+            </tr>
         {% for i in data %}
-        {{i.fname}} {{i.lname}}, {{i.address}}, {{i.dob}}, {{i.email}}, {{i.phone}} <br>
+            <tr>
+                <td>{{i.from}}</td>      
+                <td>{{i.to}}</td>
+                <td>{{i.amount}}</td>
+                <td>{{i.dname}}</td>
+                <td>{{i.demail}}</td>
+                <td>{{i.contact}}</td>
+                <td>{{i.penalties}}</td>
+            </tr>
         {% endfor %}
+        </table>
     </body>
 </html>
