@@ -9,7 +9,7 @@ def connect_to_db():
     )
     cursor = conn.cursor()
     return cursor, conn
-
+    
 def get_customer_details(c_id):
     cursor, conn = connect_to_db()
 

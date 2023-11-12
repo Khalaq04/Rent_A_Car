@@ -9,7 +9,7 @@ def connect_to_db():
     )
     cursor = conn.cursor()
     return cursor, conn
-
+    
 def get_customer_authentication(c_email, c_password):
     cursor, conn = connect_to_db()
     query = "select get_customer_authentication('" + c_email + "', '" + c_password + "')"
@@ -50,3 +50,13 @@ def get_customer_id(c_email):
     conn.close()
 
     return c_id
+
+def get_employee_id(e_email):
+    cursor, conn = connect_to_db()
+    query = "select e_id from employee where e_email = '" + e_email + "'"
+    cursor.execute(query)
+
+    e_id = cursor.fetchall()
+    conn.close()
+
+    return e_id[0][0]
