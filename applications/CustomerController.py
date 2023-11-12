@@ -4,16 +4,10 @@ from applications.queries.CustomerQueries import *
 
 @app.route("/customer/<int:c_id>/home", methods=["GET", "POST"])
 def Customer_home_page(c_id):
-    if(request.method=='GET'):
-        data = get_customer_details(c_id)
-        phone = []
-        for i in data:
-            phone.append(i[7])
-        info = {"fname":data[0][1], "lname":data[0][2], "address":data[0][3], "dob":data[0][4], "email":data[0][5], "phone":phone}
-        print(info)
-        return render_template('CustomerTemplates/CustomerHomePage.html', data = info)
+    if(request.method=='GET'):       
+        return render_template('CustomerTemplates/CustomerHomePage.html', c_id=c_id)
 
-@app.route("/booking-portal", methods=["GET", "POST"])
+@app.route("/booking-portal/<int:c_id>", methods=["GET", "POST"])
 def newbooking():
     if(request.method=='GET'):
         cars = get_car_details()
@@ -25,7 +19,20 @@ def newbooking():
         add_booking(request.form["car"], request.form["to"], request.form["from"])
         return redirect("/customer/1/home")
     
-@app.route("/customer<int:c_id>/tripe", methods=["GET", "POST"])
+@app.route("/customer/<int:c_id>/trips", methods=["GET", "POST"])
 def Customer_past_bookings(c_id):
     data = get_past_bookings(c_id)
-    return redirect('/CustomerTemplates/CustomerBookings')
+    info = []
+    for i in data:
+        dict = {"from":i[0], "to":i[1], "amount":i[2], "dname":i[4], "demail":i[5], "contact":i[6], "penalties":i[3]}
+        info.append(dict)
+    return render_template('/CustomerTemplates/CustomerBookings.html', data=info)
+
+@app.route("/customer/<int:c_id>/profile", methods=["GET","POST"])
+def Customer_profile(c_id):
+    data = get_customer_details(c_id)
+    phone = []
+    for i in data:
+        phone.append(i[7])
+    info = {"fname":data[0][1], "lname":data[0][2], "address":data[0][3], "dob":data[0][4], "email":data[0][5], "phone":phone}
+    return render_template('CustomerTemplates/CustomerViewProfile.html', data=info)
