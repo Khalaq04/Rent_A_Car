@@ -10,30 +10,39 @@
         <table border="10%" class="table">
             <tr>
                 <th>Booking ID</th>
-                <th>Customer ID</th>
-                <th>Driver ID</th>
-                <th>Vehicle ID</th>
+                <th>Customer Name</th>
+                <th>Customer Email</th>
+                <th>Driver Name</th>
+                <th>Driver Email</th>
                 <th>From</th>
                 <th>To</th>
                 <th>Car Type</th>
                 <th>Car Model</th>
                 <th>Car Number Plate</th>
                 <th>Amount</th>
+                <th>Penalty</th>
+                <th>Description</th>
             </tr>
             {% for booking in bookings %}
             <tr>
                 <td>{{ booking.b_id }}</td>
-                <td>{{ booking.c_id }}</td>
-                <td>{{ booking.d_id }}</td>
-                <td>{{ booking.v_id }}</td>
+                <td>{{ booking.c_name }}</td>
+                <td>{{ booking.c_email }}</td>
+                <td>{{ booking.d_name }}</td>
+                <td>{{ booking.d_email }}</td>
                 <td>{{ booking.from }}</td>
                 <td>{{ booking.to }}</td>
                 <td>{{ booking.type }}</td>
                 <td>{{ booking.model }}</td>
                 <td>{{ booking.np }}</td>
                 <td>{{ booking.amount }}</td>
+                <td>{{ booking.penalty }}</td>
+                <td>{{ booking.desc }}</td>
             </tr>
             {% endfor %}
-        </table>
+        </table><br>
+        <div class="button">
+            <a href="{{ url_for('employee_home_page', e_id=e_id) }}"><button>Home</button></a>
+        </div>
     </body>
 </html>

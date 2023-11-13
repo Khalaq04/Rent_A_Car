@@ -17,9 +17,11 @@ def employee_profile(e_id):
         return render_template('EmployeeTemplates/EmployeeViewProfile.html', e_id=e_id, details=details, phones=phones)
     
 @app.route("/employee/<int:e_id>/past-bookings", methods=["GET", "POST"])
-def employee_all_bookings(e_id):
+def employee_past_bookings(e_id):
     if request.method == "GET":
-        dict = {"b_id":"1", "c_id":"1", "d_id":"3", "v_id":"2", "from":"2023-10-20", "to":"2023-10-21", "type":"Sedan", "model":"Swift", "np":"UP-32-AA-1234", "amount":"2000"}
         bookings = []
-        bookings.append(dict)
-        return render_template("EmployeeTemplates/EmployeePastBookings.html", bookings=bookings)
+        past_bookings = get_employee_past_bookings(e_id)
+        for i in past_bookings:
+            dict = {"b_id":i[0], "c_name":i[8]+i[9], "c_email":i[10], "d_name":i[11], "d_email":i[12], "from":i[2], "to":i[3], "type":i[5], "model":i[6], "np":i[7], "amount":i[4], "penalty":i[13], "desc":i[14]}
+            bookings.append(dict)
+        return render_template("EmployeeTemplates/EmployeePastBookings.html", bookings=bookings, e_id=e_id)

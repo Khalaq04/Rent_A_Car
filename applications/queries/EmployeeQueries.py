@@ -25,7 +25,14 @@ def get_employee_details(e_id):
     conn.close()
     return detials, phone
 
-# def get_employee_bookings(e_id):
-#     cursor, conn = connect_to_db()
+def get_employee_past_bookings(e_id):
+    cursor, conn = connect_to_db()
 
-#     query = ""
+    query = "select * from e_past_bookings "
+    query += "where e_id="+str(e_id)
+    query += " order by b_id"
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+    conn.close()
+    return data

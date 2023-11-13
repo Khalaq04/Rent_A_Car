@@ -60,11 +60,13 @@ v_id int not null,
 from_date date not null,
 to_date date not null,
 b_amount int not null,
+active int not null,
 primary key (b_id),
 constraint fk_b_cid foreign key (c_id) references Customer (c_id) on delete cascade,
 constraint fk_b_did foreign key (d_id) references Driver (d_id) on delete cascade,
 constraint fk_b_eid foreign key (e_id) references Employee (e_id) on delete cascade,
-constraint fk_b_vid foreign key (v_id) references Car (v_id) on delete cascade
+constraint fk_b_vid foreign key (v_id) references Car (v_id) on delete cascade,
+constraint active_range check (active>=-1 and active<=1)
 );
 
 create table Penalties(
