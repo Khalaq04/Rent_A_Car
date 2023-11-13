@@ -15,7 +15,7 @@ def get_car_details():
 
     cursor, conn = connect_to_db()
 
-    query = "SELECT * FROM cars"
+    query = "SELECT * FROM Car"
     cursor.execute(query)
     data = cursor.fetchall()
 
