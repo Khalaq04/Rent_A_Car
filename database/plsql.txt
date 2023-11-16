@@ -1,4 +1,5 @@
 All the Functions, Procedures and Triggers created for the project
+Copy these into postgresql before running
 
 1. Functions
     i. get employee authentication:
@@ -86,7 +87,29 @@ All the Functions, Procedures and Triggers created for the project
     $$;
 
 
+Views:
+
 create or replace view e_past_bookings as
 select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, amount, description
 from booking b natural join car v natural join customer natural join driver left outer join penalties p on b.b_id = p.b_id
 where active=0;
+
+
+Triggers:
+
+CREATE OR REPLACE FUNCTION update_active_func()
+RETURNS trigger AS
+$$
+BEGIN
+
+        update booking b set active=0 where b.b_id=new.b_id;
+
+    RETURN NULL;
+
+END
+$$  LANGUAGE plpgsql;
+
+CREATE TRIGGER update_active_trig
+AFTER INSERT ON penalties
+FOR EACH ROW
+EXECUTE PROCEDURE update_active_func();

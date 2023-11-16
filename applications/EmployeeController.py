@@ -25,3 +25,27 @@ def employee_past_bookings(e_id):
             dict = {"b_id":i[0], "c_name":i[8]+i[9], "c_email":i[10], "d_name":i[11], "d_email":i[12], "from":i[2], "to":i[3], "type":i[5], "model":i[6], "np":i[7], "amount":i[4], "penalty":i[13], "desc":i[14]}
             bookings.append(dict)
         return render_template("EmployeeTemplates/EmployeePastBookings.html", bookings=bookings, e_id=e_id)
+    
+@app.route("/employee/<int:e_id>/current-bookings", methods=["GET", "POST"])
+def employee_current_bookings(e_id):
+    if request.method == "GET":
+        bookings = []
+        current_bookings = get_employee_current_bookings(e_id)
+        for i in current_bookings:
+            dict = {"b_id":i[0], "c_name":i[8]+i[9], "c_email":i[10], "d_name":i[11], "d_email":i[12], "from":i[2], "to":i[3], "type":i[5], "model":i[6], "np":i[7], "amount":i[4]}
+            bookings.append(dict)
+        return render_template("EmployeeTemplates/EmployeeCurrentBookings.html", bookings=bookings, e_id=e_id)
+    
+    else:
+        b_id = request.form["bid"]
+        penalty = request.form["penalty"]
+        desc = request.form["description"]
+
+        close_booking(b_id, penalty, desc)
+
+        bookings = []
+        current_bookings = get_employee_current_bookings(e_id)
+        for i in current_bookings:
+            dict = {"b_id":i[0], "c_name":i[8]+i[9], "c_email":i[10], "d_name":i[11], "d_email":i[12], "from":i[2], "to":i[3], "type":i[5], "model":i[6], "np":i[7], "amount":i[4]}
+            bookings.append(dict)
+        return render_template("EmployeeTemplates/EmployeeCurrentBookings.html", bookings=bookings, e_id=e_id)
