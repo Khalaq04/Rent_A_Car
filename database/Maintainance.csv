@@ -1,6 +1,7 @@
-v_id,m_date,m_description,m_amount
-1,2023-11-16,Oil change,2000
-2,2023-11-17,Brake replacement,3000
-3,2023-11-15,Tire inspection and rotation,1500
-4,2023-11-17,Engine tuning,2500
-5,2023-11-20,AC system maintenance,2000
+v_id,m_date,m_amount
+1,2023-11-05,2000
+2,2023-11-05,3000
+3,2023-11-05,1500
+4,2023-11-05,2500
+5,2023-11-05,2000
+2,2023-11-17,7000

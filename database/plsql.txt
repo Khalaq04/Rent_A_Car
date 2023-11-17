@@ -86,7 +86,7 @@ Copy these into postgresql before running
     end;
     $$;
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////
 Views:
 
 create or replace view e_past_bookings as
@@ -94,7 +94,7 @@ select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplat
 from booking b natural join car v natural join customer natural join driver left outer join penalties p on b.b_id = p.b_id
 where active=0;
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 Triggers:
 
 CREATE OR REPLACE FUNCTION active_curr_past_func()
@@ -113,3 +113,68 @@ CREATE TRIGGER active_curr_past_trig
 AFTER INSERT ON penalties
 FOR EACH ROW
 EXECUTE PROCEDURE active_curr_past_func();
+
+
+CREATE OR REPLACE FUNCTION add_maintainence_func()
+RETURNS trigger AS
+$$
+
+DECLARE
+    total_amt Maintainance.m_amount % TYPE;
+    amt Penalties.amount % TYPE;
+    bid booking.b_id % TYPE;
+    vid booking.v_id % TYPE;
+    cnt int;
+    cur RECORD;
+    i int;
+
+BEGIN
+
+    total_amt := 2000;
+    bid := new.b_id;
+
+    select v_id into vid
+    from booking
+    where b_id=bid;
+
+    select count(*) into cnt
+    from booking
+    where v_id=vid and active=0
+    group by v_id;
+
+    if cnt%3 = 0 then
+
+        i := 1;
+        for cur IN
+            (select *
+            from booking
+            where v_id=vid and active=0
+            order by b_id desc)
+        loop
+
+            if i>3 then
+                exit;
+            end if;
+
+            select amount into amt
+            from penalties p
+            where p.b_id=cur.b_id;
+
+            total_amt := total_amt + amt;
+            i := i+1;
+
+        end loop;
+
+        insert into Maintainance values(vid,current_date,total_amt);
+
+    end if;
+
+    RETURN NULL;
+
+END
+$$  LANGUAGE plpgsql;
+
+CREATE TRIGGER add_maintainence_trig
+AFTER INSERT ON penalties
+FOR EACH ROW
+EXECUTE PROCEDURE add_maintainence_func();

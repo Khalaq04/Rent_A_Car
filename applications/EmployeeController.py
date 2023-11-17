@@ -70,18 +70,26 @@ def employee_new_bookings(e_id):
 
         return render_template("EmployeeTemplates/EmployeeNewBookings.html", bookings=bookings, e_id=e_id, drivers=drivers)
     
-    # else:
-    #     b_id = request.form["bid"]
-    #     d_name = request.form["d_name"]
-    #     d_email = request.form["d_email"]
-    #     car = request.form["car"]
-    #     amount = request.form["amount"]
+    else:
+        b_id = request.form["bid"]
+        d_id = request.form["did"]
+        e_id = request.form["eid"]
 
-    #     confirm_booking(b_id, e_id, d_name, d_email, car, amount)
+        confirm_booking(b_id, e_id, d_id)
 
-    #     bookings = []
-    #     new_bookings = get_employee_new_bookings()
-    #     for i in new_bookings:
-    #         dict = {"b_id":i[0], "c_name":i[8]+i[9], "c_email":i[10], "d_name":i[11], "d_email":i[12], "from":i[2], "to":i[3], "type":i[5], "model":i[6], "np":i[7], "amount":i[4]}
-    #         bookings.append(dict)
-    #     return render_template("EmployeeTemplates/EmployeeCurrentBookings.html", bookings=bookings, e_id=e_id)
+        bookings = []
+        new_bookings = get_employee_new_bookings()
+        for i in new_bookings:
+            if not i[1]:
+                d_id = 0
+            else:
+                d_id = i[1]
+            dict = {"b_id":i[0], "d_id":d_id, "c_name":i[4]+" "+i[5], "c_email":i[6], "from":i[2], "to":i[3], "amount":i[7], "type":i[8], "model":i[9], "np":i[10]}
+            bookings.append(dict)
+
+        drivers = []
+        for i in get_drivers():
+            if not i[0] == -1:
+                drivers.append({"d_id":i[0], "d_name":i[1]})
+
+        return render_template("EmployeeTemplates/EmployeeNewBookings.html", bookings=bookings, e_id=e_id, drivers=drivers)

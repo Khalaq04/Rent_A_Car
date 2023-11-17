@@ -29,7 +29,7 @@
                     <td>{{ booking.c_email }}</td>
                     {% if booking.d_id == 0 %}
                         <td>
-                            <select id="driver" name="driver">
+                            <select id="did" name="did">
                                 {% for driver in drivers %}
                                     <option value="{{ driver.d_id }}">{{ driver.d_name }}</option>
                                 {% endfor %}
@@ -37,6 +37,7 @@
                         </td>
                     {% endif %}
                     {% if booking.d_id == -1 %}
+                        <input type="hidden" name="did" value="-1">
                         <td>None</td>
                     {% endif %}
                     <td>{{ booking.from }}</td>
@@ -47,7 +48,8 @@
                     <td>{{ booking.amount }}</td>
                     <input type="hidden" name="bid" value="{{ booking.b_id }}">
                     <input type="hidden" name="eid" value="{{ e_id }}">
-                    <td><input type="submit" value="Confirm Booking"></td>
+                    <td><input type="submit" value="Confirm Booking" name="confirm"></td>
+                    <!-- <td><input type="submit" value="Deny" name="confirm"></td> -->
                 </form>
             </tr>
             {% endfor %}

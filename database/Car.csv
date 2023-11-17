@@ -1,6 +1,6 @@
-v_id,v_type,v_model,v_numberplate,quantity
-1,Sedan,Honda Amaze,KA20IP1234,5
-2,SUV,Toyota Innova Crysta,KA20KL5678,5
-3,Hatchback,Maruti Swift,KA20WD9876,5
-4,Sedan,Hyundai Verna,KA20TT0007,5
-5,SUV,Maruti Suzuki Ertiga,KA20RT0102,5
+v_id,v_type,v_model,v_numberplate
+1,Sedan,Honda Amaze,KA20IP1234
+2,SUV,Toyota Innova Crysta,KA20KL5678
+3,Hatchback,Maruti Swift,KA20WD9876
+4,Sedan,Hyundai Verna,KA20TT0007
+5,SUV,Maruti Suzuki Ertiga,KA20RT0102

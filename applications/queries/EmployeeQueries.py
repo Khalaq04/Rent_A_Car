@@ -47,6 +47,7 @@ def get_employee_current_bookings(e_id):
 
     query = "select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email "
     query += "from booking b natural join car v natural join customer natural join driver where active=1 and e_id=" + str(e_id)
+    query += " order by b_id"
     cursor.execute(query)
 
     data = cursor.fetchall()
@@ -66,7 +67,7 @@ def get_employee_new_bookings():
     cursor, conn = connect_to_db()
 
     query = "select b.b_id, d_id, from_date, to_date, c_fname, c_lname, c_email, b_amount, v_type, v_model, v_numberplate "
-    query += "from booking b natural join customer natural join car where active=-1"
+    query += "from booking b natural join customer natural join car where active=-1 order by b_id"
     cursor.execute(query)
 
     data = cursor.fetchall()
@@ -86,20 +87,29 @@ def get_cars():
 def get_drivers():
     cursor, conn = connect_to_db()
 
-    query = "select d_id, d_name from driver"
+    query = "(select d_id, d_name from driver) except (select d_id, d_name from driver where d_id in (select d_id from booking where active=1))"
     cursor.execute(query)
 
     data = cursor.fetchall()
     conn.close()
     return data
 
-# def confirm_booking(b_id, e_id, d_name, d_email, car, amount):
-#     if d_name == 'None':
-#         d_email = 'none'
+def confirm_booking(b_id, e_id, d_id):
+    cursor, conn = connect_to_db()
 
-#     cursor, conn = connect_to_db()
+    if d_id == -1:
+        query = "update booking "
+        query += "set e_id=" + str(e_id) + ", "
+        query += "active=1 "
+        query += "where b_id=" + str(b_id)
+    else:
+        query = "update booking "
+        query += "set e_id=" + str(e_id) + ", "
+        query += "d_id=" + str(d_id) + ", "
+        query += "active=1 "
+        query += "where b_id=" + str(b_id)
 
-#     query = "update booking "
-#     query += "set e_id=" + str(e_id) + ","
-#     query += "amount=" + str(amount) + ","
-#     query += 
+    cursor.execute(query)
+
+    conn.commit()
+    conn.close()
