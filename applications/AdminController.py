@@ -4,26 +4,37 @@ from applications.queries.AdminQueries import *
 
 @app.route("/admin/101/home", methods=["GET", "POST"])
 def Admin_page():
-    if(request.method=='GET'):
-        #temp:
-        AdminPro = {"Id":101, "name":"Admin1"}
-        return render_template('AdminTemplates/AdminHomePage.html', AdminPro = AdminPro)
-    
-@app.route("/admin/view-cars")
-def viewcars():
-    cars = get_car_details()
-    return render_template('AdminTemplates/AdminCarDetails.html', cars=cars)
+    if request.method == 'GET':
+        # Temp:
+        AdminPro = {"Id": 101, "name": "Admin1"}
+        return render_template('AdminTemplates/AdminHomePage.html', AdminPro=AdminPro)
 
-@app.route("/admin/edit-cars")
 
 def editcars():
 
-    action = request.form['action']
+    if request.method == 'POST':
+        action = request.form['action']
+        c_vid = request.form['c_vid']
 
-    if action == 'insert':
-        insert_car_details(request.form["c_vid"],request.form["c_type"],request.form["c_model"],request.form["c_nplate"])
-        return render_template('AdminTemplates/AdminCarDetails.html')
-    
-    else:
-        del_car_detail(request.form["c_vid"])
+        if action == 'insert':
+            c_type = request.form['c_type']
+            c_model = request.form['c_model']
+            c_nplate = request.form['c_nplate']
+            insert_car_details(c_vid, c_type, c_model, c_nplate)
+        elif action == 'delete':
+            del_car_detail(c_vid)
+
+
+@app.route("/admin/view-cars", methods=['GET', 'POST'])
+def viewcars():
+    if request.method == 'POST':
+        editcars()
+
+    cars = get_veh_details()
+
+    return render_template('AdminTemplates/AdminCarDetails.html', cars=cars)
+
+
+
+
 
