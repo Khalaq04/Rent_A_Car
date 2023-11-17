@@ -97,7 +97,7 @@ where active=0;
 
 Triggers:
 
-CREATE OR REPLACE FUNCTION update_active_func()
+CREATE OR REPLACE FUNCTION active_curr_past_func()
 RETURNS trigger AS
 $$
 BEGIN
@@ -109,7 +109,7 @@ BEGIN
 END
 $$  LANGUAGE plpgsql;
 
-CREATE TRIGGER update_active_trig
+CREATE TRIGGER active_curr_past_trig
 AFTER INSERT ON penalties
 FOR EACH ROW
-EXECUTE PROCEDURE update_active_func();
+EXECUTE PROCEDURE active_curr_past_func();

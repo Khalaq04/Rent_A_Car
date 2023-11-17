@@ -61,3 +61,45 @@ def close_booking(b_id, penalty, desc):
 
     conn.commit()
     conn.close()
+
+def get_employee_new_bookings():
+    cursor, conn = connect_to_db()
+
+    query = "select b.b_id, d_id, from_date, to_date, c_fname, c_lname, c_email, b_amount, v_type, v_model, v_numberplate "
+    query += "from booking b natural join customer natural join car where active=-1"
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+    conn.close()
+    return data
+
+def get_cars():
+    cursor, conn = connect_to_db()
+
+    query = "select v_model from car"
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+    conn.close()
+    return data
+
+def get_drivers():
+    cursor, conn = connect_to_db()
+
+    query = "select d_id, d_name from driver"
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+    conn.close()
+    return data
+
+# def confirm_booking(b_id, e_id, d_name, d_email, car, amount):
+#     if d_name == 'None':
+#         d_email = 'none'
+
+#     cursor, conn = connect_to_db()
+
+#     query = "update booking "
+#     query += "set e_id=" + str(e_id) + ","
+#     query += "amount=" + str(amount) + ","
+#     query += 
