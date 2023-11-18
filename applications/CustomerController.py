@@ -17,10 +17,9 @@ def select_type(c_id):
         return render_template('/CustomerTemplates/CustomerNewBooking.html', cars=cars, carselect=True)
     else:
         cartype = request.form["cartype"]
-        print("*********************",request.form["cartype"])
-        return redirect(url_for("/customer/trips/book-a-trip", [c_id,cartype]))
+        return redirect(url_for('newbooking', c_id=c_id, v_type=cartype))
     
-@app.route("/customer/<int:c_id>/trips/book-a-trip/<string:v_type>", methods=["GET", "POST"])
+@app.route("/customer/<int:c_id>/book-a-trip/<string:v_type>", methods=["GET", "POST"])
 def newbooking(c_id, v_type):
     data = get_car_details(v_type)
     cars = []

@@ -49,6 +49,8 @@ def get_car_details(v_type):
     query += "from car "
     query += "where v_type = '" + v_type + "'"
 
+    cursor.execute(query)
+
     data = cursor.fetchall()
     return (data)
 
