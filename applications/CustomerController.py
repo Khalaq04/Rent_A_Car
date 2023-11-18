@@ -21,12 +21,25 @@ def select_type(c_id):
     
 @app.route("/customer/<int:c_id>/book-a-trip/<string:v_type>", methods=["GET", "POST"])
 def newbooking(c_id, v_type):
-    data = get_car_details(v_type)
-    cars = []
-    for i in data:
-        cars.append(i[0])
+    if(request.method=='GET'):
+        data = get_car_details(v_type)
+        cars = []
+        for i in data:
+            cars.append(i[0])
 
-    return render_template('/CustomerTemplates/CustomerNewBooking.html', cars=cars, carselect=False)  
+        return render_template('/CustomerTemplates/CustomerNewBooking.html', cars=cars, carselect=False)
+    else:
+        carname = request.form["car"]
+        fromdate = request.form["from"]
+        todate = request.form["to"]
+        driver = request.form["driver"]
+        if(driver == "n"):
+            driver = "NULL"
+        else:
+            driver = -1
+        add_booking(c_id, fromdate, todate, driver, carname)
+
+        return redirect('/customer/home')
 
 @app.route("/customer/<int:c_id>/trips", methods=["GET", "POST"])
 def Customer_past_bookings(c_id):
