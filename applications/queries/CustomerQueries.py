@@ -22,30 +22,43 @@ def get_customer_details(c_id):
 
     return data
     
-def get_car_details():
-
+def get_car_types():
     cursor, conn = connect_to_db()
-    
-    query="select * from cars"
+
+    query = "select distinct v_type "
+    query += "from car "
+    query += "where v_model in( "
+    query += "(select v_model "
+    query += "from car) "
+    query += "except "
+    query += "(select v_model "
+    query += "from car "
+    query += "where v_id in (select v_id "
+    query += "from booking "
+    query += "where active=1 or active = -1)))"
+
     cursor.execute(query)
+
     data = cursor.fetchall()
+    return (data)
 
-    cars=[]
-    for i in data:
-        dict = {"id":i[0], "name":i[2]}
-        cars.append(dict)
+def get_car_details(v_type):
+    cursor, conn = connect_to_db()
 
-    conn.close()
-    return cars
+    query = "select v_model "
+    query += "from car "
+    query += "where v_type = '" + v_type + "'"
+
+    data = cursor.fetchall()
+    return (data)
 
 def get_last_bid():
 
     cursor, conn = connect_to_db()
 
-    query="select max(bid) from bookings"
+    query = "select max(bid) from bookings"
     cursor.execute(query)
-    data=cursor.fetchall()
-    print(data[0])
+    data = cursor.fetchall()
 
     conn.close()
     return str(data[0][0]+1)

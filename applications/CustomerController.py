@@ -7,18 +7,28 @@ def Customer_home_page(c_id):
     if(request.method=='GET'):       
         return render_template('CustomerTemplates/CustomerHomePage.html', c_id=c_id)
 
-@app.route("/booking-portal/<int:c_id>", methods=["GET", "POST"])
-def newbooking():
+@app.route("/customer/<int:c_id>/booking-portal/select-car-type", methods=["GET", "POST"])
+def select_type(c_id):
     if(request.method=='GET'):
-        cars = get_car_details()
-        return render_template('CustomerNewBooking.html', cars=cars)
+        data = get_car_types()
+        cars = []
+        for i in data:
+            cars.append(i[0])
+        return render_template('/CustomerTemplates/CustomerNewBooking.html', cars=cars, carselect=True)
     else:
-        info={"id":1, "name":"abc"}
-        cars = get_car_details()
-        print(request.form["to"], request.form["from"], request.form["car"])
-        add_booking(request.form["car"], request.form["to"], request.form["from"])
-        return redirect("/customer/1/home")
+        cartype = request.form["cartype"]
+        print("*********************",request.form["cartype"])
+        return redirect(url_for("/customer/trips/book-a-trip", [c_id,cartype]))
     
+@app.route("/customer/<int:c_id>/trips/book-a-trip/<string:v_type>", methods=["GET", "POST"])
+def newbooking(c_id, v_type):
+    data = get_car_details(v_type)
+    cars = []
+    for i in data:
+        cars.append(i[0])
+
+    return render_template('/CustomerTemplates/CustomerNewBooking.html', cars=cars, carselect=False)  
+
 @app.route("/customer/<int:c_id>/trips", methods=["GET", "POST"])
 def Customer_past_bookings(c_id):
     data = get_past_bookings(c_id)
