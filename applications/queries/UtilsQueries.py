@@ -60,3 +60,13 @@ def get_employee_id(e_email):
     conn.close()
 
     return e_id[0][0]
+
+def get_driver_id(e_email):
+    cursor, conn = connect_to_db()
+    query = "select d_id from driver where d_email = '" + e_email + "'"
+    cursor.execute(query)
+
+    e_id = cursor.fetchall()
+    conn.close()
+
+    return e_id[0][0]

@@ -41,7 +41,18 @@ def login_admin():
 
 @app.route("/login-driver", methods=["GET", "POST"])
 def login_driver():
-    return render_template("UtilsTemplates/LoginPage.html", reg=0)
+    if request.method == "GET":
+        return render_template("UtilsTemplates/LoginPage.html", reg=0)
+    
+    else:
+        email = request.form["email"]
+        psw = request.form["psw"]
+
+        if get_driver_authentication(email, psw)[0][0] == 1:
+            d_id = get_driver_id(email)
+            return redirect(url_for("driver_home_page", d_id=d_id))
+        else:
+            return render_template("UtilsTemplates/LoginPage.html", reg=0)
 
 @app.route("/login-customer", methods=["GET", "POST"])
 def login_customer():

@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html>
-
     <head>
-        <title>Driver Home Page</title>
-        <h1>Welcome {{ driverInfo.name }}</h1>    
+        <meta charset="utf-8">
+        <title>Employee Home</title>
+        <h1>WELCOME</h1>
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/DriverHomePage.css') }}">
     </head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/DriverHomePage.css') }}">
     <body>
-        <div class="row">
-            <a class="link" href="driver/{{ driverInfo.did }}/profile">
-                <button class="profile">Profile</button> 
-            </a>
-            <a class="link" href="/driver/past-trips">
-                <button class="past_trips">Past trips</button> 
-            </a>
-            <a class="link" href="/driver/upcoming-trips">
-                <button class="up_trips">Upcoming trips</button> 
-            </a>
-        </div>
+        <center>
+        <a href="profile">View Profile</a><br><br>
+        <a href="upcoming-bookings">View Bookings</a><br><br>
+        <!-- <a href="past-bookings">view past bookings</a><br><br> -->
+        <!-- <a href="new-bookings">view new bookings</a><br><br> -->
+        <a href="{{ url_for('landing_page') }}"><button>Logout</button></a>
+        </center>
     </body>
 </html>

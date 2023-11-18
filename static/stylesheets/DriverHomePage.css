@@ -7,20 +7,21 @@ body{
 }
 
 button{
-    margin-top: 10%;
-    margin-left: 17.3%;
+    /* margin-top: 10%;
+    margin-left: 17.3%; */
     background-color: #04AA6D;
     color: white;
     font-size: 100%;
     font-weight: 50%;
     border: none;
-    width: 10%;
-    padding-top: 1%;
-    padding-bottom: 1%;
+    width: 5%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
     cursor: pointer;
     transition: opacity 0.15s;
-    border-radius: 10%;
+    border-radius: 8%;
     white-space: nowrap;
+    text-align: center;
 }
 
 button:hover{
@@ -35,4 +36,9 @@ button:active{
 .link
 {
     text-decoration: none;
+}
+
+a
+{
+    align-items: center;
 }
