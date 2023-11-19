@@ -46,7 +46,7 @@ z-index: 100;
 }
 
 
-.bookings,.cust,.emp,.driver,.car,.pay{
+.bookings,.cust,.emp,.driver,.car,.panal{
     
     background-color: #04AA6D;
     color: white;
@@ -64,7 +64,7 @@ z-index: 100;
 }
 
 .bookings:hover,.emp:hover,.cust:hover,
-.car:hover,.pay:hover,.driver:hover{
+.car:hover,.panal:hover,.driver:hover{
     opacity: 0.95;
     box-shadow: 2px 2px 4px rgb(0, 0, 0.25);
 

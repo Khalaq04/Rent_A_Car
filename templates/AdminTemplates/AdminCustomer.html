@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>customer Details </title>
+     <a href="/admin/101/home"> Back to Home Page</a>
+    <br>
+    <br>
+    <h1>Customer Details </h1>
+</head>
+<body>
+<table border="5%">
+    <th>ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Address </th>
+    <th>Date of Birth</th>
+    <th>Email</th>
+    <th>Password</th>
+
+    {% for customer in customers %}
+    <tr>
+        <td>{{ customer.c_id }}</td>
+        <td><a href="/admin/customer/{{customer.c_fname}}/phonenum">{{ customer.c_fname }}</a></td>
+        <td>{{ customer.c_lname }}</td>
+        <td>{{ customer.c_address }}</td>
+        <td>{{ customer.c_dob }}</td>
+        <td>{{ customer.c_email }}</td>
+        <td>{{ customer.c_password }}</td>
+    </tr>
+{% endfor %}
+
+
+</table>
+</body>
+</html>

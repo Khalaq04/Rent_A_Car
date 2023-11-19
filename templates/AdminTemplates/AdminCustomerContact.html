@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Phone Numbers</title>
+    <h1>Contact Details</h1>
+</head>
+<body>
+    <p>Contact info for {{ fname }}:</p>
+    <ol>
+        {% for phone_number in phone_numbers %}
+            <li>{{ phone_number }}</li>
+        {% endfor %}
+    </ol>
+</body>
+</html>

@@ -1,23 +1,46 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>CAR DETAILS</title>
-        <h1>Car Details </h1>
-    </head>
-    <body>
-        <table border="10%">
-            <th>Car id</th>
-            <th>Type</th>
-            <th>Model</th>
-            <th>Number Plate</th>
-            {% for car in cars %}
-            <tr>
-                <td>{{car["id"]}}</td>
-                <td>{{car["type"]}}</td>
-                <td>{{car["model"]}}</td>
-                <td>{{car["numberplate"]}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </body>
+<head>
+    <title>CAR DETAILS</title>
+    <a href="/admin/101/home"> Back to Home Page</a>
+    <br>
+    <br>
+    <h1>Car Details</h1>
+</head>
+<body>
+
+<table border="10%">
+    <th>Car id</th>
+    <th>Type</th>
+    <th>Model</th>
+    <th>Number Plate</th>
+    {% for car in cars %}
+        <tr>
+            <td>{{ car.id }}</td>
+            <td>{{ car.v_type }}</td>
+            <td>{{ car.v_model }}</td>
+            <td><a href="/admin/101/view-cars/{{ car.v_numberplate }}/edit">{{ car.v_numberplate }}</a></td>
+        </tr>
+    {% endfor %}
+</table>
+
+<form name="CarDetails" method="post" action="/admin/101/view-cars">
+    <br>
+    <br>
+    <label for="action">Select Action:</label>
+    <select name="action" id="action">
+        <option value="insert">Insert</option>
+        <option value="delete">Delete</option>
+    </select>
+    <br>
+    <br>
+    <input type="text" name="c_vid" placeholder="enter cid" required><br>
+    <input type="text" name="c_type" placeholder="enter type"><br>
+    <input type="text" name="c_model" placeholder="model"><br>
+    <input type="text" name="c_nplate" placeholder="number plate"><br>
+    <br>
+    <input type="submit" name="submit" value=" SUBMIT "><br>
+</form>
+
+</body>
 </html>

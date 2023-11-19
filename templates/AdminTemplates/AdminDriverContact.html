@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Driver Phone Numbers</title>
+    <h1>Driver Contact Details</h1>
+</head>
+<body>
+    <p>Phone number  for {{ d_name }}:</p>
+    <ol>
+        {% for number in ph_num %}
+            <li>{{ number }}</li>
+        {% endfor %}
+    </ol>
+</body>
+</html>

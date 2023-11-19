@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PENALTY</title>
+    <a href="/admin/101/home"> Back to Home Page</a>
+    <br>
+    <br>
+    <h1> PENALTIES </h1>
+</head>
+
+    <body>
+    <table border="5%">
+         
+        <th>Booking id</th>
+        <th>Description</th>
+        <th>Amount</th>
+        {% for pen in penal %}
+            <tr>
+                <td>{{ pen.bid }}</td>
+                <td>{{ pen.desc}}</td>
+                <td>{{ pen.amt }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    </body>
+</html>
