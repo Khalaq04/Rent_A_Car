@@ -173,7 +173,10 @@ Copy these into postgresql before running
                     from penalties p
                     where p.b_id=cur.b_id;
 
-                    total_amt := total_amt + amt;
+                    if found then
+                        total_amt := total_amt + amt;
+                    end if;
+
                     i := i+1;
 
                 end loop;
@@ -183,7 +186,7 @@ Copy these into postgresql before running
             end if;
 
             RETURN NULL;
-
+                
         END
         $$  LANGUAGE plpgsql;
 
@@ -236,13 +239,13 @@ Copy these into postgresql before running
 
         BEGIN
             
-        select min(min) into vid from(
-            (select min(v_id) from car 
+        select min(min_vid) into vid from(
+            select min(v_id) as min_vid from car 
                 where v_model=vmodel and v_id not in(
                     select v_id from booking 
                     where v_model=vmodel and active in (1,-1)
                 )
-            )
+            ) as subquery1
             union
             (select v_id from booking 
                 where active not in (-1,1) and v_id in (
@@ -254,9 +257,9 @@ Copy these into postgresql before running
                         select v_id, count(b_id) as mycount from booking 
                         where v_id in (select v_id from car where v_model = vmodel
                     ) group by v_id 
-                    )as subquery
+                    )as subquery2
                 )
-        ));
+        );
 
 
             days := todate - fromdate;

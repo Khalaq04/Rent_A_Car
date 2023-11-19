@@ -39,7 +39,7 @@ def newbooking(c_id, v_type):
             driver = -1
         add_booking(c_id, fromdate, todate, driver, carname)
 
-        return redirect('/customer/home')
+        return redirect(url_for('Customer_home_page',c_id))
 
 @app.route("/customer/<int:c_id>/trips", methods=["GET", "POST"])
 def Customer_past_bookings(c_id):

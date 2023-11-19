@@ -1,5 +1,6 @@
 import psycopg2
 
+
 def connect_to_db():
     conn = psycopg2.connect(
         host="localhost",
@@ -85,7 +86,38 @@ def get_new_bookings():
     conn.close()
     return data
 
-# def get_employee_month():
-#         cursor, conn = connect_to_db()
+def get_employee_month():
+        cursor, conn = connect_to_db()
 
-#         query = "select e_id,count(b_id) from booking where extract(month from from_date)=extract(month from current_date) and (active=0 or active=1) group by from_date,e_id;"
+        query = "select e_id,count from "
+        query += "(select e_id,count(b_id) "
+        query += "from booking where extract(month from from_date)=extract(month from current_date) and (active=0 or active=1) "
+        query += "group by extract(month from from_date),e_id) as subquery "
+        query += "where count>=all("
+        query += "select count(b_id) from booking "
+        query += "where extract(month from from_date)=extract(month from current_date) and (active=0 or active=1) "
+        query += "group by extract(month from from_date),e_id)"
+
+        cursor.execute(query)
+
+        data = cursor.fetchall()
+
+        e_id = data[0][0]
+        cnt = data[0][1]
+
+        conn.close()
+        return e_id, cnt
+
+def most_car_model():
+    cursor, conn = connect_to_db()
+
+    query = "select v_model from "
+    query += "(select v_model,count(b_id) from booking natural join car group by v_model) as subquery "
+    query += "where count>=all(select count(b_id) from booking natural join car group by v_model)"
+
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+
+    conn.close()
+    return data

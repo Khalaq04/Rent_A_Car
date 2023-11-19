@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask import current_app as app
 from applications.queries.AdminQueries import *
+from applications.queries.EmployeeQueries import *
 
 @app.route("/admin/<int:e_id>/home", methods=["GET", "POST"])
 def admin_home_page(e_id):
@@ -30,7 +31,12 @@ def admin_past_bookings(e_id):
         bookings = []
         past_bookings = get_past_bookings()
         for i in past_bookings:
-            dict = {"b_id":i[0], "c_name":i[8]+" "+i[9], "c_email":i[10], "d_name":i[11], "d_email":i[12], "from":i[2], "to":i[3], "type":i[5], "model":i[6], "np":i[7], "amount":i[4], "penalty":i[13], "desc":i[14], "e_name":i[15], "e_email":i[16]}
+            if i[13]:
+                penalty, desc = i[13], i[14]
+            else:
+                penalty = 0
+                desc = "No Penalty"
+            dict = {"b_id":i[0], "c_name":i[8]+" "+i[9], "c_email":i[10], "d_name":i[11], "d_email":i[12], "from":i[2], "to":i[3], "type":i[5], "model":i[6], "np":i[7], "amount":i[4], "penalty":penalty, "desc":desc, "e_name":i[15], "e_email":i[16]}
             bookings.append(dict)
         return render_template("AdminTemplates/AdminBookings.html", bookings=bookings, e_id=e_id, status=0)
     
@@ -54,7 +60,18 @@ def admin_current_bookings(e_id):
             bookings.append(dict)
         return render_template("AdminTemplates/AdminBookings.html", bookings=bookings, e_id=e_id, status=1)
     
-# @app.route("/admin/<int:e_id>/data-analysis", methods=["GET", "POST"])
-# def admin_current_bookings(e_id):
-#     if request.method == "GET":
-#         e_m_id = get_employee_month()
+@app.route("/admin/<int:e_id>/data-analysis", methods=["GET", "POST"])
+def data_analysis(e_id):
+    if request.method == "GET":
+        e_m_id,cnt = get_employee_month()
+        details,phone = get_employee_details(e_m_id)
+        phones = []
+        for i in phone:
+            phones.append(i[0])
+
+        car = most_car_model()
+        cars = []
+        for i in car:
+            cars.append(i[0])
+
+        return render_template('AdminTemplates/DataAnalysis.html', e_id=e_id, details=details, phones=phones, cnt=cnt, cars=cars)

@@ -22,7 +22,12 @@ def employee_past_bookings(e_id):
         bookings = []
         past_bookings = get_employee_past_bookings(e_id)
         for i in past_bookings:
-            dict = {"b_id":i[0], "c_name":i[8]+" "+i[9], "c_email":i[10], "d_name":i[11], "d_email":i[12], "from":i[2], "to":i[3], "type":i[5], "model":i[6], "np":i[7], "amount":i[4], "penalty":i[13], "desc":i[14]}
+            if i[13]:
+                penalty, desc = i[13], i[14]
+            else:
+                penalty = 0
+                desc = "No Penalty"
+            dict = {"b_id":i[0], "c_name":i[8]+" "+i[9], "c_email":i[10], "d_name":i[11], "d_email":i[12], "from":i[2], "to":i[3], "type":i[5], "model":i[6], "np":i[7], "amount":i[4], "penalty":penalty, "desc":desc}
             bookings.append(dict)
         return render_template("EmployeeTemplates/EmployeePastBookings.html", bookings=bookings, e_id=e_id)
     
@@ -41,7 +46,8 @@ def employee_current_bookings(e_id):
         penalty = request.form["penalty"]
         desc = request.form["description"]
 
-        close_booking(b_id, penalty, desc)
+        if penalty>0:
+            close_booking(b_id, penalty, desc)
 
         bookings = []
         current_bookings = get_employee_current_bookings(e_id)
