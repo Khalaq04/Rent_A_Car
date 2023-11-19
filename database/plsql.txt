@@ -86,7 +86,35 @@ Copy these into postgresql before running
         end;
         $$;
 
-    iv. updates active=0 when closing booking
+    iv. get admin authentication:
+
+    create or replace function get_admin_authentication(email varchar, password varchar)
+    returns int
+    language plpgsql
+    as 
+    $$
+    declare 
+        pass varchar;
+    
+    begin
+        select e_password into pass
+        from employee
+        where e_email = email and e_email like '%admin%';
+
+        if not found then
+            return -1;
+        
+        elseif pass = password then
+            return 1;
+        
+        else
+            return 0;
+
+        end if;
+    end;
+    $$;
+
+    v. updates active=0 when closing booking
         CREATE OR REPLACE FUNCTION active_curr_past_func()
         RETURNS trigger AS
         $$
@@ -99,7 +127,7 @@ Copy these into postgresql before running
         END
         $$  LANGUAGE plpgsql;
 
-    v. sends car for maintainance after 3 trips (uses cursor)
+    vi. sends car for maintainance after 3 trips (uses cursor)
         CREATE OR REPLACE FUNCTION add_maintainence_func()
         RETURNS trigger AS
         $$
@@ -145,7 +173,10 @@ Copy these into postgresql before running
                     from penalties p
                     where p.b_id=cur.b_id;
 
-                    total_amt := total_amt + amt;
+                    if found then
+                        total_amt := total_amt + amt;
+                    end if;
+
                     i := i+1;
 
                 end loop;
@@ -155,7 +186,7 @@ Copy these into postgresql before running
             end if;
 
             RETURN NULL;
-
+                
         END
         $$  LANGUAGE plpgsql;
 
@@ -166,6 +197,11 @@ Copy these into postgresql before running
         create or replace view e_past_bookings as
         select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, amount, description
         from booking b natural join car v natural join customer natural join driver left outer join penalties p on b.b_id = p.b_id
+        where active=0;
+
+    ii. create or replace view past_bookings as
+        select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, amount, description, e_name, e_email
+        from booking b natural join car v natural join customer natural join employee natural join driver left outer join penalties p on b.b_id = p.b_id
         where active=0;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -203,13 +239,13 @@ Copy these into postgresql before running
 
         BEGIN
             
-        select min(min) into vid from(
-            (select min(v_id) from car 
+        select min(min_vid) into vid from(
+            select min(v_id) as min_vid from car 
                 where v_model=vmodel and v_id not in(
                     select v_id from booking 
                     where v_model=vmodel and active in (1,-1)
                 )
-            )
+            ) as subquery1
             union
             (select v_id from booking 
                 where active not in (-1,1) and v_id in (
@@ -221,9 +257,9 @@ Copy these into postgresql before running
                         select v_id, count(b_id) as mycount from booking 
                         where v_id in (select v_id from car where v_model = vmodel
                     ) group by v_id 
-                    )as subquery
+                    )as subquery2
                 )
-        ));
+        );
 
 
             days := todate - fromdate;

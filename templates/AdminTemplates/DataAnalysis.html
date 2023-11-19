@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Data Analysis</title>
+        <h1>Data Analysis</h1>
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/EmployeePastBookings.css') }}">
+    </head>
+    <body bgcolor="lightgoldenrodyellow">
+        <center>
+        <h2>Employee of the Month</h2>
+        </center>
+        <table border="1%" class="table">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Salary</th>
+                <th>Phone</th>
+                <th>Bookings</th>
+            </tr>
+            <tr>
+                <td>{{ details.name }}</td>
+                <td>{{ details.email }}</td>
+                <td>{{ details.sal }}</td>
+                <td>
+                {% for phone in phones %}
+                <p>{{ phone }}</p>
+                {% endfor %}
+                </td>
+                <td>{{ cnt }}</td>
+            </tr>
+        </table><br>
+
+        <center>
+            <h2>Most Used Car(s)</h2>
+            {% for car in cars %}
+                <p>{{ car }}</p>
+            {% endfor %}
+        </center>
+
+        <div class="button">
+            <a href="{{ url_for('admin_home_page', e_id=e_id) }}"><button>Home</button></a>
+        </div>
+    </body>
+</html>
