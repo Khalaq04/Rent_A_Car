@@ -1,90 +1,90 @@
 All the Functions, Procedures and Triggers created for the project
 Copy these into postgresql before running
 
-1. Functions
+1. Functions and cursors
     i. get employee authentication:
 
-    create or replace function get_employee_authentication(email varchar, password varchar)
-    returns int
-    language plpgsql
-    as 
-    $$
-    declare 
-        pass varchar;
-    
-    begin
-        select e_password into pass
-        from employee
-        where e_email = email;
-
-        if not found then
-            return -1;
+        create or replace function get_employee_authentication(email varchar, password varchar)
+        returns int
+        language plpgsql
+        as 
+        $$
+        declare 
+            pass varchar;
         
-        elseif pass = password then
-            return 1;
-        
-        else
-            return 0;
+        begin
+            select e_password into pass
+            from employee
+            where e_email = email;
 
-        end if;
-    end;
-    $$;
+            if not found then
+                return -1;
+            
+            elseif pass = password then
+                return 1;
+            
+            else
+                return 0;
+
+            end if;
+        end;
+        $$;
 
     ii. get customer authentication:
 
-    create or replace function get_customer_authentication(email varchar, password varchar)
-    returns int
-    language plpgsql
-    as 
-    $$
-    declare 
-        pass varchar;
-    
-    begin
-        select c_password into pass
-        from customer
-        where c_email = email;
-
-        if not found then
-            return -1;
+        create or replace function get_customer_authentication(email varchar, password varchar)
+        returns int
+        language plpgsql
+        as 
+        $$
+        declare 
+            pass varchar;
         
-        elseif pass = password then
-            return 1;
-        
-        else
-            return 0;
+        begin
+            select c_password into pass
+            from customer
+            where c_email = email;
 
-        end if;
-    end;
-    $$;
+            if not found then
+                return -1;
+            
+            elseif pass = password then
+                return 1;
+            
+            else
+                return 0;
+
+            end if;
+        end;
+        $$;
 
     iii. get driver authentication:
 
-    create or replace function get_driver_authentication(email varchar, password varchar)
-    returns int
-    language plpgsql
-    as 
-    $$
-    declare 
-        pass varchar;
-    
-    begin
-        select d_password into pass
-        from driver
-        where d_email = email;
-
-        if not found then
-            return -1;
+        create or replace function get_driver_authentication(email varchar, password varchar)
+        returns int
+        language plpgsql
+        as 
+        $$
+        declare 
+            pass varchar;
         
-        elseif pass = password then
-            return 1;
-        
-        else
-            return 0;
+        begin
+            select d_password into pass
+            from driver
+            where d_email = email;
 
-        end if;
-    end;
-    $$;
+            if not found then
+                return -1;
+            
+            elseif pass = password then
+                return 1;
+            
+            else
+                return 0;
+
+            end if;
+        end;
+        $$;
 
     iv. get admin authentication:
 
@@ -114,100 +114,168 @@ Copy these into postgresql before running
     end;
     $$;
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-Views:
+    v. updates active=0 when closing booking
+        CREATE OR REPLACE FUNCTION active_curr_past_func()
+        RETURNS trigger AS
+        $$
+        BEGIN
 
-create or replace view e_past_bookings as
-select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, amount, description
-from booking b natural join car v natural join customer natural join driver left outer join penalties p on b.b_id = p.b_id
-where active=0;
+                update booking b set active=0 where b.b_id=new.b_id;
 
-create or replace view past_bookings as
-select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, amount, description, e_name, e_email
-from booking b natural join car v natural join customer natural join employee natural join driver left outer join penalties p on b.b_id = p.b_id
-where active=0;
+            RETURN NULL;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-Triggers:
+        END
+        $$  LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION active_curr_past_func()
-RETURNS trigger AS
-$$
-BEGIN
+    vi. sends car for maintainance after 3 trips (uses cursor)
+        CREATE OR REPLACE FUNCTION add_maintainence_func()
+        RETURNS trigger AS
+        $$
 
-        update booking b set active=0 where b.b_id=new.b_id;
+        DECLARE
+            total_amt Maintainance.m_amount % TYPE;
+            amt Penalties.amount % TYPE;
+            bid booking.b_id % TYPE;
+            vid booking.v_id % TYPE;
+            cnt int;
+            cur RECORD;
+            i int;
 
-    RETURN NULL;
+        BEGIN
 
-END
-$$  LANGUAGE plpgsql;
+            total_amt := 2000;
+            bid := new.b_id;
 
-CREATE TRIGGER active_curr_past_trig
-AFTER INSERT ON penalties
-FOR EACH ROW
-EXECUTE PROCEDURE active_curr_past_func();
+            select v_id into vid
+            from booking
+            where b_id=bid;
 
-
-CREATE OR REPLACE FUNCTION add_maintainence_func()
-RETURNS trigger AS
-$$
-
-DECLARE
-    total_amt Maintainance.m_amount % TYPE;
-    amt Penalties.amount % TYPE;
-    bid booking.b_id % TYPE;
-    vid booking.v_id % TYPE;
-    cnt int;
-    cur RECORD;
-    i int;
-
-BEGIN
-
-    total_amt := 2000;
-    bid := new.b_id;
-
-    select v_id into vid
-    from booking
-    where b_id=bid;
-
-    select count(*) into cnt
-    from booking
-    where v_id=vid and active=0
-    group by v_id;
-
-    if cnt%3 = 0 then
-
-        i := 1;
-        for cur IN
-            (select *
+            select count(*) into cnt
             from booking
             where v_id=vid and active=0
-            order by b_id desc)
-        loop
+            group by v_id;
 
-            if i>3 then
-                exit;
+            if cnt%3 = 0 then
+
+                i := 1;
+                for cur IN
+                    (select *
+                    from booking
+                    where v_id=vid and active=0
+                    order by b_id desc)
+                loop
+
+                    if i>3 then
+                        exit;
+                    end if;
+
+                    select amount into amt
+                    from penalties p
+                    where p.b_id=cur.b_id;
+
+                    total_amt := total_amt + amt;
+                    i := i+1;
+
+                end loop;
+
+                insert into Maintainance values(vid,current_date,total_amt);
+
             end if;
 
-            select amount into amt
-            from penalties p
-            where p.b_id=cur.b_id;
+            RETURN NULL;
 
-            total_amt := total_amt + amt;
-            i := i+1;
+        END
+        $$  LANGUAGE plpgsql;
 
-        end loop;
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-        insert into Maintainance values(vid,current_date,total_amt);
+2. Views:
+    i. create view for past bookings for employee
+        create or replace view e_past_bookings as
+        select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, amount, description
+        from booking b natural join car v natural join customer natural join driver left outer join penalties p on b.b_id = p.b_id
+        where active=0;
 
-    end if;
+    ii. create or replace view past_bookings as
+        select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, amount, description, e_name, e_email
+        from booking b natural join car v natural join customer natural join employee natural join driver left outer join penalties p on b.b_id = p.b_id
+        where active=0;
 
-    RETURN NULL;
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-END
-$$  LANGUAGE plpgsql;
+3. Triggers:
+    
+    i. executes function active_curr_past_func()
 
-CREATE TRIGGER add_maintainence_trig
-AFTER INSERT ON penalties
-FOR EACH ROW
-EXECUTE PROCEDURE add_maintainence_func();
+        CREATE TRIGGER active_curr_past_trig
+        AFTER INSERT ON penalties
+        FOR EACH ROW
+        EXECUTE PROCEDURE active_curr_past_func();
+
+    ii. calls function add_maintainence_func()
+        CREATE TRIGGER add_maintainence_trig
+        AFTER INSERT ON penalties
+        FOR EACH ROW
+        EXECUTE PROCEDURE add_maintainence_func();
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+4. Procedure
+
+    i. inserts new booking
+        CREATE OR REPLACE PROCEDURE insert_new_booking(cid INT, fromdate DATE, todate DATE, did INT, vmodel varchar)
+        LANGUAGE plpgsql
+        AS
+        $$
+        DECLARE 
+            bid INT;
+            vid INT;
+            amt INT;
+            cost INT;
+            days INT;
+
+        BEGIN
+            
+        select min(min) into vid from(
+            (select min(v_id) from car 
+                where v_model=vmodel and v_id not in(
+                    select v_id from booking 
+                    where v_model=vmodel and active in (1,-1)
+                )
+            )
+            union
+            (select v_id from booking 
+                where active not in (-1,1) and v_id in (
+                    select v_id from car 
+                    where v_model=vmodel       
+                ) 
+                group by v_id having count(b_id) = (
+                    select min(mycount) from(
+                        select v_id, count(b_id) as mycount from booking 
+                        where v_id in (select v_id from car where v_model = vmodel
+                    ) group by v_id 
+                    )as subquery
+                )
+        ));
+
+
+            days := todate - fromdate;
+
+
+            SELECT MAX(b_id) INTO bid FROM booking;
+
+
+            SELECT vt_amount INTO cost 
+            FROM caramount 
+            WHERE v_type = (SELECT v_type FROM car WHERE v_id = vid);
+
+
+            bid := bid + 1;
+            amt := days * cost;
+
+
+            INSERT INTO booking (b_id, c_id, d_id, v_id, from_date, to_date, b_amount, active)
+            VALUES (bid, cid, did, vid, fromdate, todate, amt, -1);
+
+        END;
+        $$;
