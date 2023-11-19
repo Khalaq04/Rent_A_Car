@@ -5,7 +5,7 @@
         <h1>Past Bookings</h1>
     </head>
     <body>
-        <table>
+        <table border="10%">
             <tr>
                 <th>from</th>
                 <th>to</th>
@@ -27,5 +27,8 @@
             </tr>
         {% endfor %}
         </table>
+        <div class="button">
+            <a href="{{ url_for('Customer_home_page', c_id=c_id) }}"><button>Home</button></a>
+        </div>
     </body>
 </html>
