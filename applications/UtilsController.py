@@ -37,8 +37,19 @@ def login_employee():
 
 @app.route("/login-admin", methods=["GET", "POST"])
 def login_admin():
-    return render_template("UtilsTemplates/LoginPage.html", reg=0)
+    if request.method == "GET":
+        return render_template("UtilsTemplates/LoginPage.html", reg=0)
+    
+    else:
+        email = request.form["email"]
+        psw = request.form["psw"]
 
+        if get_admin_authentication(email, psw)[0][0] == 1:
+            e_id = get_employee_id(email)
+            return redirect(url_for("admin_home_page", e_id=e_id))
+        else:
+            return render_template("UtilsTemplates/LoginPage.html", reg=0)
+        
 @app.route("/login-driver", methods=["GET", "POST"])
 def login_driver():
     if request.method == "GET":

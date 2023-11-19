@@ -86,12 +86,45 @@ Copy these into postgresql before running
     end;
     $$;
 
+    iv. get admin authentication:
+
+    create or replace function get_admin_authentication(email varchar, password varchar)
+    returns int
+    language plpgsql
+    as 
+    $$
+    declare 
+        pass varchar;
+    
+    begin
+        select e_password into pass
+        from employee
+        where e_email = email and e_email like '%admin%';
+
+        if not found then
+            return -1;
+        
+        elseif pass = password then
+            return 1;
+        
+        else
+            return 0;
+
+        end if;
+    end;
+    $$;
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 Views:
 
 create or replace view e_past_bookings as
 select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, amount, description
 from booking b natural join car v natural join customer natural join driver left outer join penalties p on b.b_id = p.b_id
+where active=0;
+
+create or replace view past_bookings as
+select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, amount, description, e_name, e_email
+from booking b natural join car v natural join customer natural join employee natural join driver left outer join penalties p on b.b_id = p.b_id
 where active=0;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Manager Home Page</title>
+        <title>Admin Home Page</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/AdminHomePage.css') }}">
 
     </head>
@@ -9,7 +9,7 @@
     <body >
         <div class="mid">
             <div class="header">
-                Welcome {{AdminPro.name}}
+                <h1>Welcome</h1>
             </div>
         </div>
 
@@ -17,18 +17,19 @@
             <div class="drop">
                 <button class="bookings">Bookings</button>
                     <div class="drpcont">
-                        <a href="/manager/bookings/Pastbook"> Past Bookings</a>
-                        <a href="/manager/bookings/newBook">New Bookings</a>
+                        <a href="past-bookings">Past Bookings</a>
+                        <a href="new-bookings">New Bookings</a>
+                        <a href="current-bookings">Current Booking</a>
                     </div>
             </div>
             <div class="drop2">
                 <button class="emp"> Employees</button>
                     <div class="drpcont2">
-                        <a href="/manager/Employee/view"> View Data</a>
-                        <a href="/manager/Employee/edit">Edit Data</a>
+                        <a href="employee/view"> View Data</a>
+                        <a href="employee/edit">Edit Data</a>
                     </div>
             </div>
-                <a href="/manager/customer">
+                <a href="customer">
                 <button class="cust">Customers</button>
                 </a>
         </div>
@@ -37,19 +38,20 @@
             <div class="drop3">
                 <button class="driver">Drivers</button>
                     <div class="drpcont3">
-                        <a href="/manager/view"> View Data</a>
-                        <a href="/manager/edit">Edit Data</a>
+                        <a href="view"> View Data</a>
+                        <a href="edit">Edit Data</a>
                     </div>
             </div>
-            <div class="drop4">
-                <button class="car"> Cars</button>
-                    <div class="drpcont4">
-                        <a href="/admin/view-cars"> View Data</a>   <!-- /manager/car/view-->
-                        <a href="/manager/car/edit">Edit Data</a>
-                    </div>
-            </div>
-                <a href="/manager/payment">
-                <button class="pay">Payment</button>
+            
+                
+                    
+                        <a href="/admin/view-cars">
+                            <button class="car"> Cars</button>
+                        </a>   <!-- /admin/car/view-->
+                    
+            
+                <a href="data-analysis">
+                <button class="panal">Data Analysis</button>
                 </a>
         </div>
 

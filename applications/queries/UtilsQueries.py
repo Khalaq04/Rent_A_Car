@@ -30,6 +30,16 @@ def get_employee_authentication(e_email, e_password):
     conn.close()
 
     return exists
+
+def get_admin_authentication(e_email, e_password):
+    cursor, conn = connect_to_db()
+    query = "select get_admin_authentication('" + e_email + "', '" + e_password + "')"
+    cursor.execute(query)
+
+    exists = cursor.fetchall()
+    conn.close()
+
+    return exists
     
 def get_driver_authentication(d_email, d_password):
     cursor, conn = connect_to_db()
