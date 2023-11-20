@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Driver Upcoming Bookings</title>
+        <h1>Current/Upcoming Bookings</h1>
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/EmployeePastBookings.css') }}">
+    </head>
+    <body bgcolor="lightgoldenrodyellow">
+        <table border="10%" class="table">
+            <tr>
+                <th>Customer Name</th>
+                <th>Customer Email</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Car Type</th>
+                <th>Car Model</th>
+                <th>Car Number Plate</th>
+            </tr>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.c_name }}</td>
+                <td>{{ booking.c_email }}</td>
+                <td>{{ booking.from }}</td>
+                <td>{{ booking.to }}</td>
+                <td>{{ booking.type }}</td>
+                <td>{{ booking.model }}</td>
+                <td>{{ booking.np }}</td>
+            </tr>
+            {% endfor %}
+        </table><br>
+        <div class="button">
+            <a href="{{ url_for('driver_home_page', d_id=d_id) }}"><button>Home</button></a>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/LandingPage.css') }}">
+    <head>
+        <h1>WELCOME TO RENTPRO</h1>
+    </head>
+    <body>
+        <form name="landing_page" method="post" onsubmit="">
+            <div class="drop">
+                <button class="dropdown">Staff</button>
+                <div class="dropdown-content">
+                    <div><input type="radio" name="input" id="admin" value="admin">Admin</div>
+                    <div><input type="radio" name="input" id="employee" value="employee">Employee</div>
+                    <div><input type="radio" name="input" id="driver" value="driver">Driver</div>
+                </div>
+            </div>
+            <input type="radio" name="input" value="customer" class="customer" id="customer"><label for="customer" class="customer_label">Customer</label><br>
+            <input class="login" type="submit" value="Login">
+        </form>
+    </body>
+</html>

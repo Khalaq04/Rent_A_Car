@@ -1,0 +1,53 @@
+login: psql -h localhost -d CarRental -U CarRental
+password: CarRental
+
+
+View list of tables: \d
+
+
+quit from view mode: \q
+
+
+before copying the below, delete all contents of the database else it creates a problem
+
+delete from employee;
+delete from customer;
+delete from driver;
+delete from car;
+delete from booking;
+delete from employee_phone;
+delete from customer_phone;
+delete from driver_phone;
+delete from maintainance;
+delete from penalties;
+delete from caramount;
+
+
+copy from csv files to table: (copy it to psql terminal everytime before starting working)
+
+\copy employee from './Rent_A_Car/database/Employee.csv' delimiter ',' CSV HEADER;
+\copy customer from './Rent_A_Car/database/Customer.csv' delimiter ',' CSV HEADER;
+\copy driver from './Rent_A_Car/database/Driver.csv' delimiter ',' CSV HEADER;
+\copy caramount from './Rent_A_Car/database/CarAmount.csv' delimiter ',' CSV HEADER;
+\copy car from './Rent_A_Car/database/Car.csv' delimiter ',' CSV HEADER;
+\copy booking from './Rent_A_Car/database/Booking.csv' delimiter ',' CSV HEADER;
+\copy employee_phone from './Rent_A_Car/database/Employee_Phone.csv' delimiter ',' CSV HEADER;
+\copy customer_phone from './Rent_A_Car/database/Customer_Phone.csv' delimiter ',' CSV HEADER;
+\copy driver_phone from './Rent_A_Car/database/Driver_Phone.csv' delimiter ',' CSV HEADER;
+\copy maintainance from './Rent_A_Car/database/Maintainance.csv' delimiter ',' CSV HEADER;
+\copy penalties from './Rent_A_Car/database/Penalties.csv' delimiter ',' CSV HEADER;
+
+
+copy from table to csv files: (copy it to psql terminal everytime before pushing the code)
+    
+\copy employee TO './Rent_A_Car/database/Employee.csv' DELIMITER ',' CSV HEADER;
+\copy customer TO './Rent_A_Car/database/Customer.csv' DELIMITER ',' CSV HEADER;
+\copy driver TO './Rent_A_Car/database/Driver.csv' DELIMITER ',' CSV HEADER;
+\copy caramount TO './Rent_A_Car/database/CarAmount.csv' DELIMITER ',' CSV HEADER;
+\copy car TO './Rent_A_Car/database/Car.csv' DELIMITER ',' CSV HEADER;
+\copy booking TO './Rent_A_Car/database/Booking.csv' DELIMITER ',' CSV HEADER;
+\copy maintainance TO './Rent_A_Car/database/Maintainance.csv' DELIMITER ',' CSV HEADER;
+\copy penalties TO './Rent_A_Car/database/Penalties.csv' DELIMITER ',' CSV HEADER;
+\copy employee_phone TO './Rent_A_Car/database/Employee_Phone.csv' DELIMITER ',' CSV HEADER;
+\copy customer_phone TO './Rent_A_Car/database/Customer_Phone.csv' DELIMITER ',' CSV HEADER;
+\copy driver_phone TO './Rent_A_Car/database/Driver_Phone.csv' DELIMITER ',' CSV HEADER;

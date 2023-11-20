@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Driver Home</title>
+        <!-- <h1>WELCOME</h1> -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/EmployeeViewProfile.css') }}">
+    </head>
+    <body bgcolor="lightgoldenrodyellow">
+        <div class="card">
+            <h1>{{ details.name }}</h1>
+            <p><b>Address:</b></p>
+            <p>{{ details.addr }}</p><br>
+            <p><b>Date of Birth:</b></p>
+            <p>{{ details.dob }}</p><br>
+            <p><b>Salary:</b></p>
+            <p>{{ details.sal }}</p><br>
+            <p><b>Email:</b></p>
+            <p>{{ details.email }}</p><br>
+            <p><b>Phone Number(s):</b></p>
+            {% for phone in phones %}
+            <p>{{ phone }}</p>
+            {% endfor %}
+            <br>
+          </div><br><br>
+          <div class="button">
+            <a href="{{ url_for('driver_home_page', d_id=d_id) }}"><button>Home</button></a>
+        </div>
+    </body>
+</html>

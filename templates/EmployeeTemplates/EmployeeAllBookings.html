@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Employee All Bookings</title>
+        <h1>All Bookings</h1>
+        <!-- <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/RegisterPage.css') }}"> -->
+    </head>
+    <body bgcolor="lightgoldenrodyellow">
+        <table border="10%">
+            <tr>
+                <th>Booking ID</th>
+                <th>Customer ID</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Car Type</th>
+                <th>Car Model</th>
+                <th>Car Number Plate</th>
+            </tr>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.bid }}</td>
+                <td>{{ booking.cid }}</td>
+                <td>{{ booking.from }}</td>
+                <td>{{ booking.to }}</td>
+                <td>{{ booking.type }}</td>
+                <td>{{ booking.model }}</td>
+                <td>{{ booking.np }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

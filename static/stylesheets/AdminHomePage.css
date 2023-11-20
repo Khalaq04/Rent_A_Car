@@ -1,0 +1,97 @@
+body{
+    font-family: Roboto,Arial;
+    margin: 0;
+    padding-top: 200px;
+    padding-left: 100px;
+    padding-right: 24px;
+    background-color:  lightgoldenrodyellow;
+}
+.header{
+
+color: black;
+position: fixed;
+text-align: center;
+font-family:'Times New Roman', Times, serif ;
+font-size: 30px;
+font-weight: 700px;
+top: 0px;
+left: 0px;
+right: 0px;
+height: 40px;
+z-index: 100;
+
+}
+.mid{
+    display: flexbox;
+    align-items: center;
+}
+
+.row1{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 100px;
+    flex-direction: row;
+    align-items: center;
+
+    
+}
+
+.row2{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 100px;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 220px;
+}
+
+
+.bookings,.cust,.emp,.driver,.car,.panal{
+    
+    background-color: #04AA6D;
+    color: white;
+    font-size: 15px;
+    font-weight: 500px;
+    border: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    border-radius: 3px;
+
+}
+
+.bookings:hover,.emp:hover,.cust:hover,
+.car:hover,.panal:hover,.driver:hover{
+    opacity: 0.95;
+    box-shadow: 2px 2px 4px rgb(0, 0, 0.25);
+
+}
+
+.drpcont,.drpcont2,.drpcont3,.drpcont4{
+    display: none;
+    position: absolute;
+    background-color: bisque;
+    z-index: 1;
+}
+
+.drpcont a,.drpcont2 a,.drpcont3 a,.drpcont4 a{
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.drpcont a:hover,.drpcont2 a:hover,.drpcont3 a:hover,
+.drpcont4 a:hover{
+    background-color: rgb(239, 209, 171);
+}
+
+.drop:hover .drpcont,.drop2:hover .drpcont2,
+.drop3:hover .drpcont3,.drop4:hover .drpcont4{
+    display: block;
+}
+
+

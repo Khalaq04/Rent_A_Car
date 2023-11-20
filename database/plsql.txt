@@ -1,0 +1,342 @@
+All the Functions, Procedures and Triggers created for the project
+Copy these into postgresql before running
+
+1. Functions and cursors
+    i. get employee authentication:
+
+        create or replace function get_employee_authentication(email varchar, password varchar)
+        returns int
+        language plpgsql
+        as 
+        $$
+        declare 
+            pass varchar;
+        
+        begin
+            select e_password into pass
+            from employee
+            where e_email = email;
+
+            if not found then
+                return -1;
+            
+            elseif pass = password then
+                return 1;
+            
+            else
+                return 0;
+
+            end if;
+        end;
+        $$;
+
+    ii. get customer authentication:
+
+        create or replace function get_customer_authentication(email varchar, password varchar)
+        returns int
+        language plpgsql
+        as 
+        $$
+        declare 
+            pass varchar;
+        
+        begin
+            select c_password into pass
+            from customer
+            where c_email = email;
+
+            if not found then
+                return -1;
+            
+            elseif pass = password then
+                return 1;
+            
+            else
+                return 0;
+
+            end if;
+        end;
+        $$;
+
+    iii. get driver authentication:
+
+        create or replace function get_driver_authentication(email varchar, password varchar)
+        returns int
+        language plpgsql
+        as 
+        $$
+        declare 
+            pass varchar;
+        
+        begin
+            select d_password into pass
+            from driver
+            where d_email = email;
+
+            if not found then
+                return -1;
+            
+            elseif pass = password then
+                return 1;
+            
+            else
+                return 0;
+
+            end if;
+        end;
+        $$;
+
+    iv. get admin authentication:
+
+    create or replace function get_admin_authentication(email varchar, password varchar)
+    returns int
+    language plpgsql
+    as 
+    $$
+    declare 
+        pass varchar;
+    
+    begin
+        select e_password into pass
+        from employee
+        where e_email = email and e_email like '%admin%';
+
+        if not found then
+            return -1;
+        
+        elseif pass = password then
+            return 1;
+        
+        else
+            return 0;
+
+        end if;
+    end;
+    $$;
+
+    v. updates active=0 when closing booking
+
+        CREATE OR REPLACE FUNCTION active_curr_past_func()
+        RETURNS trigger AS
+        $$
+        BEGIN
+
+                update booking b set active=0 where b.b_id=new.b_id;
+
+            RETURN NULL;
+
+        END
+        $$  LANGUAGE plpgsql;
+
+    vi. sends car for maintainance after 3 trips (uses cursor)
+        
+        CREATE OR REPLACE FUNCTION add_maintainence_func()
+        RETURNS trigger AS
+        $$
+
+        DECLARE
+            total_amt Maintainance.m_amount % TYPE;
+            amt Penalties.amount % TYPE;
+            bid booking.b_id % TYPE;
+            vid booking.v_id % TYPE;
+            cnt int;
+            cur RECORD;
+            i int;
+
+        BEGIN
+
+            if old.active<>new.active and new.active=0 then
+                total_amt := 2000;
+                bid := new.b_id;
+
+                select v_id into vid
+                from booking
+                where b_id=bid;
+
+                select count(*) into cnt
+                from booking
+                where v_id=vid and active=0
+                group by v_id;
+
+                if mod(cnt,3) = 0 then
+
+                    i := 1;
+                    for cur IN
+                        (select *
+                        from booking
+                        where v_id=vid and active=0
+                        order by b_id desc)
+                    loop
+
+                        if i>3 then
+                            exit;
+                        end if;
+
+                        select amount into amt
+                        from penalties p
+                        where p.b_id=cur.b_id;
+
+                        if found then
+                            total_amt := total_amt + amt;
+                        end if;
+
+                        i := i+1;
+
+                    end loop;
+
+                    insert into Maintainance values(vid,current_date,total_amt);
+
+                end if;
+            end if;
+
+            RETURN NULL;
+                
+        END
+        $$  LANGUAGE plpgsql;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+2. Views:
+    i. create view for past bookings for employee
+
+        create or replace view e_past_bookings as
+        select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, amount, description
+        from booking b natural join car v natural join customer natural join driver left outer join penalties p on b.b_id = p.b_id
+        where active=0;
+
+    ii. create or replace view past_bookings as
+        select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, amount, description, e_name, e_email
+        from booking b natural join car v natural join customer natural join employee natural join driver left outer join penalties p on b.b_id = p.b_id
+        where active=0;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+3. Triggers:
+    
+    i. executes function active_curr_past_func()
+
+        CREATE TRIGGER active_curr_past_trig
+        AFTER INSERT ON penalties
+        FOR EACH ROW
+        EXECUTE PROCEDURE active_curr_past_func();
+
+    ii. calls function add_maintainence_func()
+
+        CREATE TRIGGER add_maintainence_trig
+        AFTER UPDATE ON booking
+        FOR EACH ROW
+        EXECUTE PROCEDURE add_maintainence_func();
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+4. Procedure
+
+    i. inserts new booking
+
+        CREATE OR REPLACE PROCEDURE insert_new_booking(cid INT, fromdate DATE, todate DATE, did INT, vmodel varchar)
+        LANGUAGE plpgsql
+        AS
+        $$
+        DECLARE 
+            bid INT;
+            vid INT;
+            amt INT;
+            cost INT;
+            days INT;
+
+        BEGIN
+            
+        select v_id into vid from booking 
+        where v_id in (select v_id from car 
+        where v_model=vmodel) group by v_id 
+        having count(b_id) = (select min(mycount) 
+        from (select v_id, count(b_id) mycount 
+        from booking where v_id in (select v_id 
+        from car where v_model=vmodel) group by v_id));
+
+
+            days := todate - fromdate;
+
+
+            SELECT MAX(b_id) INTO bid FROM booking;
+
+
+            SELECT vt_amount INTO cost 
+            FROM caramount 
+            WHERE v_type = (SELECT v_type FROM car WHERE v_id = vid);
+
+
+            bid := bid + 1;
+            amt := days * cost;
+
+
+            INSERT INTO booking (b_id, c_id, d_id, v_id, from_date, to_date, b_amount, active)
+            VALUES (bid, cid, did, vid, fromdate, todate, amt, -1);
+
+        END;
+        $$;
+
+********************************************************************************************************
+
+Functions used in Rent_A_Car Admin Section
+
+1. in get_veh_details()
+
+    CREATE OR REPLACE FUNCTION get_all_car_details()
+    RETURNS TABLE (v_id INTEGER, v_type VARCHAR(255), v_model VARCHAR(255), v_numberplate VARCHAR(255))
+    AS $$
+    BEGIN
+        RETURN QUERY
+        SELECT * FROM Car;
+    END;
+    $$ LANGUAGE plpgsql;
+
+2.
+
+    2.1 for insert del in emp
+
+    CREATE OR REPLACE FUNCTION perform_employee_action(
+        action VARCHAR(10),
+        eid INTEGER DEFAULT NULL,
+        ename VARCHAR(255) DEFAULT NULL,
+        eaddress VARCHAR(255) DEFAULT NULL,
+        edob DATE DEFAULT NULL,
+        esalary NUMERIC DEFAULT NULL,
+        eemail VARCHAR(255) DEFAULT NULL,
+        epassword VARCHAR(255) DEFAULT NULL
+    )
+    RETURNS VOID AS $$
+    BEGIN
+        IF action = 'insert' THEN
+            INSERT INTO Employee VALUES (eid, ename, eaddress, edob, esalary, eemail, epassword);
+        ELSIF action = 'delete' THEN
+            DELETE FROM Employee WHERE e_id = eid;
+        END IF;
+    END;
+    $$ LANGUAGE plpgsql;
+
+
+    2.2 for insert del at driver (similar)
+
+    CREATE OR REPLACE FUNCTION driver_action
+    (
+    action VARCHAR(10),
+    did INTEGER DEFAULT NULL,
+    dname VARCHAR(255) DEFAULT NULL,
+    daddress VARCHAR(255) DEFAULT NULL,
+    dsalary NUMERIC DEFAULT NULL,
+    ddob DATE DEFAULT NULL,
+    demail VARCHAR(255) DEFAULT NULL,
+    dpassword VARCHAR(255) DEFAULT NULL,
+    dlicense VARCHAR(255) DEFAULT NULL
+    )
+    
+    RETURNS VOID AS $$
+    BEGIN
+        IF action = 'insert' THEN
+            INSERT INTO Driver VALUES (did, dname, daddress, dsalary, ddob, demail, dpassword, dlicense);
+        ELSIF action = 'delete' THEN
+            DELETE FROM Driver WHERE d_id = did;
+        END IF;
+    END;
+    $$ LANGUAGE plpgsql;

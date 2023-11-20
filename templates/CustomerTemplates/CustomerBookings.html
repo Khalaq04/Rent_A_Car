@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Customer past bookings</title>
+        <h1>Past Bookings</h1>
+    </head>
+    <body>
+        <table border="10%">
+            <tr>
+                <th>from</th>
+                <th>to</th>
+                <th>amount</th>
+                <th>driver name</th>
+                <th>driver email</th>
+                <th>contact handler</th>
+                <th>penalties</th>
+            </tr>
+        {% for i in data %}
+            <tr>
+                <td>{{i.from}}</td>      
+                <td>{{i.to}}</td>
+                <td>{{i.amount}}</td>
+                <td>{{i.dname}}</td>
+                <td>{{i.demail}}</td>
+                <td>{{i.contact}}</td>
+                <td>{{i.penalties}}</td>
+            </tr>
+        {% endfor %}
+        </table>
+        <div class="button">
+            <a href="{{ url_for('Customer_home_page', c_id=c_id) }}"><button>Home</button></a>
+        </div>
+    </body>
+</html>

@@ -15,7 +15,7 @@
   }
   
   /* Full-width inputs */
-  input[type=text], input[type=password] {
+  input[type=text], input[type=password], input[type=email] {
     width: 100%;
     padding: 0.65% 1%;
     margin: 0.45% 0;
@@ -25,7 +25,7 @@
   }
   
   /* Set a style for all buttons */
-  button {
+  button, input[type=submit] {
     background-color: #04AA6D;
     color: white;
     padding: 0.6% 1%;
@@ -37,7 +37,7 @@
   }
   
   /* Add a hover effect for buttons */
-  button:hover {
+  button:hover, input[type=submit]:hover {
     opacity: 0.8;
   }
   
@@ -67,7 +67,7 @@
   }
   
   /* The "Forgot password" text */
-  span.psw {
+  /* span.psw {
     float: right;
     padding-top: 0.85%;
-  }
+  } */

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Customer Home</title>
+        <!-- <h1>WELCOME</h1> -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/EmployeeViewProfile.css') }}">
+    </head>
+    <body>
+        <div class="card">
+            <h1>{{data.fname}} {{data.lname}}</h1>
+            <p><b>Address:</b></p>
+            <p>{{data.address}}</p><br>
+            <p><b>Date of Birth:</b></p>
+            <p>{{data.dob}}</p><br>
+            <p><b>Email:</b></p>
+            <p>{{data.email}}</p><br>
+            <p><b>Phone:</b></p>
+            {% for i in data.phone %}
+                <p>{{i}}</p>
+            {% endfor %}
+            <br>
+          </div>
+          <div class="button">
+            <a href="{{ url_for('Customer_home_page', c_id=c_id) }}"><button>Home</button></a>
+        </div>
+    </body>
+</html>

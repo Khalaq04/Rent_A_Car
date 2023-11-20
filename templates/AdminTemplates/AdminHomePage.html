@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin Home Page</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/AdminHomePage.css') }}">
+
+    </head>
+
+    <body >
+        <div class="mid">
+            <div class="header">
+                <h1>Welcome</h1>
+            </div>
+        </div>
+
+        <div class="row1">
+            <div class="drop">
+                <button class="bookings">Bookings</button>
+                    <div class="drpcont">
+                        <a href="past-bookings">Past Bookings</a>
+                        <a href="new-bookings">New Bookings</a>
+                        <a href="current-bookings">Current Booking</a>
+                    </div>
+            </div>
+            
+            <a href="employee/view">
+                <button class="emp"> Employees</button>
+            </a>
+
+                <a href="customer">
+                <button class="cust">Customers</button>
+                </a>
+        </div>
+
+        <div class="row2">
+
+            <a href="driver/view">
+                <button class="driver">Drivers</button>
+            </a>
+            
+            <div class="drop">
+                <button class="bookings">Cars/Types</button>
+                    <div class="drpcont">
+                        <a href="view-cars">Cars</a>
+                        <a href="view-types">Types</a>
+                    </div>
+            </div>    
+            
+            <!-- <a href="view-cars">
+                <button class="car">Cars</button>
+            </a>   /admin/car/view -->
+                    
+            
+                <a href="data-analysis">
+                <button class="panal">Data Analysis</button>
+                </a>
+        </div><br><br><br><br><br><br><br>
+
+        <center><a href="{{ url_for('landing_page') }}"><button>Logout</button></a></center>
+    
+
+    </body>
+</html>
