@@ -13,7 +13,8 @@ def select_type(c_id):
         data = get_car_types()
         cars = []
         for i in data:
-            cars.append(i[0])
+            dict = {"type": i[0], "amt": i[1]}
+            cars.append(dict)
         return render_template('/CustomerTemplates/CustomerNewBooking.html', cars=cars, carselect=True)
     else:
         cartype = request.form["cartype"]

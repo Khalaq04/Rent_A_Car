@@ -7,10 +7,21 @@
     {% if carselect %}
     <body>
         <form name="CustomerHomePage" method="post" onsubmit="">
+            <table>
+                <tr>
+                    <th>select</th>
+                    <th>type</th>
+                    <th>amount per day</th>
+                </tr>
+                <tr>
             {% for car in cars %}
-            <input type="radio" name="cartype" id="{{ car }}" value="{{ car }}">{{ car }} <br>
-            {% endfor %}
+            <td>
+            <input type="radio" name="cartype" id="{{ car.type }}" value="{{ car.type }}"></td>
+            <td>{{ car.type}}</td>
+            <td>{{ car.amt }}</td>
+            {% endfor %}</tr></table>
             <input type="submit" value="continue booking">
+            
         </form>
     </body>
     {% else %}
@@ -24,6 +35,7 @@
             {% endfor %}
             driver: <input type="radio" name="driver" id="y" value="y">yes
             <input type="radio" name="driver" id="n" value="n">no <br>
+            driver charges: 1000 additional
             <input type="submit">
         </form>
     </body>
