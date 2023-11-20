@@ -25,8 +25,8 @@ def get_customer_details(c_id):
 def get_car_types():
     cursor, conn = connect_to_db()
 
-    query = "select distinct v_type "
-    query += "from car "
+    query = "select distinct v_type, vt_amount "
+    query += "from car natural join caramount "
     query += "where v_id in( "
     query += "(select v_id "
     query += "from car) "

@@ -1,0 +1,196 @@
+1. queries for functionality of admin:
+    i. show car details:
+
+        select a. v_id, v_type, v_model, v_numberplate, number_of_trips, active 
+        from (select v_id, v_type, v_model, v_numberplate, count(b_id) as number_of_trips 
+                from car natural join booking group by v_id) as a
+        inner join
+             (select v_id, active 
+                from booking 
+                where b_id in (select max(b_id) 
+                        from booking group by v_id)) as b
+        on a.v_id = b.v_id
+        order by a.v_id;
+
+    ii. get past past_bookings:
+
+        select * from past_bookings
+        order by b_id;
+
+    iii. get current bookings:
+
+        select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, e_name, e_email 
+        from booking b natural join car v natural join customer natural join employee natural join driver left outer join penalties p on b.b_id = p.b_id 
+        where active=1;
+
+    iv. get new bookings:
+
+        select b.b_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email 
+        from booking b natural join car v natural join customer left outer join penalties p on b.b_id = p.b_id 
+        where active=-1;
+
+    iv. employee of the month:
+        select e_id,count from 
+            (select e_id,count(b_id) 
+            from booking 
+            where extract(month from from_date)=extract(month from current_date) and (active=0 or active=1) 
+            group by extract(month from from_date),e_id) as subquery 
+            where count>=all(
+                select count(b_id) from booking 
+                where extract(month from from_date)=extract(month from current_date) and (active=0 or active=1) 
+                group by extract(month from from_date),e_id);
+
+    v. most used car model:
+        
+        select v_model from 
+            (select v_model,count(b_id) 
+            from booking natural join car group by v_model) as subquery 
+        where count>=all(select count(b_id) 
+        from booking natural join car group by v_model)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+2. queries for functionality of customer:
+    i. get customer details:
+
+        select * 
+        from customer natural join customer_phone 
+        where c_id = str(c_id);
+
+    ii. get available car types:
+
+        select distinct v_type 
+        from car 
+        where v_id in( 
+            (select v_id 
+            from car) 
+            except 
+            (select v_id 
+            from car 
+        where v_id in (select v_id 
+        from booking 
+        where active=1 or active = -1)));
+
+    iii.get available cars:
+
+        select distinct v_model 
+        from car 
+        where v_type='v_type' and v_id not in (
+            select v_id 
+            from booking 
+            where active=1 or active=-1);
+
+    iv. assign car:
+
+        select v_id from booking 
+        where v_id in (select v_id from car 
+        where v_model='carname') group by v_id 
+        having count(b_id) = (select min(mycount) 
+        from (select v_id, count(b_id) mycount 
+        from booking where v_id in (select v_id 
+        from car where v_model=' carname') group by v_id));
+
+    v.  get last bid (to assign b_id to new insertions):
+
+        select max(bid) from bookings;
+
+    vi. get past bookings:
+
+        select from_date, to_date, b_amount, amount, d_name, d_email, e_email 
+        from booking b natural join driver natural join employee 
+        left outer join penalties p on b.b_id=p.b_id 
+        where c_id= c_id
+        order by from_date;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+3. queries for functionality of driver:
+    i. get driver details:
+
+        select * from Driver where d_id=d_id;
+    
+    ii. get get upcoming bookings:
+
+        select c_fname, c_lname, c_email, from_date, to_date, v_type, v_model, v_numberplate 
+        from booking natural join customer natural join car 
+        where d_id=" + str(d_id) + " and active=1
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+4. queries for functionality of employee:
+    i. get employee past bookings:
+
+        select * from e_past_bookings 
+        where e_id=e_id
+        order by b_id
+
+    ii. employee current bookings:
+
+        select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email 
+        from booking b natural join car v natural join customer natural join driver where active=1 and e_id=e_id
+        order by b_id
+
+    iii. employee new bookings:
+
+        select b.b_id, d_id, from_date, to_date, c_fname, c_lname, c_email, b_amount, v_type, v_model, v_numberplate "
+        from booking b natural join customer natural join car where active=-1 order by b_id
+
+    iv. get cars:
+
+        select v_model from car
+
+    v. get drivers:
+
+        (select d_id, d_name from driver) 
+        except 
+        (select d_id, d_name from driver 
+        where d_id in (select d_id 
+                        from booking 
+                        where active=1));
+
+    vi. confirm booking:
+
+        update booking
+        set e_id=e_id,
+        active=1 
+        where b_id=b_id
+
+        update booking 
+        set e_id=e_id,
+        d_id=d_id,
+        active=1 
+        where b_id=b_id
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+5. queries for authentication on home page
+
+    1. customer:
+
+        select get_customer_authentication('c_email ', 'c_password ')
+
+    2. employee:
+
+        select get_employee_authentication('e_email ', 'e_password ')
+
+    3. admin:
+
+        select get_admin_authentication('e_email ', 'e_password ')
+
+    4. driver:
+
+        select get_driver_authentication('d_email ', 'd_password ')
+
+    5. get customer id:
+
+        select c_id from customer where c_email = 'c_email'
+
+    6. get employee id:
+
+        select e_id from employee where e_email = 'e_email'
+
+    7. get driver id:
+
+        select d_id from driver where d_email = 'd_email'
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
