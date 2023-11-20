@@ -38,8 +38,19 @@ def newbooking(c_id, v_type):
             driver = "NULL"
         else:
             driver = -1
-        add_booking(c_id, fromdate, todate, driver, carname)
+        
+        amt = get_amount(fromdate, todate, v_type, driver)
 
+        return redirect(url_for("confirm_booking", c_id=c_id, carname=carname, amt=amt, fromdate=fromdate, todate=todate, driver=driver))
+    
+@app.route("/customer/<int:c_id>/confirm-booking/<string:carname>/<int:amt>/<string:fromdate>/<string:todate>/<string:driver>", methods=["GET","POST"])
+def confirm_booking(c_id, carname, amt, fromdate, todate, driver):
+    if(request.method=='GET'):
+        details = {"car":carname, "from":fromdate, "to":todate, "driver":driver, "amt":amt}
+        return render_template('/CustomerTemplates/CustomerConfirmBooking.html', details = details)
+    
+    else:
+        add_booking(c_id, fromdate, todate, driver, carname)
         return redirect(url_for("Customer_home_page", c_id=c_id))
 
 @app.route("/customer/<int:c_id>/trips", methods=["GET", "POST"])

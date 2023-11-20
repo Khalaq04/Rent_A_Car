@@ -89,6 +89,7 @@ def add_booking(cid, fromdate, todate, did, vmodel):
     cursor, conn = connect_to_db()
 
     query = "CALL insert_new_booking("+str(cid)+",'"+str(fromdate)+"','"+str(todate)+"',"+str(did)+",'"+str(vmodel)+"')"
+    print(query)
     cursor.execute(query)
     conn.commit()
 
@@ -104,6 +105,16 @@ def get_past_bookings(c_id):
     query += " order by from_date"
     cursor.execute(query)
     data = cursor.fetchall()
+
+    conn.close()
+    return data
+
+def get_amount(fromdate, todate, vtype, driver):
+    cursor, conn = connect_to_db()
+
+    query = "select get_amount('"+fromdate+"', '"+todate+"', '"+vtype+"', '"+driver+"')" 
+    cursor.execute(query)
+    data = cursor.fetchall()[0][0]
 
     conn.close()
     return data

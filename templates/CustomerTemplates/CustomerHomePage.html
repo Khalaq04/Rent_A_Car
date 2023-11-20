@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
         <title>Customer Home Page</title>
-        <h1>Welcome</h1>
+        <h1>WELCOME</h1>
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/CustomerHomePage.css') }}">
     </head>
     <body>
-        <a href="booking-portal/select-car-type">book a new trip</a> <br>
-        <a href="trips">view past trips</a> <br>
-        <a href="profile">view profile</a> <br>
+        <center>
+        <a href="booking-portal/select-car-type">book a new trip</a> <br> <br>
+        <a href="trips">view past trips</a> <br> <br>
+        <a href="profile">view profile</a> <br> <br>
         <a href="{{ url_for('landing_page') }}"><button>Logout</button></a>
+        </center>
     </body>
 </html>

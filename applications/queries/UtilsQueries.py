@@ -80,3 +80,26 @@ def get_driver_id(e_email):
     conn.close()
 
     return e_id[0][0]
+
+def get_last_customer_id():
+    cursor, conn = connect_to_db()
+    query = "select max(c_id) from customer"
+    cursor.execute(query)
+
+    c_id = int(cursor.fetchall()[0][0]) + 1
+
+    conn.close()
+    return c_id
+
+def register_customer(fname, lname, phone, addr, dob, email, psw):
+    cursor, conn = connect_to_db()
+
+    cid = get_last_customer_id()
+
+    query = "insert into customer values ("+str(cid)+",'"+fname+"','"+lname+"','"+addr+"','"+dob+"','"+email+"','"+psw+"')"
+    cursor.execute(query)
+
+    query = "insert into customer_phone("+str(cid)+", "+phone+")"
+    cursor.execute(query)
+    
+    conn.close()

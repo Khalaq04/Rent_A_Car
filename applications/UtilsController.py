@@ -85,4 +85,39 @@ def register_customer():
     if(request.method == 'GET'):
         return render_template("UtilsTemplates/RegisterPage.html")
     else:
-        return redirect("/register-customer")
+        name = request.form["full-name"]
+        name = name.split(' ')
+        fname = name[0]
+        if(len(name)==2):
+            lname = name[1]
+        else:
+            lname = " "
+        addr = request.form["address"]
+        phone = request.form["phone-number"]
+        dob = request.form["dob"]
+        email = request.form["email"]
+        psw = request.form["psw"]
+        psw2 = request.form["psw-repeat"]
+
+        if(psw==psw2):
+            cursor, conn = connect_to_db()
+
+            cid = get_last_customer_id()
+
+            try:
+
+                query = "insert into customer values ("+str(cid)+",'"+fname+"','"+lname+"','"+addr+"','"+dob+"','"+email+"','"+psw+"')"
+                print(query)
+                cursor.execute(query)
+                conn.commit()
+
+                query = "insert into customer_phone values ("+str(cid)+", "+phone+")"
+                cursor.execute(query)
+                conn.commit()
+                conn.close()
+
+            except:
+                return redirect("/register-customer")
+            return redirect("/login-customer")
+        else:
+            return redirect("/register-customer")
