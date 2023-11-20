@@ -115,6 +115,7 @@ Copy these into postgresql before running
     $$;
 
     v. updates active=0 when closing booking
+
         CREATE OR REPLACE FUNCTION active_curr_past_func()
         RETURNS trigger AS
         $$
@@ -128,6 +129,7 @@ Copy these into postgresql before running
         $$  LANGUAGE plpgsql;
 
     vi. sends car for maintainance after 3 trips (uses cursor)
+        
         CREATE OR REPLACE FUNCTION add_maintainence_func()
         RETURNS trigger AS
         $$
@@ -196,6 +198,7 @@ Copy these into postgresql before running
 
 2. Views:
     i. create view for past bookings for employee
+
         create or replace view e_past_bookings as
         select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, amount, description
         from booking b natural join car v natural join customer natural join driver left outer join penalties p on b.b_id = p.b_id
@@ -218,6 +221,7 @@ Copy these into postgresql before running
         EXECUTE PROCEDURE active_curr_past_func();
 
     ii. calls function add_maintainence_func()
+
         CREATE TRIGGER add_maintainence_trig
         AFTER UPDATE ON booking
         FOR EACH ROW
@@ -228,6 +232,7 @@ Copy these into postgresql before running
 4. Procedure
 
     i. inserts new booking
+
         CREATE OR REPLACE PROCEDURE insert_new_booking(cid INT, fromdate DATE, todate DATE, did INT, vmodel varchar)
         LANGUAGE plpgsql
         AS
@@ -241,27 +246,13 @@ Copy these into postgresql before running
 
         BEGIN
             
-        select min(min_vid) into vid from(
-            select min(v_id) as min_vid from car 
-                where v_model=vmodel and v_id not in(
-                    select v_id from booking 
-                    where v_model=vmodel and active in (1,-1)
-                )
-            ) as subquery1
-            union
-            (select v_id from booking 
-                where active not in (-1,1) and v_id in (
-                    select v_id from car 
-                    where v_model=vmodel       
-                ) 
-                group by v_id having count(b_id) = (
-                    select min(mycount) from(
-                        select v_id, count(b_id) as mycount from booking 
-                        where v_id in (select v_id from car where v_model = vmodel
-                    ) group by v_id 
-                    )as subquery2
-                )
-        );
+        select v_id into vid from booking 
+        where v_id in (select v_id from car 
+        where v_model=vmodel) group by v_id 
+        having count(b_id) = (select min(mycount) 
+        from (select v_id, count(b_id) mycount 
+        from booking where v_id in (select v_id 
+        from car where v_model=vmodel) group by v_id));
 
 
             days := todate - fromdate;

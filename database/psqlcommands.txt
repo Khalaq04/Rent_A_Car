@@ -40,14 +40,14 @@ copy from csv files to table: (copy it to psql terminal everytime before startin
 
 copy from table to csv files: (copy it to psql terminal everytime before pushing the code)
     
-\copy employee TO './projects/Rent_A_Car/database/Employee.csv' DELIMITER ',' CSV HEADER;
-\copy customer TO './projects/Rent_A_Car/database/Customer.csv' DELIMITER ',' CSV HEADER;
-\copy driver TO './projects/Rent_A_Car/database/Driver.csv' DELIMITER ',' CSV HEADER;
-\copy caramount TO './projects/Rent_A_Car/database/CarAmount.csv' DELIMITER ',' CSV HEADER;
-\copy car TO './projects/Rent_A_Car/database/Car.csv' DELIMITER ',' CSV HEADER;
-\copy booking TO './projects/Rent_A_Car/database/Booking.csv' DELIMITER ',' CSV HEADER;
-\copy maintainance TO './projects/Rent_A_Car/database/Maintainance.csv' DELIMITER ',' CSV HEADER;
-\copy penalties TO './projects/Rent_A_Car/database/Penalties.csv' DELIMITER ',' CSV HEADER;
-\copy employee_phone TO './projects/Rent_A_Car/database/Employee_Phone.csv' DELIMITER ',' CSV HEADER;
-\copy customer_phone TO './projects/Rent_A_Car/database/Customer_Phone.csv' DELIMITER ',' CSV HEADER;
-\copy driver_phone TO './projects/Rent_A_Car/database/Driver_Phone.csv' DELIMITER ',' CSV HEADER;
+\copy employee TO './Rent_A_Car/database/Employee.csv' DELIMITER ',' CSV HEADER;
+\copy customer TO './Rent_A_Car/database/Customer.csv' DELIMITER ',' CSV HEADER;
+\copy driver TO './Rent_A_Car/database/Driver.csv' DELIMITER ',' CSV HEADER;
+\copy caramount TO './Rent_A_Car/database/CarAmount.csv' DELIMITER ',' CSV HEADER;
+\copy car TO './Rent_A_Car/database/Car.csv' DELIMITER ',' CSV HEADER;
+\copy booking TO './Rent_A_Car/database/Booking.csv' DELIMITER ',' CSV HEADER;
+\copy maintainance TO './Rent_A_Car/database/Maintainance.csv' DELIMITER ',' CSV HEADER;
+\copy penalties TO './Rent_A_Car/database/Penalties.csv' DELIMITER ',' CSV HEADER;
+\copy employee_phone TO './Rent_A_Car/database/Employee_Phone.csv' DELIMITER ',' CSV HEADER;
+\copy customer_phone TO './Rent_A_Car/database/Customer_Phone.csv' DELIMITER ',' CSV HEADER;
+\copy driver_phone TO './Rent_A_Car/database/Driver_Phone.csv' DELIMITER ',' CSV HEADER;

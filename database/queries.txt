@@ -59,8 +59,8 @@
 
     ii. get available car types:
 
-        select distinct v_type 
-        from car 
+        select distinct v_type, vt_amount
+        from car natural join caramount
         where v_id in( 
             (select v_id 
             from car) 
@@ -73,9 +73,9 @@
 
     iii.get available cars:
 
-        select distinct v_model 
+        select distinct v_model, v_id
         from car 
-        where v_type='v_type' and v_id not in (
+        where v_type='Sedan' and v_id not in (
             select v_id 
             from booking 
             where active=1 or active=-1);
@@ -84,11 +84,11 @@
 
         select v_id from booking 
         where v_id in (select v_id from car 
-        where v_model='carname') group by v_id 
+        where v_model='Hyundai Verna') group by v_id 
         having count(b_id) = (select min(mycount) 
         from (select v_id, count(b_id) mycount 
         from booking where v_id in (select v_id 
-        from car where v_model=' carname') group by v_id));
+        from car where v_model='Hyundai Verna') group by v_id));
 
     v.  get last bid (to assign b_id to new insertions):
 
