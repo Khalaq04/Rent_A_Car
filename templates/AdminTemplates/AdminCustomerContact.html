@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Phone Numbers</title>
+    <a href="{{ url_for('admin_home_page', e_id=e_id) }}"> Back to Home Page</a>
+    <br>
+    <a href="{{ url_for('customer_page', e_id=e_id) }}"> Back</a>
+    <br>
+    <h1>Customer Contact Details</h1>
+</head>
+<body>
+    <p>Contact info for {{ fname }}:</p>
+    <ol>
+        {% for phone_number in phone_numbers %}
+            <li>{{ phone_number }}</li>
+        {% endfor %}
+    </ol>
+</body>
+</html>

@@ -57,8 +57,12 @@ def get_employee_current_bookings(e_id):
 def close_booking(b_id, penalty, desc):
     cursor, conn = connect_to_db()
 
-    query = "insert into penalties values(" + str(b_id) + ",'" + str(desc) + "'," + str(penalty) + ")" 
-    cursor.execute(query)
+    if penalty>0:
+        query = "insert into penalties values(" + str(b_id) + ",'" + str(desc) + "'," + str(penalty) + ")" 
+        cursor.execute(query)
+    else:
+        query = "update booking set active=0 where b_id=" + str(b_id)
+        cursor.execute(query)
 
     conn.commit()
     conn.close()
@@ -113,3 +117,14 @@ def confirm_booking(b_id, e_id, d_id):
 
     conn.commit()
     conn.close()
+
+def get_maintainance():
+    cursor, conn = connect_to_db()
+
+    query = "select * from car natural join maintainance"
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+    
+    conn.close()
+    return data

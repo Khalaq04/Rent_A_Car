@@ -25,17 +25,17 @@ delete from caramount;
 
 copy from csv files to table: (copy it to psql terminal everytime before starting working)
 
-\copy employee from './Rent_A_Car/database/Employee.csv' delimiter ',' CSV HEADER;
-\copy customer from './Rent_A_Car/database/Customer.csv' delimiter ',' CSV HEADER;
-\copy driver from './Rent_A_Car/database/Driver.csv' delimiter ',' CSV HEADER;
-\copy caramount from './Rent_A_Car/database/CarAmount.csv' delimiter ',' CSV HEADER;
-\copy car from './Rent_A_Car/database/Car.csv' delimiter ',' CSV HEADER;
-\copy booking from './Rent_A_Car/database/Booking.csv' delimiter ',' CSV HEADER;
-\copy employee_phone from './Rent_A_Car/database/Employee_Phone.csv' delimiter ',' CSV HEADER;
-\copy customer_phone from './Rent_A_Car/database/Customer_Phone.csv' delimiter ',' CSV HEADER;
-\copy driver_phone from './Rent_A_Car/database/Driver_Phone.csv' delimiter ',' CSV HEADER;
-\copy maintainance from './Rent_A_Car/database/Maintainance.csv' delimiter ',' CSV HEADER;
-\copy penalties from './Rent_A_Car/database/Penalties.csv' delimiter ',' CSV HEADER;
+\copy employee from './projects/Rent_A_Car/database/Employee.csv' delimiter ',' CSV HEADER;
+\copy customer from './projects/Rent_A_Car/database/Customer.csv' delimiter ',' CSV HEADER;
+\copy driver from './projects/Rent_A_Car/database/Driver.csv' delimiter ',' CSV HEADER;
+\copy caramount from './projects/Rent_A_Car/database/CarAmount.csv' delimiter ',' CSV HEADER;
+\copy car from './projects/Rent_A_Car/database/Car.csv' delimiter ',' CSV HEADER;
+\copy booking from './projects/Rent_A_Car/database/Booking.csv' delimiter ',' CSV HEADER;
+\copy employee_phone from './projects/Rent_A_Car/database/Employee_Phone.csv' delimiter ',' CSV HEADER;
+\copy customer_phone from './projects/Rent_A_Car/database/Customer_Phone.csv' delimiter ',' CSV HEADER;
+\copy driver_phone from './projects/Rent_A_Car/database/Driver_Phone.csv' delimiter ',' CSV HEADER;
+\copy maintainance from './projects/Rent_A_Car/database/Maintainance.csv' delimiter ',' CSV HEADER;
+\copy penalties from './projects/Rent_A_Car/database/Penalties.csv' delimiter ',' CSV HEADER;
 
 
 copy from table to csv files: (copy it to psql terminal everytime before pushing the code)

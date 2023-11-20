@@ -1,23 +1,54 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>CAR DETAILS</title>
-        <h1>Car Details </h1>
-    </head>
-    <body>
-        <table border="10%">
-            <th>Car id</th>
-            <th>Type</th>
-            <th>Model</th>
-            <th>Number Plate</th>
-            {% for car in cars %}
-            <tr>
-                <td>{{car["id"]}}</td>
-                <td>{{car["type"]}}</td>
-                <td>{{car["model"]}}</td>
-                <td>{{car["numberplate"]}}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </body>
+<head>
+    <title>CAR DETAILS</title>
+    <a href="{{ url_for('admin_home_page', e_id=e_id) }}"> Back to Home Page</a>
+    <br>
+    <br>
+    <h1>Car Details</h1>
+</head>
+<body>
+
+<table border="10%">
+    <th>Car id</th>
+    <th>Type</th>
+    <th>Model</th>
+    <th>Number Plate</th>
+    {% for car in cars %}
+        <tr>
+            <td>{{ car.id }}</td>
+            <td>{{ car.v_type }}</td>
+            <td>{{ car.v_model }}</td>
+            <td>{{ car.v_numberplate }}</a></td>
+        </tr>
+    {% endfor %}
+</table>
+
+<form name="CarDetails" method="post" action="/admin/{{ e_id }}/view-cars">
+    <br>
+    <br>
+    <label for="action">Select Action:</label>
+    <select name="action" id="action">
+        <option value="insert">Insert</option>
+        <option value="delete">Delete</option>
+    </select>
+    <br>
+    <br>
+    <label for="c_vid">Car ID:</label>
+    <input type="text" name="c_vid" placeholder="enter cid" required><br>
+    <label for="c_type">Car Type:</label>
+    <select id="c_type" name="c_type">
+        {% for type in types %}
+            <option value="{{ type }}">{{ type }}</option>
+        {% endfor %}
+    </select><br>
+    <label for="c_model">Car Model:</label>
+    <input type="text" name="c_model" placeholder="model"><br>
+    <label for="c_nplate">Number Plate:</label>
+    <input type="text" name="c_nplate" placeholder="number plate"><br>
+    <br>
+    <input type="submit" name="submit" value=" SUBMIT "><br>
+</form>
+
+</body>
 </html>

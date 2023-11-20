@@ -43,11 +43,10 @@ def employee_current_bookings(e_id):
     
     else:
         b_id = request.form["bid"]
-        penalty = request.form["penalty"]
+        penalty = int(request.form["penalty"])
         desc = request.form["description"]
 
-        if penalty>0:
-            close_booking(b_id, penalty, desc)
+        close_booking(b_id, penalty, desc)
 
         bookings = []
         current_bookings = get_employee_current_bookings(e_id)
@@ -99,3 +98,13 @@ def employee_new_bookings(e_id):
                 drivers.append({"d_id":i[0], "d_name":i[1]})
 
         return render_template("EmployeeTemplates/EmployeeNewBookings.html", bookings=bookings, e_id=e_id, drivers=drivers)
+    
+@app.route("/employee/<int:e_id>/maintainance", methods=["GET", "POST"])
+def maintainance(e_id):
+    if request.method == "GET":
+        ml = []
+        m = get_maintainance()
+        for i in m:
+            dict = {"v_id":i[0], "v_type":i[1], "v_model":i[2], "v_np":i[3], "m_date":i[4], "m_amount":i[5]}
+            ml.append(dict)
+        return render_template("EmployeeTemplates/EmployeeViewMaintainance.html", ml=ml, e_id=e_id)

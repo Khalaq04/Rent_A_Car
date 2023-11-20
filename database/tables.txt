@@ -95,3 +95,9 @@ phone bigint not null,
 primary key (d_id, phone),
 constraint fk_d_did foreign key (d_id) references Driver (d_id) on delete cascade
 );
+
+create table CarAmount(
+v_type varchar(20) not null,
+vt_amount int not null,
+primary key(v_type)
+);
