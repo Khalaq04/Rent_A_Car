@@ -27,7 +27,10 @@ def editcars():
 @app.route("/admin/<int:e_id>/view-cars", methods=['GET', 'POST'])
 def viewcars(e_id):
     if request.method == 'POST':
-        editcars()
+        try:
+            editcars()
+        except:
+            return redirect(url_for('viewcars', e_id=e_id))
 
     cars = get_veh_details()
     ctype = get_car_types()
@@ -68,7 +71,7 @@ def admin_current_bookings(e_id):
         bookings = []
         past_bookings = get_current_bookings()
         for i in past_bookings:
-            dict = {"b_id":i[0], "c_name":i[7]+" "+i[8], "c_email":i[9], "from":i[1], "to":i[2], "type":i[4], "model":i[5], "np":i[6], "amount":i[3], "d_name":i[10], "d_email":i[11], "e_name":i[12], "e_email":i[13]}
+            dict = {"b_id":i[0], "c_name":i[8]+" "+i[9], "c_email":i[10], "from":i[2], "to":i[3], "type":i[5], "model":i[6], "np":i[7], "amount":i[4], "d_name":i[11], "d_email":i[12], "e_name":i[13], "e_email":i[14]}
             bookings.append(dict)
         return render_template("AdminTemplates/AdminBookings.html", bookings=bookings, e_id=e_id, status=1)
     
@@ -114,17 +117,20 @@ def employee_page(e_id):
 
             
             else:
-                ename = request.form['ename']
-                eaddress = request.form['eaddress']
-                edob = request.form['edob']
-                esalary = request.form['esalary']
-                eemail = request.form['eemail']
-                epassword = request.form['epassword']
-                ephone = request.form['ephone']
+                try:
+                    ename = request.form['ename']
+                    eaddress = request.form['eaddress']
+                    edob = request.form['edob']
+                    esalary = request.form['esalary']
+                    eemail = request.form['eemail']
+                    epassword = request.form['epassword']
+                    ephone = request.form['ephone']
 
-                if ename and eaddress and edob and esalary and eemail and epassword and ephone:
-                    employee_action(action, eid, ename, eaddress, edob, esalary, eemail, epassword)
-                    emp_phone_in(eid,ephone)
+                    if ename and eaddress and edob and esalary and eemail and epassword and ephone:
+                        employee_action(action, eid, ename, eaddress, edob, esalary, eemail, epassword)
+                        emp_phone_in(eid,ephone)
+                except:
+                    return redirect(url_for('employee_page', e_id=e_id))
 
     emps = get_emp_details()
     return render_template('AdminTemplates/AdminEmployeeDetail.html', emps=emps, e_id=e_id)
@@ -154,19 +160,21 @@ def driver_page(e_id):
 
             
             else:
-                
-                dname = request.form['dname']
-                daddress = request.form['daddress']
-                ddob = request.form['ddob']
-                dsalary = request.form['dsalary']
-                demail = request.form['demail']
-                dpassword = request.form['dpassword']
-                dlicense = request.form['dlicense']
-                dphone = request.form['dphone']
+                try:
+                    dname = request.form['dname']
+                    daddress = request.form['daddress']
+                    ddob = request.form['ddob']
+                    dsalary = request.form['dsalary']
+                    demail = request.form['demail']
+                    dpassword = request.form['dpassword']
+                    dlicense = request.form['dlicense']
+                    dphone = request.form['dphone']
 
-                if dname and daddress and ddob and dsalary and demail and dpassword and dlicense and dphone:
-                    driver_action(action, did, dname, daddress, dsalary, ddob, demail, dpassword, dlicense)
-                    dcontact(did,dphone)
+                    if dname and daddress and ddob and dsalary and demail and dpassword and dlicense and dphone:
+                        driver_action(action, did, dname, daddress, dsalary, ddob, demail, dpassword, dlicense)
+                        dcontact(did,dphone)
+                except:
+                    return redirect(url_for('driver_page', e_id=e_id))
 
     drivers = get_driver_details()
     return render_template('AdminTemplates/AdminDriver.html', drivers=drivers, e_id=e_id)
@@ -186,12 +194,15 @@ def customer_phonenum(e_id, fname):
 def emp_phonenum(e_id, e_name, e_id1):
     if request.method == 'POST':
         action = request.form['action']
-        if action=='insert':
-            ephone = request.form['e_phone']
-            emp_phone_in(e_id1,ephone)
-        else:
-            ephone = request.form['e_phone']
-            del_ephone(ephone)
+        try:
+            if action=='insert':
+                ephone = request.form['e_phone']
+                emp_phone_in(e_id1,ephone)
+            else:
+                ephone = request.form['e_phone']
+                del_ephone(ephone)
+        except:
+            return redirect(url_for('emp_phonenum', e_id=e_id, e_name=e_name, e_id1=e_id1))
 
     ph_num= emp_contact(e_name)
     return render_template('AdminTemplates/AdminEmpContact.html', e_name=e_name, ph_num=ph_num, e_id=e_id, e_id1=e_id1)
@@ -200,13 +211,16 @@ def emp_phonenum(e_id, e_name, e_id1):
 @app.route("/admin/<int:e_id>/driver/<int:d_id>/<string:d_name>/phonenum", methods=['GET', 'POST'] )
 def driver_phonenum(e_id, d_name, d_id):
     if request.method == 'POST':
-        action = request.form['action']
-        if action=='insert':
-            dphone = request.form['d_phone']
-            dri_phone_in(d_id,dphone)
-        else:
-            dphone = request.form['d_phone']
-            del_dphone(dphone)
+        try:
+            action = request.form['action']
+            if action=='insert':
+                dphone = request.form['d_phone']
+                dri_phone_in(d_id,dphone)
+            else:
+                dphone = request.form['d_phone']
+                del_dphone(dphone)
+        except:
+            return redirect(url_for('driver_phonenum', e_id=e_id, d_name=d_name, d_id=d_id))
 
     ph_num= driver_contact(d_name)
     return render_template('AdminTemplates/AdminDriverContact.html', d_name=d_name, ph_num=ph_num, e_id=e_id, d_id=d_id)
@@ -215,14 +229,21 @@ def driver_phonenum(e_id, d_name, d_id):
 def viewtypes(e_id):
     if request.method == 'POST':
         action = request.form['action']
-
-        if action == 'insert':
-            v_type = request.form['vtype']
-            v_amt = request.form['vamt']
-            if v_amt and v_type:
-                insert_type(v_type, v_amt)
-        elif action == 'delete':
-            del_type(v_type)
+        try:
+            if action == 'insert':
+                v_type = request.form['vtype']
+                v_amt = request.form['vamt']
+                if v_amt and v_type:
+                    insert_type(v_type, v_amt)
+            elif action == 'delete':
+                del_type(v_type)
+            elif action == 'update':
+                v_type = request.form['vtype']
+                v_amt = request.form['vamt']
+                if v_amt and v_type:
+                    update_type(v_type, v_amt)
+        except:
+            return redirect(url_for('viewtypes', e_id=e_id))
 
     caramt = []
     camt = get_caramount()
