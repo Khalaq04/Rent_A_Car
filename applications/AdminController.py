@@ -76,10 +76,13 @@ def admin_current_bookings(e_id):
 def data_analysis(e_id):
     if request.method == "GET":
         e_m_id,cnt = get_employee_month()
-        details,phone = get_employee_details(e_m_id)
         phones = []
-        for i in phone:
-            phones.append(i[0])
+        details = {}
+
+        if e_m_id>0:
+            details,phone = get_employee_details(e_m_id)
+            for i in phone:
+                phones.append(i[0])
 
         car = most_car_model()
         cars = []

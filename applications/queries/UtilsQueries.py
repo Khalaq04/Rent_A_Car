@@ -86,7 +86,11 @@ def get_last_customer_id():
     query = "select max(c_id) from customer"
     cursor.execute(query)
 
-    c_id = int(cursor.fetchall()[0][0]) + 1
+    x = 0
+    if cursor.fetchall()[0][0]:
+        x = x + int(cursor.fetchall()[0][0])
+
+    c_id = x + 1
 
     conn.close()
     return c_id

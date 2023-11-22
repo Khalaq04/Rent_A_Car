@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/EmployeePastBookings.css') }}">
     <title>CAR DETAILS</title>
     <a href="{{ url_for('admin_home_page', e_id=e_id) }}"> Back to Home Page</a>
     <br>
     <br>
     <h1>Car Details</h1>
 </head>
-<body>
+<body bgcolor="lightgoldenrodyellow">
 
-<table border="10%">
+<table border="10%" class="table">
     <th>Car id</th>
     <th>Type</th>
     <th>Model</th>
     <th>Number Plate</th>
+    <th>Number of Trips</th>
     {% for car in cars %}
         <tr>
             <td>{{ car.id }}</td>
             <td>{{ car.v_type }}</td>
             <td>{{ car.v_model }}</td>
-            <td>{{ car.v_numberplate }}</a></td>
+            <td>{{ car.v_numberplate }}</td>
+            <td>{{ car.nt }}</td>
         </tr>
     {% endfor %}
 </table>
-
+<div class="admin_car_form">
+<center>
 <form name="CarDetails" method="post" action="/admin/{{ e_id }}/view-cars">
     <br>
     <br>
@@ -34,21 +38,22 @@
     </select>
     <br>
     <br>
-    <label for="c_vid">Car ID:</label>
-    <input type="number" name="c_vid" placeholder="enter cid" required><br>
+    <label for="c_vid"><b>Car ID:</b></label>
+    <input type="number" name="c_vid" placeholder="enter cid" required><br><br>
     <label for="c_type">Car Type:</label>
     <select id="c_type" name="c_type">
         {% for type in types %}
             <option value="{{ type }}">{{ type }}</option>
         {% endfor %}
-    </select><br>
+    </select><br><br>
     <label for="c_model">Car Model:</label>
-    <input type="text" name="c_model" placeholder="model"><br>
+    <input type="text" name="c_model" placeholder="model"><br><br>
     <label for="c_nplate">Number Plate:</label>
-    <input type="text" name="c_nplate" placeholder="number plate"><br>
+    <input type="text" name="c_nplate" placeholder="number plate"><br><br>
     <br>
     <input type="submit" name="submit" value=" SUBMIT "><br>
 </form>
-
+</center>
+</div>
 </body>
 </html>

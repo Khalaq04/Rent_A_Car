@@ -17,6 +17,7 @@
     <th>Email</th>
     <th>Password</th>
     <th>License</th>
+    <th>Number of Trips</th>
 
     {% for dri in drivers %}
         <tr>
@@ -28,6 +29,7 @@
             <td>{{ dri.d_email }}</td>
             <td>{{ dri.d_password }}</td>
             <td>{{ dri.d_license }}</td>
+            <td>{{ dri.d_cnt }}</td>
         </tr>
     {% endfor %}
 </table>

@@ -1,5 +1,6 @@
 v_type,vt_amount
-Truck,5000
-Sedan,2000
-Hatchback,1000
 SUV,4000
+Sedan,3000
+Mini,2000
+Jeep,5000
+Hatchback,2500

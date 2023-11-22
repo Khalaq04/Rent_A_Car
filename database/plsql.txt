@@ -204,11 +204,14 @@ Copy these into postgresql before running
     vii. in get_veh_details()
 
         CREATE OR REPLACE FUNCTION get_all_car_details()
-        RETURNS TABLE (v_id INTEGER, v_type VARCHAR(255), v_model VARCHAR(255), v_numberplate VARCHAR(255))
+        RETURNS TABLE (v_id INTEGER, v_type VARCHAR(255), v_model VARCHAR(255), v_numberplate VARCHAR(255), number_of_trips bigint)
         AS $$
         BEGIN
             RETURN QUERY
-            SELECT * FROM Car;
+
+            select c.v_id, c.v_type, c.v_model, c.v_numberplate, count(b_id) as number_of_trips
+            from car c left outer join booking b on c.v_id=b.v_id group by c.v_id order by c.v_id;
+
         END;
         $$ LANGUAGE plpgsql;
 
@@ -279,7 +282,7 @@ Copy these into postgresql before running
             days := todate - fromdate;
             amt := days*cost;
 
-            if driver = 'y' then
+            if driver = 'NULL' then
                 amt := amt+1000;
             end if;
         return amt;
@@ -325,12 +328,11 @@ Copy these into postgresql before running
 
     i. inserts new booking
 
-        CREATE OR REPLACE PROCEDURE insert_new_booking(cid INT, fromdate DATE, todate DATE, did INT, vmodel varchar)
+        CREATE OR REPLACE PROCEDURE insert_new_booking(bid INT, cid INT, fromdate DATE, todate DATE, did INT, vmodel varchar)
         LANGUAGE plpgsql
         AS
         $$
         DECLARE 
-            bid INT;
             vid INT;
             amt INT;
             cost INT;
@@ -352,18 +354,18 @@ Copy these into postgresql before running
 
             days := todate - fromdate;
 
-
-            SELECT MAX(b_id) INTO bid FROM booking;
-
-
             SELECT vt_amount INTO cost 
             FROM caramount 
             WHERE v_type = (SELECT v_type FROM car WHERE v_id = vid);
 
 
-            bid := bid + 1;
             amt := days * cost;
-
+            
+            if did = -1 then
+                amt := amt ;
+            else
+                amt := amt+1000;
+            end if;
 
             INSERT INTO booking (b_id, c_id, d_id, v_id, from_date, to_date, b_amount, active)
             VALUES (bid, cid, did, vid, fromdate, todate, amt, -1);

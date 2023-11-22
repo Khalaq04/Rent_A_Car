@@ -78,17 +78,21 @@ def get_last_bid():
 
     cursor, conn = connect_to_db()
 
-    query = "select max(bid) from bookings"
+    query = "select max(b_id) from booking"
     cursor.execute(query)
     data = cursor.fetchall()
 
+    x = 1
+    if data[0][0]:
+        x = x + data[0][0]
+
     conn.close()
-    return str(data[0][0]+1)
+    return str(x)
 
 def add_booking(cid, fromdate, todate, did, vmodel):
     cursor, conn = connect_to_db()
-
-    query = "CALL insert_new_booking("+str(cid)+",'"+str(fromdate)+"','"+str(todate)+"',"+str(did)+",'"+str(vmodel)+"')"
+    bid = get_last_bid()
+    query = "CALL insert_new_booking("+bid+","+str(cid)+",'"+str(fromdate)+"','"+str(todate)+"',"+str(did)+",'"+str(vmodel)+"')"
     print(query)
     cursor.execute(query)
     conn.commit()

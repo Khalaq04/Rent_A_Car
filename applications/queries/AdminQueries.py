@@ -91,19 +91,24 @@ def get_employee_month():
 
         query = "select e_id,count from "
         query += "(select e_id,count(b_id) "
-        query += "from booking where extract(month from from_date)=extract(month from current_date) and (active=0 or active=1) "
+        query += "from booking where extract(month from from_date)=extract(month from current_date) and extract(year from from_date)=extract(year from current_date) and (active=0 or active=1) "
         query += "group by extract(month from from_date),e_id) as subquery "
         query += "where count>=all("
         query += "select count(b_id) from booking "
-        query += "where extract(month from from_date)=extract(month from current_date) and (active=0 or active=1) "
+        query += "where extract(month from from_date)=extract(month from current_date) and extract(year from from_date)=extract(year from current_date) and (active=0 or active=1) "
         query += "group by extract(month from from_date),e_id)"
 
         cursor.execute(query)
 
         data = cursor.fetchall()
+        print(data)
 
-        e_id = data[0][0]
-        cnt = data[0][1]
+        if data:
+            e_id = data[0][0]
+            cnt = data[0][1]
+        else:
+            e_id = 0
+            cnt = 0
 
         conn.close()
         return e_id, cnt
@@ -132,7 +137,7 @@ def get_veh_details():
 
     cars = []
     for car in result:
-        car_dict = {"id": car[0], "v_type": car[1], "v_model": car[2], "v_numberplate": car[3]}
+        car_dict = {"id": car[0], "v_type": car[1], "v_model": car[2], "v_numberplate": car[3], "nt":car[4]}
         cars.append(car_dict)
 
     conn.commit()
@@ -210,16 +215,17 @@ def get_driver_details():
 
     cursor, conn = connect_to_db()
     
-    query = "SELECT * FROM Driver where d_id<>-1 order by d_id"
+    query = "select d.d_id, d_name, d_address, d_salary, d_dob, d_email, d_password, d_license, count(b_id) as number_of_trips from driver d left outer join booking b on d.d_id=b.d_id  where d.d_id <> -1 group by d.d_id order by d.d_id"
     cursor.execute(query)
     driver = cursor.fetchall()
 
     drivers = []
     for dri in driver:
         dri_dict = {"d_id": dri[0], "d_name": dri[1], "d_address": dri[2],"d_salary": dri[3], 
-                         "d_dob": dri[4], "d_email": dri[5],"d_password": dri[6],"d_license":dri[7]}
+                         "d_dob": dri[4], "d_email": dri[5],"d_password": dri[6],"d_license":dri[7], "d_cnt":dri[8]}
         drivers.append(dri_dict)
 
+    print(drivers)
 
     conn.commit()
 

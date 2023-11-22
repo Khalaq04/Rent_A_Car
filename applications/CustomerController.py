@@ -34,19 +34,20 @@ def newbooking(c_id, v_type):
         fromdate = request.form["from"]
         todate = request.form["to"]
         driver = request.form["driver"]
+        assign='Yes'
         if(driver == "y"):
             driver = "NULL"
         else:
             driver = -1
-        
+            assign = 'No'
         amt = get_amount(fromdate, todate, v_type, driver)
 
-        return redirect(url_for("confirm_booking", c_id=c_id, carname=carname, amt=amt, fromdate=fromdate, todate=todate, driver=driver))
+        return redirect(url_for("confirm_booking", c_id=c_id, carname=carname, amt=amt, fromdate=fromdate, todate=todate, driver=driver, assign=assign))
     
-@app.route("/customer/<int:c_id>/confirm-booking/<string:carname>/<int:amt>/<string:fromdate>/<string:todate>/<string:driver>", methods=["GET","POST"])
-def confirm_booking(c_id, carname, amt, fromdate, todate, driver):
+@app.route("/customer/<int:c_id>/confirm-booking/<string:carname>/<int:amt>/<string:fromdate>/<string:todate>/<string:driver>/<string:assign>", methods=["GET","POST"])
+def confirm_booking(c_id, carname, amt, fromdate, todate, driver, assign):
     if(request.method=='GET'):
-        details = {"car":carname, "from":fromdate, "to":todate, "driver":driver, "amt":amt}
+        details = {"car":carname, "from":fromdate, "to":todate, "driver":assign, "amt":amt}
         return render_template('/CustomerTemplates/CustomerConfirmBooking.html', details = details)
     
     else:
