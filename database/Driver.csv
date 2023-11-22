@@ -1,4 +1,5 @@
 d_id,d_name,d_address,d_salary,d_dob,d_email,d_password,d_license
+-1,None,None,-1,1880-02-20,None,None,None
 1,Rahul Sharma,Delhi,9000,1992-04-18,rahul@gmail.com,rahul@pass,DL12345
 2,Pooja Patel,Mumbai,10000,1985-09-25,pooja@gmail.com,pooja@pass,DL67890
 3,Karan Singh,Bangalore,9500,1990-11-12,karan@gmail.com,karan@pass,DL54321
