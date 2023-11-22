@@ -252,7 +252,7 @@ Copy these into postgresql before running
         having count(b_id) = (select min(mycount) 
         from (select v_id, count(b_id) mycount 
         from booking where v_id in (select v_id 
-        from car where v_model=vmodel) group by v_id));
+        from car where v_model=vmodel) group by v_id) as sq1);
 
 
             days := todate - fromdate;
