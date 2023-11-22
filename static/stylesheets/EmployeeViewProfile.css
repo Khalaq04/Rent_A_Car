@@ -39,3 +39,18 @@
   {
     text-align: center;
   }
+
+  .registerbtn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 0.8% 1%;
+    margin: 0.45% 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 1;
+    font-size: medium;
+  }
+  .registerbtn:hover {
+    opacity:0.8;
+  }

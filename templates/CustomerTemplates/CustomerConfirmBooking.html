@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/EmployeeViewProfile.css') }}">
+
         <title>Confirm Booking</title>
         <h1>Confrim Booking</h1>
     </head>
-    <body>
+    <body bgcolor="lightgoldenrodyellow">
+        <div class="card">
         <h2>Details of the booking:</h2>
         <h3>Car Chosen: </h3> {{ details.car }} <br><br>
         <h3>From: </h3> {{ details.from }} <br><br>
@@ -12,7 +15,8 @@
         <h3>Driver Selected: </h3> {{ details.driver }} <br><br><br><br>
         <h3>Total Amount:</h3> {{ details.amt }} <br><br>
         <form name="CustomerHomePage" method="post" onsubmit="">
-            <input type="submit" value="checkout">
+            <input type="submit" class="registerbtn" value="checkout">
         </form>
+    </div>
     </body>
 </html>
