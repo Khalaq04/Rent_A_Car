@@ -112,7 +112,7 @@ def get_past_bookings(c_id):
 def get_amount(fromdate, todate, vtype, driver):
     cursor, conn = connect_to_db()
 
-    query = "select get_amount('"+fromdate+"', '"+todate+"', '"+vtype+"', '"+driver+"')" 
+    query = "select get_amount('"+fromdate+"', '"+todate+"', '"+vtype+"', '"+str(driver)+"')" 
     cursor.execute(query)
     data = cursor.fetchall()[0][0]
 
@@ -129,3 +129,16 @@ def add_phone(c_id, phone):
     cursor.execute(query)
 
     conn.close()
+
+def get_cur_bookings(c_id):
+    cursor, conn = connect_to_db()
+
+    query = "select from_date, to_date, b_amount, d_name, d_email, e_email "
+    query += "from booking b natural join driver natural join employee "
+    query += "where active<>0 and c_id=" + str(c_id) 
+    query += " order by from_date"
+    cursor.execute(query)
+    data = cursor.fetchall()
+
+    conn.close()
+    return data

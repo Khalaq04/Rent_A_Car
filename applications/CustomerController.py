@@ -62,6 +62,15 @@ def Customer_past_bookings(c_id):
         info.append(dict)
     return render_template('/CustomerTemplates/CustomerBookings.html', data=info, c_id=c_id)
 
+@app.route("/customer/<int:c_id>/curtrips", methods=["GET", "POST"])
+def Customer_current_bookings(c_id):
+    data = get_cur_bookings(c_id)
+    info = []
+    for i in data:
+        dict = {"from":i[0], "to":i[1], "amount":i[2], "dname":i[3], "demail":i[4], "contact":i[5]}
+        info.append(dict)
+    return render_template('/CustomerTemplates/CustomerCurBookings.html', data=info, c_id=c_id)
+
 @app.route("/customer/<int:c_id>/profile", methods=["GET","POST"])
 def Customer_profile(c_id):
     if(request.method=='GET'):

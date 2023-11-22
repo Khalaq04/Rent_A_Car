@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Customer Current/Upcoming Bookings</title>
+        <h1>Customer Current/Upcoming Bookings</h1>
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/EmployeePastBookings.css') }}">
+
+    </head>
+    <body bgcolor="lightgoldenrodyellow">
+        <table border="10%" class="table">
+            <tr>
+                <th>From</th>
+                <th>To</th>
+                <th>Amount</th>
+                <th>Driver Name</th>
+                <th> Driver Email</th>
+                <th>Contact Handler</th>
+            </tr>
+        {% for i in data %}
+            <tr>
+                <td>{{i.from}}</td>      
+                <td>{{i.to}}</td>
+                <td>{{i.amount}}</td>
+                <td>{{i.dname}}</td>
+                <td>{{i.demail}}</td>
+                <td>{{i.contact}}</td>
+            </tr>
+        {% endfor %}
+        </table> <br>
+        <div class="button">
+            <a href="{{ url_for('Customer_home_page', c_id=c_id) }}"><button>Home</button></a>
+        </div>
+    </body>
+</html>
