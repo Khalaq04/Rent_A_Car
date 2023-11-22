@@ -372,3 +372,21 @@ Copy these into postgresql before running
 
         END;
         $$;
+
+
+    ii. insert penalty
+
+        CREATE OR REPLACE PROCEDURE insert_penalty(bid INT, pen INT, d varchar)
+        LANGUAGE plpgsql
+        AS
+        $$
+        BEGIN
+            
+                if pen>0 then
+                    insert into penalties values(bid, d, pen);
+                else
+                    update booking set active=0 where b_id=bid;
+                end if;
+
+        END;
+        $$;

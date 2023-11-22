@@ -104,7 +104,8 @@ def Customer_profile(c_id):
         info = {"fname":data[0][1], "lname":data[0][2], "address":data[0][3], "dob":data[0][4], "email":data[0][5], "phone":phone}
         return render_template('CustomerTemplates/CustomerViewProfile.html', data=info, c_id=c_id)
     else:
-        phone = request.form["phone"]
-        add_phone(c_id, phone)
-
-        return redirect(url_for("Customer_profile", c_id=c_id))
+        try:
+            phone = request.form["phone"]
+            add_phone(c_id, phone)
+        finally:
+            return redirect(url_for("Customer_profile", c_id=c_id))

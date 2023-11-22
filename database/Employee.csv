@@ -1,6 +1,6 @@
 e_id,e_name,e_address,e_dob,e_salary,e_email,e_password
 1,Ed Miller,Mulund,1980-10-21,100000,ed.admin@gmail.com,ed@pass
 2,Deep Jain,Lucknow,1984-04-06,50000,deep@gmail.com,deep@pass
-3,Riya Sharma,Ahemdabad,1982-07-14,40000,riya@gmail.com,riya@pass
 4,Ankit Verma,Thane,1985-11-08,65000,ankit@gmail.com,ankit@pass
 5,Neha Gupta,Bangalore,1986-09-26,65000,neha@gmail.com,neha@pass
+3,Riya Sharma,Ahemdabad,1982-07-14,50000,riya@gmail.com,riya@pass

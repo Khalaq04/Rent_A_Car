@@ -57,13 +57,9 @@ def get_employee_current_bookings(e_id):
 def close_booking(b_id, penalty, desc):
     cursor, conn = connect_to_db()
 
-    if penalty>0:
-        query = "insert into penalties values(" + str(b_id) + ",'" + str(desc) + "'," + str(penalty) + ")" 
-        cursor.execute(query)
-    else:
-        query = "update booking set active=0 where b_id=" + str(b_id)
-        cursor.execute(query)
-
+    query = "CALL insert_penalty(" + str(b_id) + "," + str(penalty) + ",'" + str(desc) + "')" 
+    cursor.execute(query)
+    
     conn.commit()
     conn.close()
 

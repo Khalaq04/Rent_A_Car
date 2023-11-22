@@ -93,7 +93,7 @@ def add_booking(cid, fromdate, todate, did, vmodel):
     cursor, conn = connect_to_db()
     bid = get_last_bid()
     query = "CALL insert_new_booking("+bid+","+str(cid)+",'"+str(fromdate)+"','"+str(todate)+"',"+str(did)+",'"+str(vmodel)+"')"
-    print(query)
+    # print(query)
     cursor.execute(query)
     conn.commit()
 

@@ -66,7 +66,7 @@ def get_current_bookings():
     cursor, conn = connect_to_db()
 
     query = "select b.b_id, e_id, from_date, to_date, b_amount, v_type, v_model, v_numberplate, c_fname, c_lname, c_email, d_name, d_email, e_name, e_email "
-    query += "from booking b natural join car v natural join customer natural join employee natural join driver left outer join penalties p on b.b_id = p.b_id "
+    query += "from booking b natural join car v natural join customer natural join employee natural join driver "
     query += "where active=1"
     cursor.execute(query)
 
@@ -258,16 +258,16 @@ def update_driver(did, dname, daddress, dsalary, ddob, demail, dpassword, dlicen
     if dlicense:
         set_dri.append(f"d_license = '{dlicense}'")
 
+    if set_dri:
+        set_fin = ', '.join(set_dri) if set_dri else ''
 
-    set_fin = ', '.join(set_dri) if set_dri else ''
+        query = f"UPDATE Driver SET {set_fin} WHERE d_id = {did}"
 
-    query = f"UPDATE Driver SET {set_fin} WHERE d_id = {did}"
-
-    cursor.execute(query)
-    conn.commit()
+        cursor.execute(query)
+        conn.commit()
 
     conn.close()
-    print(query)
+    # print(query)
 
 def driver_action(action, did, dname, daddress, dsalary, ddob, demail, dpassword, dlicense):
     cursor, conn = connect_to_db()
@@ -419,7 +419,7 @@ def get_car_types():
 
 def get_caramount():
     cursor, conn = connect_to_db()
-    query = "select * from caramount"
+    query = "select * from caramount order by vt_amount"
     cursor.execute(query)
     data = cursor.fetchall()
     conn.close()
@@ -435,6 +435,13 @@ def insert_type(v_type, v_amt):
 def del_type(v_type):
     cursor, conn = connect_to_db()
     query = "delete from caramount where v_type=" + v_type
+    cursor.execute(query)
+    conn.commit()
+    conn.close()
+
+def update_type(v_type, v_amt):
+    cursor, conn = connect_to_db()
+    query = "update caramount set vt_amount=" + str(v_amt) + " where v_type='" + v_type + "'"
     cursor.execute(query)
     conn.commit()
     conn.close()

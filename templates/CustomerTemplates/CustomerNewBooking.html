@@ -19,7 +19,7 @@
                 {% for car in cars %}
                 <tr>
                     <td>
-                    <input type="radio" name="cartype" id="{{ car.type }}" value="{{ car.type }}"></td>
+                    <input type="radio" name="cartype" id="{{ car.type }}" value="{{ car.type }}" required></td>
                     <td>{{ car.type}}</td>
                     <td>{{ car.amt }}</td>
                 </tr>
@@ -44,13 +44,13 @@
             <b>Choose car:</b> <br>
 
             {%for car in cars%}
-                <input type="radio" name="car" id="{{ car }}" value="{{ car }}">{{ car }}<br> 
+                <input type="radio" name="car" id="{{ car }}" value="{{ car }}" required>{{ car }}<br> 
             {% endfor %}
             <br>
 
-            <b>Driver:</b> <input type="radio" name="driver" id="y" value="y">yes
-            <input type="radio" name="driver" id="n" value="n">no <br>
-            <b>Driver charges: </b>Additional Rs1000 <br><br>
+            <b>Driver:</b> <input type="radio" name="driver" id="y" value="y" required>yes
+            <input type="radio" name="driver" id="n" value="n" required>no <br>
+            <b>Driver charges: </b>Additional Rs 1000 <br><br>
             
             <input type="submit" class="registerbtn" value="proceed to checkout">
 
