@@ -98,12 +98,16 @@
         select max(bid) from bookings;
 
     vi. get past bookings:
-
-        select from_date, to_date, b_amount, amount, d_name, d_email, e_email 
-        from booking b natural join driver natural join employee 
-        left outer join penalties p on b.b_id=p.b_id 
-        where c_id= c_id
+        select e.b_id, v_type, v_model, from_date, to_date, e_email, d_name, d_email, b_amount, amount 
+        from (((car natural join booking) a left outer join employee b on a.e_id=b.e_id) c 
+        left outer join driver d on c.d_id=d.d_id) e left outer join penalties f on e.b_id=f.b_id 
+        where c_id=1 and active=0 
         order by from_date;
+        
+    vii. get current bookings:
+        select b_id, v_type, v_model, from_date, to_date, e_email, d_name, d_email, b_amount 
+        from ((car natural join booking) a left outer join employee b on a.e_id=b.e_id) c 
+        left outer join driver d on c.d_id=d.d_id where c_id=1 and active<>0;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

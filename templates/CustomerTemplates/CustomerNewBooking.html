@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/CustomerBookings.css') }}">
     </head>
     {% if carselect %}
+    <a href="/customer/{{c_id}}/home">Go Back</a>
     <body bgcolor="lightgoldenrodyellow">
         <form name="CustomerHomePage" method="post" onsubmit="">
             <table border="10%" class="table">
@@ -30,6 +31,7 @@
         </form>
     </body>
     {% else %}
+    <a href="/customer/{{c_id}}/booking-portal/select-car-type">Go Back</a>
     <body>
         <p>Please fill in this form to rent a car for your upcoming trip</p>
         <hr>

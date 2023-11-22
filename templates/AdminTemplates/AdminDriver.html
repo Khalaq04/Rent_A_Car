@@ -5,9 +5,10 @@
     <a href="{{ url_for('admin_home_page', e_id=e_id) }}"> Back to Home Page</a>
     <br>
     <br>
+    <center>
     <h1>Driver Details </h1>
 </head>
-<body>
+<body bgcolor="lightgoldenrodyellow">
 <table border="15%">
     <th>ID</th>
     <th>Name</th>
@@ -35,7 +36,7 @@
 </table>
 <br>
 <br>
-<form method="post" action="/admin/{{ e_id }}/driver/view">
+<form method="post" action="/admin/{{ e_id }}/driver/view"><b> <br>
     <label for="action">Select Action:</label>
     <select name="action" id="action">
         <option value="insert">Insert</option>
@@ -46,35 +47,35 @@
     <br>
 
     <label for="did">Drivers ID:</label>
-    <input type="number" name="did" placeholder="Drivers ID" required><br>
+    <input type="number" name="did" placeholder="Drivers ID" required><br><br>
 
     <label for="dname">Drivers Name:</label>
-    <input type="text" name="dname" placeholder="Drivers Name"><br>
+    <input type="text" name="dname" placeholder="Drivers Name"><br><br>
 
     <label for="daddress">Drivers Address:</label>
-    <input type="text" name="daddress" placeholder="Drivers Address"><br>
+    <input type="text" name="daddress" placeholder="Drivers Address"><br><br>
 
     <label for="dsalary">Drivers Salary:</label>
-    <input type="number" name="dsalary" placeholder="Drivers Salary"><br>
+    <input type="number" name="dsalary" placeholder="Drivers Salary"><br><br>
 
     <label for="ddob">Date of Birth:</label>
-    <input type="date" name="ddob"><br>
+    <input type="date" name="ddob"><br><br>
 
     <label for="demail">Drivers Email:</label>
-    <input type="text" name="demail" placeholder="Drivers Email"><br>
+    <input type="text" name="demail" placeholder="Drivers Email"><br><br>
 
     <label for="dpassword">Drivers Password:</label>
-    <input type="text" name="dpassword" placeholder="Drivers Password"><br>
+    <input type="text" name="dpassword" placeholder="Drivers Password"><br><br>
 
     <label for="dlicense">Drivers License:</label>
-    <input type="text" name="dlicense" placeholder="Drivers License"><br>
+    <input type="text" name="dlicense" placeholder="Drivers License"><br><br>
 
     <label for="dphone">Drivers Phone Number:</label>
-    <input type="number" name="dphone" placeholder="enter phone number"><br>
-
+    <input type="number" name="dphone" placeholder="enter phone number"><br><br>
+</b>
     <br>
     <input type="submit" name="submit" value="Submit"><br>
 </form>
 
-</body>
+</body></center>
 </html>

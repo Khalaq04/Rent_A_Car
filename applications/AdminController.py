@@ -53,7 +53,17 @@ def admin_past_bookings(e_id):
                 desc = "No Penalty"
             dict = {"b_id":i[0], "c_name":i[8]+" "+i[9], "c_email":i[10], "d_name":i[11], "d_email":i[12], "from":i[2], "to":i[3], "type":i[5], "model":i[6], "np":i[7], "amount":i[4], "penalty":penalty, "desc":desc, "e_name":i[15], "e_email":i[16]}
             bookings.append(dict)
-        return render_template("AdminTemplates/AdminBookings.html", bookings=bookings, e_id=e_id, status=0)
+        return render_template("AdminTemplates/AdminBookings.html", bookings=bookings, e_id=e_id, status=0, all=True)
+    else:
+        category = request.form["filter"]
+        thing = request.form["content"]
+
+        data = filtered_search(category, thing)
+        info=[]
+        for i in data:
+            dict = {"b_id":i[0], "c_name":i[1]+" "+i[2], "c_email":i[3], "d_email":i[4], "e_name":i[5], "from":i[6], "to":i[7], "vt":i[8], "vm":i[9], "vn":i[10], "d_name":i[11], "e_email":i[12]}
+            info.append(dict)
+        return render_template('/AdminTemplates/AdminSearch.html', data=info, e_id=e_id)
     
 @app.route("/admin/<int:e_id>/new-bookings", methods=["GET", "POST"])
 def admin_new_bookings(e_id):
@@ -63,8 +73,22 @@ def admin_new_bookings(e_id):
         for i in past_bookings:
             dict = {"b_id":i[0], "c_name":i[7]+" "+i[8], "c_email":i[9], "from":i[1], "to":i[2], "type":i[4], "model":i[5], "np":i[6], "amount":i[3]}
             bookings.append(dict)
-        return render_template("AdminTemplates/AdminBookings.html", bookings=bookings, e_id=e_id, status=-1)
-    
+        return render_template("AdminTemplates/AdminBookings.html", bookings=bookings, e_id=e_id, status=-1, all=True)
+    else:
+        category = request.form["filter"]
+        thing = request.form["content"]
+
+        data = filtered_search(category, thing)
+        info=[]
+        if (not data):
+            return render_template('/AdminTemplates/AdminSearch.html', data=info, e_id=e_id)
+        if (not data):
+            return render_template('/AdminTemplates/AdminSearch.html', data=info, e_id=e_id)
+        
+        for i in data:
+            dict = {"b_id":i[0], "c_name":i[1]+" "+i[2], "c_email":i[3], "d_email":i[4], "e_name":i[5], "from":i[6], "to":i[7], "vt":i[8], "vm":i[9], "vn":i[10], "d_name":i[11], "e_email":i[12]}
+            info.append(dict)
+        return render_template('/AdminTemplates/AdminSearch.html', data=info, e_id=e_id)
 @app.route("/admin/<int:e_id>/current-bookings", methods=["GET", "POST"])
 def admin_current_bookings(e_id):
     if request.method == "GET":
@@ -73,8 +97,19 @@ def admin_current_bookings(e_id):
         for i in past_bookings:
             dict = {"b_id":i[0], "c_name":i[8]+" "+i[9], "c_email":i[10], "from":i[2], "to":i[3], "type":i[5], "model":i[6], "np":i[7], "amount":i[4], "d_name":i[11], "d_email":i[12], "e_name":i[13], "e_email":i[14]}
             bookings.append(dict)
-        return render_template("AdminTemplates/AdminBookings.html", bookings=bookings, e_id=e_id, status=1)
-    
+        return render_template("AdminTemplates/AdminBookings.html", bookings=bookings, e_id=e_id, status=1, all=True)
+    else:
+        category = request.form["filter"]
+        thing = request.form["content"]
+
+        data = filtered_search(category, thing)
+        info=[]
+        if (not data):
+            return render_template('/AdminTemplates/AdminSearch.html', data=info, e_id=e_id)
+        for i in data:
+            dict = {"b_id":i[0], "c_name":i[1]+" "+i[2], "c_email":i[3], "d_email":i[4], "e_name":i[5], "from":i[6], "to":i[7], "vt":i[8], "vm":i[9], "vn":i[10], "d_name":i[11], "e_email":i[12]}
+            info.append(dict)
+        return render_template('/AdminTemplates/AdminSearch.html', data=info, e_id=e_id)
 @app.route("/admin/<int:e_id>/data-analysis", methods=["GET", "POST"])
 def data_analysis(e_id):
     if request.method == "GET":

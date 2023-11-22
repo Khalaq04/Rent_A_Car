@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Customer past bookings</title>
-        <h1>Past Bookings</h1>
+        <title>Customer Current/Upcoming Bookings</title>
+        <h1>Current/Upcoming Bookings</h1>
         <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/EmployeePastBookings.css') }}">
 
     </head>
@@ -15,23 +15,21 @@
                 <th>Amount</th>
                 <th>Car Type</th>
                 <th>Car Name</th>
-                <th>Driver name</th>
-                <th>Driver email</th>
-                <th>Contact handler</th>
-                <th>Penalties</th>
+                <th>Driver Name</th>
+                <th>Driver Email</th>
+                <th>Contact Handler</th>
             </tr>
         {% for i in data %}
             <tr>
-                <td>{{i.bid}}</td>
+                <td>{{i.b_id}}</td>
                 <td>{{i.from}}</td>      
                 <td>{{i.to}}</td>
                 <td>{{i.amt}}</td>
                 <td>{{i.vtype}}</td>
                 <td>{{i.vname}}</td>
                 <td>{{i.dname}}</td>
-                <td>{{i.demail}}</td>
+                <td>{{i.cdriver}}</td>
                 <td>{{i.chandler}}</td>
-                <td>{{i.pen}}</td>
             </tr>
         {% endfor %}
         </table> <br>

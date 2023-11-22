@@ -445,3 +445,18 @@ def update_type(v_type, v_amt):
     cursor.execute(query)
     conn.commit()
     conn.close()
+
+def filtered_search(category, thing):
+    cursor, conn = connect_to_db()
+
+    query = "select b_id, c_fname, c_lname, c_email, d_email, e_name, from_date, to_date, v_type, v_model, v_numberplate, d_name, e_email "
+    query += "from ((((booking natural join customer natural join car) a left outer join driver b on a.d_id=b.d_id) c "
+    query += "left outer join employee d on c.e_id=d.e_id)) f "
+    query += "where "+ str(category) + " = '" + str(thing) + "'"
+
+    cursor.execute(query)
+    data = cursor.fetchall()
+    print(data)
+    conn.close()
+
+    return data
