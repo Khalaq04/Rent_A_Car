@@ -118,3 +118,14 @@ def get_amount(fromdate, todate, vtype, driver):
 
     conn.close()
     return data
+
+def add_phone(c_id, phone):
+    cursor, conn = connect_to_db()
+
+    query = "insert into customer_phone values ("+str(c_id)+","+str(phone)+")"
+
+    cursor.execute(query)
+    query = "commit"
+    cursor.execute(query)
+
+    conn.close()

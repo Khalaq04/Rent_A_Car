@@ -64,9 +64,15 @@ def Customer_past_bookings(c_id):
 
 @app.route("/customer/<int:c_id>/profile", methods=["GET","POST"])
 def Customer_profile(c_id):
-    data = get_customer_details(c_id)
-    phone = []
-    for i in data:
-        phone.append(i[7])
-    info = {"fname":data[0][1], "lname":data[0][2], "address":data[0][3], "dob":data[0][4], "email":data[0][5], "phone":phone}
-    return render_template('CustomerTemplates/CustomerViewProfile.html', data=info, c_id=c_id)
+    if(request.method=='GET'):
+        data = get_customer_details(c_id)
+        phone = []
+        for i in data:
+            phone.append(i[7])
+        info = {"fname":data[0][1], "lname":data[0][2], "address":data[0][3], "dob":data[0][4], "email":data[0][5], "phone":phone}
+        return render_template('CustomerTemplates/CustomerViewProfile.html', data=info, c_id=c_id)
+    else:
+        phone = request.form["phone"]
+        add_phone(c_id, phone)
+
+        return redirect(url_for("Customer_profile", c_id=c_id))
