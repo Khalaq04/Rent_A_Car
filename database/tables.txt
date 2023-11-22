@@ -45,7 +45,8 @@ v_id int not null,
 v_type varchar(20) not null,
 v_model varchar(20) not null,
 v_numberPlate varchar(20) not null unique,
-primary key (v_id)
+primary key (v_id),
+constraint fk_type foreign key (v_type) references CarAmount(v_type)
 );
 
 create table Maintainance(
@@ -101,4 +102,3 @@ phone bigint not null,
 primary key (d_id, phone),
 constraint fk_d_did foreign key (d_id) references Driver (d_id) on delete cascade
 );
-

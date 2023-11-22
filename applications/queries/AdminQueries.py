@@ -34,7 +34,7 @@ def insert_car_details(cvid,ctype,cmodel,cnplate):
 
   
     query = "insert into Car values"
-    query += "("+cvid+","+ctype+","+cmodel+","+cnplate+")"
+    query += "("+cvid+",'"+ctype+"','"+cmodel+"','"+cnplate+"')"
     cursor.execute(query)
     conn.commit()
 
@@ -421,7 +421,7 @@ def get_caramount():
 
 def insert_type(v_type, v_amt):
         cursor, conn = connect_to_db()
-        query = "insert into caramount values(" + v_type + "," + str(v_amt) + ")"
+        query = "insert into caramount values('" + v_type + "'," + str(v_amt) + ")"
         cursor.execute(query)
         conn.commit()
         conn.close()

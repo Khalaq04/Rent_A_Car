@@ -215,7 +215,7 @@ def viewtypes(e_id):
 
         if action == 'insert':
             v_type = request.form['vtype']
-            v_amt = request.form['vmodel']
+            v_amt = request.form['vamt']
             if v_amt and v_type:
                 insert_type(v_type, v_amt)
         elif action == 'delete':

@@ -347,7 +347,7 @@ Copy these into postgresql before running
                         where (active not in(1, -1) or active is NULL) and v_model=vmodel
                         group by c.v_id
                     )
-                );
+                ) as sq1;
 
 
             days := todate - fromdate;
