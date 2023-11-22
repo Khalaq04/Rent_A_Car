@@ -91,19 +91,24 @@ def get_employee_month():
 
         query = "select e_id,count from "
         query += "(select e_id,count(b_id) "
-        query += "from booking where extract(month from from_date)=extract(month from current_date) and (active=0 or active=1) "
+        query += "from booking where extract(month from from_date)=extract(month from current_date) and extract(year from from_date)=extract(year from current_date) and (active=0 or active=1) "
         query += "group by extract(month from from_date),e_id) as subquery "
         query += "where count>=all("
         query += "select count(b_id) from booking "
-        query += "where extract(month from from_date)=extract(month from current_date) and (active=0 or active=1) "
+        query += "where extract(month from from_date)=extract(month from current_date) and extract(year from from_date)=extract(year from current_date) and (active=0 or active=1) "
         query += "group by extract(month from from_date),e_id)"
 
         cursor.execute(query)
 
         data = cursor.fetchall()
+        print(data)
 
-        e_id = data[0][0]
-        cnt = data[0][1]
+        if data:
+            e_id = data[0][0]
+            cnt = data[0][1]
+        else:
+            e_id = 0
+            cnt = 0
 
         conn.close()
         return e_id, cnt
