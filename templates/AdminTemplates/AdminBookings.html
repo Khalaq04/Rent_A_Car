@@ -18,7 +18,9 @@
 
         <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/EmployeePastBookings.css') }}">
     </head>
+    
     <body bgcolor="lightgoldenrodyellow">
+        {% if all %}
         <table border="10%" class="table">
             <tr>
                 <th>Booking ID</th>
@@ -68,5 +70,27 @@
         <div class="button">
             <a href="{{ url_for('admin_home_page', e_id=e_id) }}"><button>Home</button></a>
         </div>
+        <form name="Admindata" method="post" onsubmit="">
+            <div class="drop">
+                <button class="dropdown">Choose Filter: </button>
+            <div class="dropdown-content">
+            <input type="radio" name="filter" id="from_date" value="from_date" required>From Date<br>
+            <input type="radio" name="filter" id="to_date" value="to_date" required>To Date<br>
+            <input type="radio" name="filter" id="c_fname" value="c_fname" required>Customer name <br>
+            <input type="radio" name="filter" id="d_name" value="d_name" required>Driver Name<br>
+            <input type="radio" name="filter" id="d_email" value="d_email" required>Driver Email<br>
+            <input type="radio" name="filter" id="e_name" value="e_name" required>Employee Name<br>
+            <input type="radio" name="filter" id="e_email" value="e_email" required>Employee Email<br>
+            <input type="radio" name="filter" id="v_type" value="v_type" required>Car Type<br>
+            <input type="radio" name="filter" id="v_model" value="v_model" required>Car Model<br>
+            <input type="radio" name="filter" id="v_numberplate" value="v_numberplate" required>Number Plate
+            </div></div>
+            <br>
+            <br>
+            <b>Enter Value: </b><input type="text" name="content">
+            <br><br>
+            <input type="submit" value="search">
+        </form>
+        {% endif %}
     </body>
 </html>

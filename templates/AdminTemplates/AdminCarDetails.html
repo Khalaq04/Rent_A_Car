@@ -5,7 +5,7 @@
     <title>CAR DETAILS</title>
     <a href="{{ url_for('admin_home_page', e_id=e_id) }}"> Back to Home Page</a>
     <br>
-    <br>
+    <br><center>
     <h1>Car Details</h1>
 </head>
 <body bgcolor="lightgoldenrodyellow">
@@ -31,7 +31,7 @@
 <form name="CarDetails" method="post" action="/admin/{{ e_id }}/view-cars">
     <br>
     <br>
-    <label for="action">Select Action:</label>
+    <label for="action"><b>Select Action:</label>
     <select name="action" id="action">
         <option value="insert">Insert</option>
         <option value="delete">Delete</option>
@@ -48,7 +48,7 @@
     </select><br><br>
     <label for="c_model">Car Model:</label>
     <input type="text" name="c_model" placeholder="model"><br><br>
-    <label for="c_nplate">Number Plate:</label>
+    <label for="c_nplate">Number Plate:</b></label>
     <input type="text" name="c_nplate" placeholder="number plate"><br><br>
     <br>
     <input type="submit" name="submit" value=" SUBMIT "><br>
@@ -56,4 +56,5 @@
 </center>
 </div>
 </body>
+</center>
 </html>

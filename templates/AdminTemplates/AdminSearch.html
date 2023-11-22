@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>All Bookings</title>
+
+        <h1>Search Results</h1>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/EmployeePastBookings.css') }}">
+    </head>
+    
+    <body bgcolor="lightgoldenrodyellow">
+        <table border="10%" class="table">
+            <tr>
+                <th>Booking ID</th>
+                <th>Customer Name</th>
+                <th>Customer Email</th>
+                <th>Driver Name</th>
+                <th>Driver Email</th>
+                <th>Employee Name</th>
+                <th>Employee Email</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Car Type</th>
+                <th>Car Model</th>
+                <th>Car Number Plate</th>
+            </tr>
+            {% for booking in data %}
+            <tr>
+                <td>{{ booking.b_id }}</td>
+                <td>{{ booking.c_name }}</td>
+                <td>{{ booking.c_email }}</td>
+                <td>{{ booking.d_name }}</td>
+                <td>{{ booking.d_email }}</td>
+                <td>{{ booking.e_name }}</td>
+                <td>{{ booking.e_email }}</td>
+                <td>{{ booking.from }}</td>
+                <td>{{ booking.to }}</td>
+                <td>{{ booking.vt }}</td>
+                <td>{{ booking.vm }}</td>
+                <td>{{ booking.vn }}</td>
+            </tr>
+            {% endfor %}
+        </table><br>
+        <div class="button">
+            <a href="{{ url_for('admin_home_page', e_id=e_id) }}"><button>Home</button></a>
+        </div>
+    </body>
+</html>

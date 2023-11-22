@@ -4,10 +4,10 @@
     <title>CAR DETAILS</title>
     <a href="{{ url_for('admin_home_page', e_id=e_id) }}"> Back to Home Page</a>
     <br>
-    <br>
+    <br><center>
     <h1>Car Details</h1>
 </head>
-<body>
+<body bgcolor="lightgoldenrodyellow">
 
 <table border="10%">
     <th>Vehicle Type</th>
@@ -20,7 +20,7 @@
     {% endfor %}
 </table>
 
-<form name="CarDetails" method="post">
+<form name="CarDetails" method="post"><b>
     <br>
     <br>
     <label for="action">Select Action:</label>
@@ -32,14 +32,14 @@
     <br>
     <br>
     <label for="vtype">Vehicle Type:</label>
-    <input type="text" name="vtype" placeholder="Enter type" required><br>
+    <input type="text" name="vtype" placeholder="Enter type" required><br><br>
     
     <label for="vamt">Vehicle Amount:</label>
-    <input type="number" name="vamt" placeholder="Amount" required><br>
+    <input type="number" name="vamt" placeholder="Amount" required><br><br>
     
     <br>
-    <input type="submit" name="submit" value=" SUBMIT "><br>
+    <input type="submit" name="submit" value=" SUBMIT "><br></b>
 </form>
 
-</body>
+</body></center>
 </html>
