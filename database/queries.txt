@@ -81,14 +81,17 @@
             where active=1 or active=-1);
 
     iv. assign car:
-
-        select v_id from booking 
-        where v_id in (select v_id from car 
-        where v_model='Hyundai Verna') group by v_id 
-        having count(b_id) = (select min(mycount) 
-        from (select v_id, count(b_id) mycount 
-        from booking where v_id in (select v_id 
-        from car where v_model='Hyundai Verna') group by v_id));
+        
+        select min(v_id) from (
+            select c.v_id from car c left outer join booking b on c.v_id = b.v_id 
+            where (active not in(1, -1) or active is NULL) and v_model='vmodel' 
+            group by c.v_id having count(b_id) <= all(
+                select count(b_id) 
+                from car c left outer join booking b on c.v_id = b.v_id 
+                where (active not in(1, -1) or active is NULL) and v_model='Logan' 
+                group by c.v_id
+            )
+        );
 
     v.  get last bid (to assign b_id to new insertions):
 
