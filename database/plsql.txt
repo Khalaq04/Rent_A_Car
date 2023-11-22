@@ -142,6 +142,7 @@ Copy these into postgresql before running
             cnt int;
             cur RECORD;
             i int;
+            td booking.to_date % TYPE;
 
         BEGIN
 
@@ -159,6 +160,12 @@ Copy these into postgresql before running
                 group by v_id;
 
                 if mod(cnt,3) = 0 then
+
+                    select to_date into td
+                    from booking
+                    where v_id=vid and active=0
+                    order by b_id desc
+                    limit 1;
 
                     i := 1;
                     for cur IN
@@ -184,7 +191,7 @@ Copy these into postgresql before running
 
                     end loop;
 
-                    insert into Maintainance values(vid,current_date,total_amt);
+                    insert into Maintainance values(vid,td,total_amt);
 
                 end if;
             end if;
