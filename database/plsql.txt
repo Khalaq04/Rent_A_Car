@@ -331,7 +331,6 @@ Copy these into postgresql before running
 
         BEGIN
             
-<<<<<<< HEAD
                 select min(v_id) into vid from (
                     select c.v_id from car c left outer join booking b on c.v_id = b.v_id 
                     where (active not in(1, -1) or active is NULL) and v_model=vmodel 
@@ -342,15 +341,6 @@ Copy these into postgresql before running
                         group by c.v_id
                     )
                 );
-=======
-        select v_id into vid from booking 
-        where v_id in (select v_id from car 
-        where v_model=vmodel) group by v_id 
-        having count(b_id) = (select min(mycount) 
-        from (select v_id, count(b_id) mycount 
-        from booking where v_id in (select v_id 
-        from car where v_model=vmodel) group by v_id) as sq1);
->>>>>>> 525bd73 (conflicts)
 
 
             days := todate - fromdate;
