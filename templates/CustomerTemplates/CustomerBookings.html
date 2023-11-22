@@ -3,9 +3,11 @@
     <head>
         <title>Customer past bookings</title>
         <h1>Past Bookings</h1>
+        <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/EmployeePastBookings.css') }}">
+
     </head>
-    <body>
-        <table border="10%">
+    <body bgcolor="lightgoldenrodyellow">
+        <table border="10%" class="table">
             <tr>
                 <th>from</th>
                 <th>to</th>
@@ -26,7 +28,7 @@
                 <td>{{i.penalties}}</td>
             </tr>
         {% endfor %}
-        </table>
+        </table> <br>
         <div class="button">
             <a href="{{ url_for('Customer_home_page', c_id=c_id) }}"><button>Home</button></a>
         </div>
