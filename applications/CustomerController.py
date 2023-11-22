@@ -15,7 +15,7 @@ def select_type(c_id):
         for i in data:
             dict = {"type": i[0], "amt": i[1]}
             cars.append(dict)
-        return render_template('/CustomerTemplates/CustomerNewBooking.html', cars=cars, carselect=True)
+        return render_template('/CustomerTemplates/CustomerNewBooking.html', cars=cars, carselect=True, c_id=c_id)
     else:
         cartype = request.form["cartype"]
         return redirect(url_for('newbooking', c_id=c_id, v_type=cartype))
@@ -28,7 +28,7 @@ def newbooking(c_id, v_type):
         for i in data:
             cars.append(i[0])
 
-        return render_template('/CustomerTemplates/CustomerNewBooking.html', cars=cars, carselect=False)
+        return render_template('/CustomerTemplates/CustomerNewBooking.html', cars=cars, carselect=False, c_id=c_id)
     else:
         carname = request.form["car"]
         fromdate = request.form["from"]
@@ -42,13 +42,13 @@ def newbooking(c_id, v_type):
             assign = 'No'
         amt = get_amount(fromdate, todate, v_type, driver)
 
-        return redirect(url_for("confirm_booking", c_id=c_id, carname=carname, amt=amt, fromdate=fromdate, todate=todate, driver=driver, assign=assign))
+        return redirect(url_for("confirm_booking", c_id=c_id, carname=carname, amt=amt, fromdate=fromdate, todate=todate, driver=driver, assign=assign, v_type=v_type))
     
-@app.route("/customer/<int:c_id>/confirm-booking/<string:carname>/<int:amt>/<string:fromdate>/<string:todate>/<string:driver>/<string:assign>", methods=["GET","POST"])
-def confirm_booking(c_id, carname, amt, fromdate, todate, driver, assign):
+@app.route("/customer/<int:c_id>/confirm-booking/<string:carname>/<int:amt>/<string:fromdate>/<string:todate>/<string:driver>/<string:assign>/<string:v_type>", methods=["GET","POST"])
+def confirm_booking(c_id, carname, amt, fromdate, todate, driver, assign,v_type):
     if(request.method=='GET'):
         details = {"car":carname, "from":fromdate, "to":todate, "driver":assign, "amt":amt}
-        return render_template('/CustomerTemplates/CustomerConfirmBooking.html', details = details)
+        return render_template('/CustomerTemplates/CustomerConfirmBooking.html', details = details, c_id=c_id, cartype=v_type)
     
     else:
         add_booking(c_id, fromdate, todate, driver, carname)
@@ -59,7 +59,12 @@ def Customer_past_bookings(c_id):
     data = get_past_bookings(c_id)
     info = []
     for i in data:
-        dict = {"from":i[0], "to":i[1], "amount":i[2], "dname":i[4], "demail":i[5], "contact":i[6], "penalties":i[3]}
+        dname = "not aplicable"
+        demail = "not aplicable"
+        if(i[6] != "none"):
+            dname = i[6]
+            demail = i[7]
+        dict = {"bid":i[0], "vtype":i[1], "vname":i[2], "from":i[3], "to":i[4], "chandler":i[5], "dname":dname, "demail":demail, "amt":i[8], "pen":i[9]}
         info.append(dict)
     return render_template('/CustomerTemplates/CustomerBookings.html', data=info, c_id=c_id)
 
@@ -67,8 +72,25 @@ def Customer_past_bookings(c_id):
 def Customer_current_bookings(c_id):
     data = get_cur_bookings(c_id)
     info = []
+    print(data)
     for i in data:
-        dict = {"from":i[0], "to":i[1], "amount":i[2], "dname":i[3], "demail":i[4], "contact":i[5]}
+        handler = "not assigned yet, please check again later"
+        driver = "not assigned yet, please check again later"
+        demail = "not aplicable"
+        if(i[5]):
+            handler = i[5]
+        if(i[6] == "none"):
+            driver = "not requested"
+            demail = "not aplicable"
+        elif(i[6]):
+            driver = i[6]
+            demail = i[7]
+        else:
+            
+            demail = i[7]
+        
+        dict = {"b_id":i[0], "from":i[3], "to":i[4], "vtype":i[1], "vname":i[2], "amt":i[8], "chandler":handler,"dname":driver, "cdriver":demail}
+        print(dict)
         info.append(dict)
     return render_template('/CustomerTemplates/CustomerCurBookings.html', data=info, c_id=c_id)
 

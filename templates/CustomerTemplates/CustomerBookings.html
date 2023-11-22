@@ -9,23 +9,29 @@
     <body bgcolor="lightgoldenrodyellow">
         <table border="10%" class="table">
             <tr>
-                <th>from</th>
-                <th>to</th>
-                <th>amount</th>
-                <th>driver name</th>
-                <th>driver email</th>
-                <th>contact handler</th>
-                <th>penalties</th>
+                <th>ID</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Amount</th>
+                <th>Car Type</th>
+                <th>Car Name</th>
+                <th>Driver name</th>
+                <th>Driver email</th>
+                <th>Contact handler</th>
+                <th>Penalties</th>
             </tr>
         {% for i in data %}
             <tr>
+                <td>{{i.bid}}</td>
                 <td>{{i.from}}</td>      
                 <td>{{i.to}}</td>
-                <td>{{i.amount}}</td>
+                <td>{{i.amt}}</td>
+                <td>{{i.vtype}}</td>
+                <td>{{i.vname}}</td>
                 <td>{{i.dname}}</td>
                 <td>{{i.demail}}</td>
-                <td>{{i.contact}}</td>
-                <td>{{i.penalties}}</td>
+                <td>{{i.chandler}}</td>
+                <td>{{i.pen}}</td>
             </tr>
         {% endfor %}
         </table> <br>

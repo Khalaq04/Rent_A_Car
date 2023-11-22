@@ -2,28 +2,34 @@
 <html>
     <head>
         <title>Customer Current/Upcoming Bookings</title>
-        <h1>Customer Current/Upcoming Bookings</h1>
+        <h1>Current/Upcoming Bookings</h1>
         <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/EmployeePastBookings.css') }}">
 
     </head>
     <body bgcolor="lightgoldenrodyellow">
         <table border="10%" class="table">
             <tr>
+                <th>ID</th>
                 <th>From</th>
                 <th>To</th>
                 <th>Amount</th>
+                <th>Car Type</th>
+                <th>Car Name</th>
                 <th>Driver Name</th>
-                <th> Driver Email</th>
+                <th>Driver Email</th>
                 <th>Contact Handler</th>
             </tr>
         {% for i in data %}
             <tr>
+                <td>{{i.b_id}}</td>
                 <td>{{i.from}}</td>      
                 <td>{{i.to}}</td>
-                <td>{{i.amount}}</td>
+                <td>{{i.amt}}</td>
+                <td>{{i.vtype}}</td>
+                <td>{{i.vname}}</td>
                 <td>{{i.dname}}</td>
-                <td>{{i.demail}}</td>
-                <td>{{i.contact}}</td>
+                <td>{{i.cdriver}}</td>
+                <td>{{i.chandler}}</td>
             </tr>
         {% endfor %}
         </table> <br>

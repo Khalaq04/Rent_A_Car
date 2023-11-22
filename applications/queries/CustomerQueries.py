@@ -102,10 +102,10 @@ def add_booking(cid, fromdate, todate, did, vmodel):
 def get_past_bookings(c_id):
     cursor, conn = connect_to_db()
 
-    query = "select from_date, to_date, b_amount, amount, d_name, d_email, e_email "
-    query += "from booking b natural join driver natural join employee "
-    query += "left outer join penalties p on b.b_id=p.b_id "
-    query += "where c_id=" + str(c_id) 
+    query = "select e.b_id, v_type, v_model, from_date, to_date, e_email, d_name, d_email, b_amount, amount "
+    query += "from (((car natural join booking) a left outer join employee b on a.e_id=b.e_id) c "
+    query += "left outer join driver d on c.d_id=d.d_id) e left outer join penalties f on e.b_id=f.b_id "
+    query += "where c_id=" + str(c_id) + " and active=0" 
     query += " order by from_date"
     cursor.execute(query)
     data = cursor.fetchall()
@@ -137,10 +137,10 @@ def add_phone(c_id, phone):
 def get_cur_bookings(c_id):
     cursor, conn = connect_to_db()
 
-    query = "select from_date, to_date, b_amount, d_name, d_email, e_email "
-    query += "from booking b natural join driver natural join employee "
-    query += "where active<>0 and c_id=" + str(c_id) 
-    query += " order by from_date"
+    query = "select b_id, v_type, v_model, from_date, to_date, e_email, d_name, d_email, b_amount "
+    query += "from ((car natural join booking) a left outer join employee b on a.e_id=b.e_id)"
+    query += " c left outer join driver d on c.d_id=d.d_id "
+    query += "where c_id="+str(c_id)+" and active<>0"
     cursor.execute(query)
     data = cursor.fetchall()
 
