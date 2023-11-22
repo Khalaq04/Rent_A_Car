@@ -132,7 +132,7 @@ def get_veh_details():
 
     cars = []
     for car in result:
-        car_dict = {"id": car[0], "v_type": car[1], "v_model": car[2], "v_numberplate": car[3]}
+        car_dict = {"id": car[0], "v_type": car[1], "v_model": car[2], "v_numberplate": car[3], "nt":car[4]}
         cars.append(car_dict)
 
     conn.commit()
@@ -210,16 +210,17 @@ def get_driver_details():
 
     cursor, conn = connect_to_db()
     
-    query = "SELECT * FROM Driver where d_id<>-1 order by d_id"
+    query = "select d.d_id, d_name, d_address, d_salary, d_dob, d_email, d_password, d_license, count(b_id) as number_of_trips from driver d left outer join booking b on d.d_id=b.d_id  where d.d_id <> -1 group by d.d_id order by d.d_id"
     cursor.execute(query)
     driver = cursor.fetchall()
 
     drivers = []
     for dri in driver:
         dri_dict = {"d_id": dri[0], "d_name": dri[1], "d_address": dri[2],"d_salary": dri[3], 
-                         "d_dob": dri[4], "d_email": dri[5],"d_password": dri[6],"d_license":dri[7]}
+                         "d_dob": dri[4], "d_email": dri[5],"d_password": dri[6],"d_license":dri[7], "d_cnt":dri[8]}
         drivers.append(dri_dict)
 
+    print(drivers)
 
     conn.commit()
 

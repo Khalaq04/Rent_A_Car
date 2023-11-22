@@ -26,7 +26,7 @@ delete from caramount;
 copy from csv files to table: (copy it to psql terminal everytime before starting working)
 
 \copy employee from './Rent_A_Car/database/Employee.csv' delimiter ',' CSV HEADER;
-\copy customer from './Rent_A_Car/database/Customer.csv' delimiter ',' CSV HEADER;
+\copy customer from './projects/Rent_A_Car/database/Customer.csv' delimiter ',' CSV HEADER;
 \copy driver from './Rent_A_Car/database/Driver.csv' delimiter ',' CSV HEADER;
 \copy caramount from './Rent_A_Car/database/CarAmount.csv' delimiter ',' CSV HEADER;
 \copy car from './Rent_A_Car/database/Car.csv' delimiter ',' CSV HEADER;
