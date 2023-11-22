@@ -116,7 +116,7 @@ def get_past_bookings(c_id):
 def get_amount(fromdate, todate, vtype, driver):
     cursor, conn = connect_to_db()
 
-    query = "select get_amount('"+fromdate+"', '"+todate+"', '"+vtype+"', '"+driver+"')" 
+    query = "select get_amount('"+fromdate+"', '"+todate+"', '"+vtype+"', '"+str(driver)+"')" 
     cursor.execute(query)
     data = cursor.fetchall()[0][0]
 
