@@ -446,17 +446,39 @@ def update_type(v_type, v_amt):
     conn.commit()
     conn.close()
 
-def filtered_search(category, thing):
+def filtered_search(category, thing, act):
     cursor, conn = connect_to_db()
 
     query = "select b_id, c_fname, c_lname, c_email, d_email, e_name, from_date, to_date, v_type, v_model, v_numberplate, d_name, e_email "
     query += "from ((((booking natural join customer natural join car) a left outer join driver b on a.d_id=b.d_id) c "
     query += "left outer join employee d on c.e_id=d.e_id)) f "
-    query += "where "+ str(category) + " = '" + str(thing) + "'"
+    query += "where "+ str(category) + " = '" + str(thing) + "' and active=" + str(act)
 
     cursor.execute(query)
     data = cursor.fetchall()
     print(data)
     conn.close()
 
+    return data
+
+def get_net_income():
+    cursor, conn = connect_to_db()
+    query = "select get_net_earning()"
+    cursor.execute(query)
+
+    data = cursor.fetchone()
+    # print(data)
+
+    conn.close()
+    return data
+
+def most_type():
+    cursor, conn = connect_to_db()
+    query = "select get_most_type()"
+    cursor.execute(query)
+
+    data = cursor.fetchall()
+    # print(data)
+
+    conn.close()
     return data

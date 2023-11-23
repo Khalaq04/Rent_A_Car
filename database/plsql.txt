@@ -280,6 +280,7 @@ Copy these into postgresql before running
             where v_type = vtype;
 
             days := todate - fromdate;
+            days := days + 1;
             amt := days*cost;
 
             if driver = 'NULL' then
@@ -288,6 +289,70 @@ Copy these into postgresql before running
         return amt;
         end;
         $$ ;
+
+    xi. monthly income
+
+        create or replace function get_net_earning()
+        returns int
+        language plpgsql
+        as
+        $$ 
+        DECLARE 
+            ba int;
+            pa int;
+            sa int;
+            ma int;
+            na int;
+        BEGIN
+
+            select sum(b_amount) into ba
+            from booking
+            where extract(month from from_date)=extract(month from current_date) and
+            extract(year from from_date)=extract(year from current_date);
+
+            select sum(amount) into pa
+            from booking natural join penalties
+            where extract(month from from_date)=extract(month from current_date) and
+            extract(year from from_date)=extract(year from current_date);
+
+            sa := 0;
+            if ba>0 and pa>0 then
+                sa := ba + pa;
+            end if;
+
+            select sum(m_amount) into ma
+            from maintainance
+            where extract(month from m_date)=extract(month from current_date) and
+            extract(year from m_date)=extract(year from current_date);
+
+            na := 0;
+            if sa>0 and ma>0 then
+                na := sa - ma;
+            end if;
+
+        return na;
+        end;
+        $$ ;
+
+    xii. most used car type
+
+        CREATE OR REPLACE FUNCTION get_most_type()
+        RETURNS TABLE (v_type varchar)
+        AS $$
+        BEGIN
+            RETURN QUERY
+
+            select sq1.v_type from(
+                select c.v_type, count(b_id)
+                from car c natural join booking
+                group by c.v_type) as sq1
+            where count>=all(
+                select count(b_id)
+                from car c natural join booking
+                group by c.v_type);
+
+        END;
+        $$ LANGUAGE plpgsql;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -358,7 +423,7 @@ Copy these into postgresql before running
             FROM caramount 
             WHERE v_type = (SELECT v_type FROM car WHERE v_id = vid);
 
-
+            days := days + 1;
             amt := days * cost;
             
             if did = -1 then

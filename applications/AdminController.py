@@ -58,7 +58,7 @@ def admin_past_bookings(e_id):
         category = request.form["filter"]
         thing = request.form["content"]
 
-        data = filtered_search(category, thing)
+        data = filtered_search(category, thing, 0)
         info=[]
         for i in data:
             dict = {"b_id":i[0], "c_name":i[1]+" "+i[2], "c_email":i[3], "d_email":i[4], "e_name":i[5], "from":i[6], "to":i[7], "vt":i[8], "vm":i[9], "vn":i[10], "d_name":i[11], "e_email":i[12]}
@@ -78,7 +78,7 @@ def admin_new_bookings(e_id):
         category = request.form["filter"]
         thing = request.form["content"]
 
-        data = filtered_search(category, thing)
+        data = filtered_search(category, thing, -1)
         info=[]
         if (not data):
             return render_template('/AdminTemplates/AdminSearch.html', data=info, e_id=e_id)
@@ -102,7 +102,7 @@ def admin_current_bookings(e_id):
         category = request.form["filter"]
         thing = request.form["content"]
 
-        data = filtered_search(category, thing)
+        data = filtered_search(category, thing, 1)
         info=[]
         if (not data):
             return render_template('/AdminTemplates/AdminSearch.html', data=info, e_id=e_id)
@@ -127,7 +127,14 @@ def data_analysis(e_id):
         for i in car:
             cars.append(i[0])
 
-        return render_template('AdminTemplates/DataAnalysis.html', e_id=e_id, details=details, phones=phones, cnt=cnt, cars=cars)
+        type = most_type()
+        types = []
+        for i in type:
+            types.append(i[0])
+
+        net_inc = get_net_income()[0]
+
+        return render_template('AdminTemplates/DataAnalysis.html', e_id=e_id, details=details, phones=phones, cnt=cnt, cars=cars, net=net_inc, types=types)
     
 @app.route("/admin/<int:e_id>/employee/view", methods=['GET', 'POST'])
 def employee_page(e_id):
